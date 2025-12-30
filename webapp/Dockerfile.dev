@@ -1,0 +1,24 @@
+# Dockerfile pour le développement
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Installer les dépendances système (OpenSSL pour Prisma)
+RUN apk add --no-cache libc6-compat openssl openssl-dev
+
+# Copier les fichiers de dépendances
+COPY package.json ./
+
+# Installer les dépendances
+RUN npm install
+
+# Copier le reste de l'application
+COPY . .
+
+# Générer Prisma Client
+RUN npx prisma generate
+
+EXPOSE 3000
+
+CMD ["npm", "run", "dev"]
+
