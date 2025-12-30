@@ -1,0 +1,55 @@
+services:
+  # Base de données PostgreSQL pour le développement
+  postgres:
+    image: postgres:16-alpine
+    container_name: swarm-postgres-dev
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-swarm_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-swarm_password}
+      POSTGRES_DB: ${POSTGRES_DB:-swarm_db}
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-swarm_user}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - swarm-network-dev
+
+  # Application Next.js en mode développement
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: swarm-app-dev
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-swarm_user}:${POSTGRES_PASSWORD:-swarm_password}@postgres:5432/${POSTGRES_DB:-swarm_db}
+      - POSTGRES_HOST=postgres
+      - NEXTAUTH_URL=http://localhost:3000
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET:-dev-secret-change-in-production}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+      - ../monsters_rta.json:/app/monsters_rta.json:ro
+    networks:
+      - swarm-network-dev
+    command: npm run dev
+    restart: unless-stopped
+
+volumes:
+  postgres_data_dev:
+
+networks:
+  swarm-network-dev:
+    driver: bridge
+
