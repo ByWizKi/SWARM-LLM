@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -39,6 +39,7 @@ export default function DraftPage() {
   const [recommendations, setRecommendations] = useState<string>("");
   const [loadingRecommendation, setLoadingRecommendation] = useState(false);
   const [tempPick, setTempPick] = useState<string>("");
+  const [recommendedMonsterIds, setRecommendedMonsterIds] = useState<number[]>([]);
   const [userMonsters, setUserMonsters] = useState<number[]>([]);
   const [boxChecked, setBoxChecked] = useState(false);
   const [firstPlayerSelected, setFirstPlayerSelected] = useState(false);
@@ -190,9 +191,6 @@ export default function DraftPage() {
 
       return newState;
     });
-
-    // Demander une recommandation après chaque pick
-    setTimeout(() => fetchRecommendation(), 100);
   };
 
   // Obtenir les monstres disponibles pour le joueur A (dans son box, pas déjà pickés)
@@ -250,6 +248,57 @@ export default function DraftPage() {
     setFirstPlayerSelected(true);
   };
 
+  // Extraire les IDs de monstres recommandés depuis le texte de Gemini
+  const extractRecommendedMonsters = useCallback((text: string) => {
+    const monsterMatches: Array<{ id: number; score: number }> = [];
+    const textLower = text.toLowerCase();
+
+    // Chercher les noms de monstres dans le texte et les matcher avec allMonsters
+    // Prioriser les monstres disponibles pour le joueur A
+    const availableMonsters = Object.values(allMonsters).filter((monster: any) =>
+      !draftState.playerAPicks.includes(monster.id) &&
+      !draftState.playerBPicks.includes(monster.id) &&
+      userMonsters.includes(monster.id)
+    );
+
+    // Trier par pertinence : chercher d'abord les mentions explicites
+    availableMonsters.forEach((monster: any) => {
+      const monsterNameLower = monster.nom.toLowerCase();
+
+      // Chercher différentes variations du nom
+      const patterns = [
+        // Nom exact avec word boundaries (plus précis)
+        new RegExp(`\\b${monsterNameLower.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i'),
+        // Nom dans une liste ou après "recommande", "suggère", etc.
+        new RegExp(`(?:recommande|suggère|conseille|choisir|picker|sélectionner).*?${monsterNameLower.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'i'),
+        // Nom simple
+        new RegExp(monsterNameLower.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'),
+      ];
+
+      patterns.forEach((pattern, index) => {
+        if (pattern.test(text)) {
+          // Les patterns plus précis (index 0, 1) ont plus de poids
+          const score = index === 0 ? 3 : index === 1 ? 2 : 1;
+
+          const existing = monsterMatches.find(m => m.id === monster.id);
+          if (!existing) {
+            monsterMatches.push({ id: monster.id, score });
+          } else if (score > existing.score) {
+            existing.score = score;
+          }
+        }
+      });
+    });
+
+    // Trier par score et prendre les 5 meilleurs
+    const sorted = monsterMatches
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 5)
+      .map(m => m.id);
+
+    setRecommendedMonsterIds(sorted);
+  }, [allMonsters, draftState.playerAPicks, draftState.playerBPicks, userMonsters]);
+
   const handleAddBan = (player: Player, monsterId: number) => {
     if (draftState.currentPhase !== "banning") return;
 
@@ -275,7 +324,13 @@ export default function DraftPage() {
     });
   };
 
-  const fetchRecommendation = async () => {
+  const fetchRecommendation = useCallback(async () => {
+    // Ne pas faire de recommandation si on n'est pas en phase de picking ou banning
+    if (draftState.currentPhase === "completed") return;
+
+    // Ne pas faire de recommandation si aucun pick n'a été fait
+    if (draftState.playerAPicks.length === 0 && draftState.playerBPicks.length === 0) return;
+
     setLoadingRecommendation(true);
     try {
       const response = await fetch("/api/draft/recommend", {
@@ -297,16 +352,32 @@ export default function DraftPage() {
       const data = await response.json();
       if (response.ok && data.recommendation) {
         setRecommendations(data.recommendation);
+        // Extraire les IDs de monstres recommandés depuis la réponse
+        extractRecommendedMonsters(data.recommendation);
       } else {
         setRecommendations("Erreur lors de la récupération des recommandations.");
+        setRecommendedMonsterIds([]);
       }
     } catch (error) {
       console.error("Erreur:", error);
       setRecommendations("Erreur lors de la récupération des recommandations.");
+      setRecommendedMonsterIds([]);
     } finally {
       setLoadingRecommendation(false);
     }
-  };
+  }, [draftState, currentTurnInfo, extractRecommendedMonsters]);
+
+  // Générer automatiquement les recommandations quand le draft change
+  useEffect(() => {
+    // Délai pour éviter trop de requêtes
+    const timeoutId = setTimeout(() => {
+      if (draftState.currentPhase !== "completed" && firstPlayerSelected) {
+        fetchRecommendation();
+      }
+    }, 800); // Attendre 800ms après le dernier changement pour éviter trop de requêtes
+
+    return () => clearTimeout(timeoutId);
+  }, [draftState.playerAPicks.length, draftState.playerBPicks.length, draftState.currentPhase, draftState.playerABans.length, draftState.playerBBans.length, firstPlayerSelected, fetchRecommendation]);
 
   if (status === "loading" || !boxChecked) {
     return <div className="min-h-screen flex items-center justify-center">Chargement...</div>;
@@ -787,38 +858,95 @@ export default function DraftPage() {
             </Card>
           </div>
 
-          {/* Colonne droite : Recommandations LLM */}
+          {/* Colonne droite : Chat IA avec recommandations */}
           <div className="lg:col-span-1">
-            <Card className="sticky top-4">
-              <CardHeader>
-                <CardTitle>Recommandations IA</CardTitle>
+            <Card className="sticky top-4 flex flex-col" style={{ maxHeight: "calc(100vh - 2rem)" }}>
+              <CardHeader className="flex-shrink-0">
+                <CardTitle className="flex items-center gap-2">
+                  <span>Assistant IA</span>
+                  {loadingRecommendation && (
+                    <span className="text-xs text-muted-foreground animate-pulse">Analyse en cours...</span>
+                  )}
+                </CardTitle>
                 <CardDescription>
-                  Analyse stratégique basée sur les picks actuels
+                  Recommandations automatiques basées sur votre draft
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
+              <CardContent className="flex-1 flex flex-col overflow-hidden">
+                <div className="flex-1 overflow-y-auto space-y-4 mb-4">
+                  {/* Monstres recommandés (cliquables) */}
+                  {recommendedMonsterIds.length > 0 && draftState.currentPhase === "picking" && currentTurnInfo?.currentPlayer === "A" && (
+                    <div className="space-y-2 mb-4 p-3 bg-primary/5 rounded-lg border border-primary/20">
+                      <p className="text-xs font-semibold text-primary">
+                        Monstres recommandés (cliquez pour sélectionner) :
+                      </p>
+                      <div className="grid grid-cols-2 gap-2">
+                        {recommendedMonsterIds.map((monsterId) => {
+                          const monster = allMonsters[monsterId];
+                          if (!monster) return null;
+
+                          return (
+                            <div
+                              key={monsterId}
+                              onClick={() => {
+                                handleAddPick("A", monsterId);
+                              }}
+                              className="cursor-pointer hover:scale-105 transition-transform active:scale-95"
+                              title={`Sélectionner ${monster.nom}`}
+                            >
+                              <MonsterCard
+                                monster={monster}
+                                monsterId={monsterId}
+                                size="sm"
+                                showDetails={false}
+                                className="border-2 border-primary shadow-sm"
+                              />
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Message de l'IA */}
+                  <div className="space-y-2">
+                    <div className="flex items-start gap-2">
+                      <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <span className="text-xs font-semibold text-primary">IA</span>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        {loadingRecommendation ? (
+                          <div className="space-y-2">
+                            <div className="h-4 bg-muted rounded animate-pulse"></div>
+                            <div className="h-4 bg-muted rounded animate-pulse w-3/4"></div>
+                            <div className="h-4 bg-muted rounded animate-pulse w-1/2"></div>
+                          </div>
+                        ) : recommendations ? (
+                          <div className="whitespace-pre-wrap text-sm bg-muted/50 p-3 rounded-lg">
+                            {recommendations}
+                          </div>
+                        ) : (
+                          <div className="text-sm text-muted-foreground">
+                            Sélectionnez des monstres pour recevoir des recommandations automatiques...
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Bouton de rafraîchissement (optionnel) */}
+                {recommendations && (
                   <Button
                     onClick={fetchRecommendation}
                     disabled={loadingRecommendation}
+                    variant="outline"
+                    size="sm"
                     className="w-full"
                   >
-                    {loadingRecommendation ? "Chargement..." : "Obtenir Recommandations"}
+                    {loadingRecommendation ? "Actualisation..." : "Actualiser les recommandations"}
                   </Button>
-
-                  <div className="min-h-[400px] p-4 border rounded-lg bg-muted/50">
-                    {recommendations ? (
-                      <div className="whitespace-pre-wrap text-sm">
-                        {recommendations}
-                      </div>
-                    ) : (
-                      <div className="text-sm text-muted-foreground text-center py-8">
-                        Cliquez sur "Obtenir Recommandations" pour recevoir des conseils stratégiques
-                        basés sur l'état actuel du draft.
-                      </div>
-                    )}
-                  </div>
-                </div>
+                )}
               </CardContent>
             </Card>
           </div>
