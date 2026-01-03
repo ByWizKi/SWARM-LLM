@@ -95,7 +95,7 @@ Modifiez le port dans `docker-compose.dev.yml` :
 
 ```yaml
 ports:
-  - "3001:3000"  # Utiliser le port 3001
+  - "3001:3000" # Utiliser le port 3001
 ```
 
 ## Structure du projet
