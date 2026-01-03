@@ -3,7 +3,6 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { generateRecommendation } from "@/lib/llm-prompt";
 import { saveDraft } from "@/lib/draft-data-collector";
-import { prisma } from "@/lib/prisma";
 
 /**
  * API Route pour obtenir des recommandations de draft depuis un LLM
@@ -44,26 +43,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Mesurer le temps total de la requête
-    const startTime = performance.now();
-    console.log("[PERF] Début de la génération de recommandation");
-
-    // Récupérer le box de l'utilisateur pour le premier pick
-    let userMonsters: number[] = [];
-    if (currentPhase === "picking" && playerAPicks.length === 0 && playerBPicks.length === 0 && firstPlayer === "A") {
-      try {
-        const box = await prisma.monsterBox.findUnique({
-          where: { userId: session.user.id },
-        });
-        if (box && Array.isArray(box.monsters)) {
-          userMonsters = box.monsters.map((id: any) => typeof id === 'number' ? id : parseInt(id, 10)).filter((id: number) => !isNaN(id));
-          console.log(`[PERF] Box utilisateur récupéré: ${userMonsters.length} monstres`);
-        }
-      } catch (error) {
-        console.error("Erreur lors de la récupération du box:", error);
-      }
-    }
-
     // Générer la recommandation en utilisant le fichier centralisé
     const recommendation = await generateRecommendation({
       playerAPicks,
@@ -73,11 +52,7 @@ export async function POST(request: NextRequest) {
       currentPhase,
       currentTurn,
       firstPlayer,
-      userMonsters, // Passer les monstres disponibles pour le premier pick
     });
-
-    const totalTime = performance.now() - startTime;
-    console.log(`[PERF] Temps total de génération: ${totalTime.toFixed(2)}ms`);
 
     // Sauvegarder le draft si terminé (pour analyse future)
     if (currentPhase === "completed") {
