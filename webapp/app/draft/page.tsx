@@ -146,12 +146,19 @@ export default function DraftPage() {
     return null;
   }, [draftState, adjustedPickOrder]);
 
+  const [notification, setNotification] = useState<{ message: string; type: "success" | "error" | "info" } | null>(null);
+
+  const showNotification = (message: string, type: "success" | "error" | "info" = "info") => {
+    setNotification({ message, type });
+    setTimeout(() => setNotification(null), 3000);
+  };
+
   const handleAddPick = (player: Player, monsterId: number) => {
     if (draftState.currentPhase !== "picking") return;
 
     // Vérifier que c'est bien le tour du bon joueur
     if (currentTurnInfo && currentTurnInfo.currentPlayer !== player) {
-      alert(`Ce n'est pas le tour du joueur ${player}`);
+      showNotification(`Ce n'est pas le tour du joueur ${player}`, "error");
       return;
     }
 
@@ -162,7 +169,7 @@ export default function DraftPage() {
 
     // Pour le joueur A, vérifier que le monstre est dans son box
     if (player === "A" && !userMonsters.includes(monsterId)) {
-      alert("Ce monstre n'est pas dans votre box !");
+      showNotification("Ce monstre n'est pas dans votre box !", "error");
       return;
     }
 
@@ -171,7 +178,7 @@ export default function DraftPage() {
 
       // Vérifier les doublons
       if (newState.playerAPicks.includes(monsterId) || newState.playerBPicks.includes(monsterId)) {
-        alert("Ce monstre a déjà été sélectionné !");
+        showNotification("Ce monstre a déjà été sélectionné !", "error");
         return prev;
       }
 
@@ -179,14 +186,17 @@ export default function DraftPage() {
       if (player === "A") {
         if (newState.playerAPicks.length >= 5) return prev;
         newState.playerAPicks = [...newState.playerAPicks, monsterId];
+        showNotification(`${allMonsters[monsterId]?.nom || "Monstre"} ajouté à votre équipe !`, "success");
       } else {
         if (newState.playerBPicks.length >= 5) return prev;
         newState.playerBPicks = [...newState.playerBPicks, monsterId];
+        showNotification(`${allMonsters[monsterId]?.nom || "Monstre"} ajouté à l'équipe adverse`, "info");
       }
 
       // Vérifier si on passe à la phase de bans
       if (newState.playerAPicks.length === 5 && newState.playerBPicks.length === 5) {
         newState.currentPhase = "banning";
+        showNotification("Phase de picks terminée ! Phase de bans commencée.", "info");
       }
 
       return newState;
@@ -306,18 +316,31 @@ export default function DraftPage() {
       const newState = { ...prev };
 
       if (player === "A") {
-        if (newState.playerABans.length >= 1) return prev;
-        if (!newState.playerBPicks.includes(monsterId)) return prev; // Doit être dans l'équipe adverse
+        if (newState.playerABans.length >= 1) {
+          showNotification("Vous avez déjà banni un monstre", "error");
+          return prev;
+        }
+        if (!newState.playerBPicks.includes(monsterId)) {
+          showNotification("Ce monstre doit être dans l'équipe adverse", "error");
+          return prev;
+        }
         newState.playerABans = [monsterId];
+        showNotification(`${allMonsters[monsterId]?.nom || "Monstre"} banni !`, "success");
       } else {
-        if (newState.playerBBans.length >= 1) return prev;
-        if (!newState.playerAPicks.includes(monsterId)) return prev; // Doit être dans l'équipe adverse
+        if (newState.playerBBans.length >= 1) {
+          return prev;
+        }
+        if (!newState.playerAPicks.includes(monsterId)) {
+          return prev;
+        }
         newState.playerBBans = [monsterId];
+        showNotification(`${allMonsters[monsterId]?.nom || "Monstre"} banni par l'adversaire`, "info");
       }
 
       // Vérifier si on passe à la phase complétée
       if (newState.playerABans.length === 1 && newState.playerBBans.length === 1) {
         newState.currentPhase = "completed";
+        showNotification("Draft terminé !", "success");
       }
 
       return newState;
@@ -332,7 +355,10 @@ export default function DraftPage() {
     if (draftState.playerAPicks.length === 0 && draftState.playerBPicks.length === 0) return;
 
     setLoadingRecommendation(true);
+    const clientStart = performance.now();
     try {
+      // Timeout supprimé pour les tests - laisser l'API répondre naturellement
+      const fetchStart = performance.now();
       const response = await fetch("/api/draft/recommend", {
         method: "POST",
         headers: {
@@ -349,8 +375,16 @@ export default function DraftPage() {
         }),
       });
 
+      const fetchTime = performance.now() - fetchStart;
+      console.log(`[PERF] Temps de fetch API: ${fetchTime.toFixed(2)}ms`);
+
+      const parseStart = performance.now();
       const data = await response.json();
+      const parseTime = performance.now() - parseStart;
+      console.log(`[PERF] Parsing JSON response: ${parseTime.toFixed(2)}ms`);
+
       if (response.ok && data.recommendation) {
+        const extractStart = performance.now();
         setRecommendations(data.recommendation);
         // Extraire les IDs de monstres recommandés depuis la réponse
         extractRecommendedMonsters(data.recommendation);
@@ -358,6 +392,9 @@ export default function DraftPage() {
         setRecommendations("Erreur lors de la récupération des recommandations.");
         setRecommendedMonsterIds([]);
       }
+
+      const totalClientTime = performance.now() - clientStart;
+      console.log(`[PERF] Temps total côté client: ${totalClientTime.toFixed(2)}ms`);
     } catch (error) {
       console.error("Erreur:", error);
       setRecommendations("Erreur lors de la récupération des recommandations.");
@@ -396,12 +433,12 @@ export default function DraftPage() {
             <CardHeader>
               <CardTitle>Box de monstres requis</CardTitle>
               <CardDescription>
-                Vous devez d'abord configurer votre box de monstres avant de pouvoir lancer un draft
+                Vous devez d'abord configurer votre box de monstres avant de pouvoir utiliser l'assistant de draft
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-muted-foreground">
-                Pour utiliser le simulateur de draft, vous devez sélectionner les monstres que vous possédez dans votre collection.
+                Pour utiliser l'assistant de draft, vous devez sélectionner les monstres que vous possédez dans votre collection.
               </p>
               <div className="flex gap-4">
                 <Button asChild>
@@ -483,59 +520,120 @@ export default function DraftPage() {
 
   return (
     <div className="min-h-screen p-4 md:p-8 bg-background">
+      {/* Notification Toast */}
+      {notification && (
+        <div
+          className={`fixed top-4 right-4 z-50 px-4 py-3 rounded-lg shadow-lg border animate-in slide-in-from-top-5 ${
+            notification.type === "success"
+              ? "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-800 dark:text-green-200"
+              : notification.type === "error"
+              ? "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-800 dark:text-red-200"
+              : "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 text-blue-800 dark:text-blue-200"
+          }`}
+        >
+          <p className="text-sm font-medium">{notification.message}</p>
+        </div>
+      )}
+
       <div className="max-w-7xl mx-auto space-y-6">
-        {/* En-tête */}
-        <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold">Simulateur de Draft RTA</h1>
-          <div className="flex gap-2">
-            <Button variant="outline" asChild>
+        {/* En-tête amélioré */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+              Assistant de Draft RTA
+            </h1>
+            <p className="text-sm text-muted-foreground mt-1">
+              {draftState.currentPhase === "picking" && currentTurnInfo
+                ? `Tour ${currentTurnInfo.turn} - ${currentTurnInfo.currentPlayer === "A" ? "Votre tour" : "Tour de l'adversaire"}`
+                : draftState.currentPhase === "banning"
+                ? "Phase de bans"
+                : "Draft terminé"}
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Button variant="outline" size="sm" asChild>
               <Link href="/dashboard">Dashboard</Link>
             </Button>
-            <Button variant="outline" asChild>
+            <Button variant="outline" size="sm" asChild>
               <Link href="/box">Gérer mon Box</Link>
             </Button>
-            <Button variant="outline" onClick={() => {
-              setDraftState({
-                playerAPicks: [],
-                playerBPicks: [],
-                playerABans: [],
-                playerBBans: [],
-                currentPhase: "picking",
-                currentTurn: 0,
-                firstPlayer: "A",
-              });
-              setFirstPlayerSelected(false);
-              setSearchTerm("");
-              setFilterElement("all");
-              setFilterCategorie("all");
-            }}>
-              Nouveau Draft
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setDraftState({
+                  playerAPicks: [],
+                  playerBPicks: [],
+                  playerABans: [],
+                  playerBBans: [],
+                  currentPhase: "picking",
+                  currentTurn: 0,
+                  firstPlayer: "A",
+                });
+                setFirstPlayerSelected(false);
+                setSearchTerm("");
+                setFilterElement("all");
+                setFilterCategorie("all");
+                setRecommendations("");
+                setRecommendedMonsterIds([]);
+                showNotification("Nouvelle draft demarree", "info");
+              }}
+            >
+              Nouvelle Draft
             </Button>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Colonne gauche : Simulation du draft */}
+          {/* Colonne gauche : Suivi du draft */}
           <div className="lg:col-span-2 space-y-4">
             {/* Équipe Joueur A */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Équipe Joueur A (Vous)</CardTitle>
+            <Card className={`transition-all duration-300 ${
+              currentTurnInfo?.currentPlayer === "A" && draftState.currentPhase === "picking"
+                ? "ring-2 ring-primary shadow-lg"
+                : ""
+            }`}>
+              <CardHeader className="bg-primary/5 dark:bg-primary/10">
+                <CardTitle className="flex items-center justify-between">
+                  <span>Équipe Joueur A (Vous)</span>
+                  {currentTurnInfo?.currentPlayer === "A" && draftState.currentPhase === "picking" && (
+                    <span className="text-xs px-2 py-1 bg-primary text-primary-foreground rounded-full animate-pulse">
+                      Votre tour
+                    </span>
+                  )}
+                </CardTitle>
                 <CardDescription>
-                  Picks: {draftState.playerAPicks.length}/5
-                  {draftState.currentPhase === "completed" && ` | Monstres finaux: ${playerAFinalMonsters.length}/4`}
+                  <div className="flex items-center gap-4 mt-2">
+                    <span className="flex items-center gap-1">
+                      <span className="font-semibold">Picks:</span>
+                      <span className={`font-bold ${
+                        draftState.playerAPicks.length === 5 ? "text-green-600 dark:text-green-400" : ""
+                      }`}>
+                        {draftState.playerAPicks.length}/5
+                      </span>
+                    </span>
+                    {draftState.currentPhase === "completed" && (
+                      <span className="flex items-center gap-1">
+                        <span className="font-semibold">Finaux:</span>
+                        <span className="font-bold text-primary">
+                          {playerAFinalMonsters.length}/4
+                        </span>
+                      </span>
+                    )}
+                  </div>
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="grid grid-cols-5 gap-2 min-h-[100px] border rounded-lg p-4">
+                  <div className="grid grid-cols-5 gap-2 min-h-[100px] border-2 border-dashed border-muted rounded-lg p-4 bg-muted/20">
                     {draftState.playerAPicks.map((id, index) => (
-                      <MonsterCard
-                        key={index}
-                        monster={allMonsters[id]}
-                        monsterId={id}
-                        size="md"
-                      />
+                      <div key={index} className="animate-in fade-in slide-in-from-bottom-2" style={{ animationDelay: `${index * 50}ms` }}>
+                        <MonsterCard
+                          monster={allMonsters[id]}
+                          monsterId={id}
+                          size="md"
+                        />
+                      </div>
                     ))}
                     {Array.from({ length: 5 - draftState.playerAPicks.length }).map((_, index) => (
                       <MonsterCard key={`empty-${index}`} />
@@ -567,7 +665,7 @@ export default function DraftPage() {
                           Tour {currentTurnInfo.turn} - Joueur A - {currentTurnInfo.picksRemaining} pick(s) restant(s) dans ce tour
                         </p>
                         <p className="text-xs text-muted-foreground">
-                          Sélectionnez un monstre depuis votre box ({currentTurnInfo.picksRemainingForPlayer} picks restants au total)
+                          Choisissez un monstre depuis votre box pour votre prochain pick ({currentTurnInfo.picksRemainingForPlayer} picks restants au total)
                         </p>
                       </div>
 
@@ -648,24 +746,52 @@ export default function DraftPage() {
             </Card>
 
             {/* Équipe Joueur B */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Équipe Joueur B (Adversaire)</CardTitle>
+            <Card className={`transition-all duration-300 ${
+              currentTurnInfo?.currentPlayer === "B" && draftState.currentPhase === "picking"
+                ? "ring-2 ring-orange-500 shadow-lg"
+                : ""
+            }`}>
+              <CardHeader className="bg-orange-50/50 dark:bg-orange-900/10">
+                <CardTitle className="flex items-center justify-between">
+                  <span>Équipe Joueur B (Adversaire)</span>
+                  {currentTurnInfo?.currentPlayer === "B" && draftState.currentPhase === "picking" && (
+                    <span className="text-xs px-2 py-1 bg-orange-500 text-white rounded-full animate-pulse">
+                      Tour adversaire
+                    </span>
+                  )}
+                </CardTitle>
                 <CardDescription>
-                  Picks: {draftState.playerBPicks.length}/5
-                  {draftState.currentPhase === "completed" && ` | Monstres finaux: ${playerBFinalMonsters.length}/4`}
+                  <div className="flex items-center gap-4 mt-2">
+                    <span className="flex items-center gap-1">
+                      <span className="font-semibold">Picks:</span>
+                      <span className={`font-bold ${
+                        draftState.playerBPicks.length === 5 ? "text-orange-600 dark:text-orange-400" : ""
+                      }`}>
+                        {draftState.playerBPicks.length}/5
+                      </span>
+                    </span>
+                    {draftState.currentPhase === "completed" && (
+                      <span className="flex items-center gap-1">
+                        <span className="font-semibold">Finaux:</span>
+                        <span className="font-bold text-orange-600 dark:text-orange-400">
+                          {playerBFinalMonsters.length}/4
+                        </span>
+                      </span>
+                    )}
+                  </div>
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="grid grid-cols-5 gap-2 min-h-[100px] border rounded-lg p-4">
+                  <div className="grid grid-cols-5 gap-2 min-h-[100px] border-2 border-dashed border-muted rounded-lg p-4 bg-muted/10">
                     {draftState.playerBPicks.map((id, index) => (
-                      <MonsterCard
-                        key={index}
-                        monster={allMonsters[id]}
-                        monsterId={id}
-                        size="md"
-                      />
+                      <div key={index} className="animate-in fade-in slide-in-from-bottom-2" style={{ animationDelay: `${index * 50}ms` }}>
+                        <MonsterCard
+                          monster={allMonsters[id]}
+                          monsterId={id}
+                          size="md"
+                        />
+                      </div>
                     ))}
                     {Array.from({ length: 5 - draftState.playerBPicks.length }).map((_, index) => (
                       <MonsterCard key={`empty-${index}`} />
@@ -697,7 +823,7 @@ export default function DraftPage() {
                           Tour {currentTurnInfo.turn} - Joueur B (Adversaire) - {currentTurnInfo.picksRemaining} pick(s) restant(s) dans ce tour
                         </p>
                         <p className="text-xs text-muted-foreground">
-                          Sélectionnez le(s) monstre(s) que l'adversaire a pické ({currentTurnInfo.picksRemainingForPlayer} picks restants au total)
+                          Indiquez le(s) monstre(s) que l'adversaire a selectionne dans le jeu ({currentTurnInfo.picksRemainingForPlayer} picks restants au total)
                         </p>
                       </div>
 
@@ -836,23 +962,58 @@ export default function DraftPage() {
             </Card>
 
             {/* État du draft */}
-            <Card>
+            <Card className="bg-muted/30">
               <CardHeader>
-                <CardTitle>État du Draft</CardTitle>
+                <CardTitle className="text-lg">État du Draft</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-2">
-                  <p><strong>Phase:</strong> {draftState.currentPhase}</p>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between p-2 bg-background rounded">
+                    <span className="text-sm font-medium">Phase:</span>
+                    <span className={`text-sm font-bold px-2 py-1 rounded ${
+                      draftState.currentPhase === "picking" ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
+                      : draftState.currentPhase === "banning" ? "bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300"
+                      : "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300"
+                    }`}>
+                      {draftState.currentPhase === "picking" ? "Picking" : draftState.currentPhase === "banning" ? "Banning" : "Terminé"}
+                    </span>
+                  </div>
                   {currentTurnInfo && (
                     <>
-                      <p><strong>Tour actuel:</strong> {currentTurnInfo.turn}</p>
-                      <p><strong>Joueur actuel:</strong> {currentTurnInfo.currentPlayer}</p>
-                      <p><strong>Picks restants ce tour:</strong> {currentTurnInfo.picksRemaining}</p>
+                      <div className="flex items-center justify-between p-2 bg-background rounded">
+                        <span className="text-sm font-medium">Tour:</span>
+                        <span className="text-sm font-bold">{currentTurnInfo.turn}</span>
+                      </div>
+                      <div className="flex items-center justify-between p-2 bg-background rounded">
+                        <span className="text-sm font-medium">Joueur actuel:</span>
+                        <span className={`text-sm font-bold px-2 py-1 rounded ${
+                          currentTurnInfo.currentPlayer === "A"
+                            ? "bg-primary/20 text-primary"
+                            : "bg-orange-500/20 text-orange-600 dark:text-orange-400"
+                        }`}>
+                          {currentTurnInfo.currentPlayer}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between p-2 bg-background rounded">
+                        <span className="text-sm font-medium">Picks restants:</span>
+                        <span className="text-sm font-bold">{currentTurnInfo.picksRemaining}</span>
+                      </div>
                     </>
                   )}
-                  <p><strong>Premier joueur:</strong> {draftState.firstPlayer}</p>
-                  <p><strong>Picks A:</strong> {draftState.playerAPicks.length}/5</p>
-                  <p><strong>Picks B:</strong> {draftState.playerBPicks.length}/5</p>
+                  <div className="flex items-center justify-between p-2 bg-background rounded">
+                    <span className="text-sm font-medium">Premier joueur:</span>
+                    <span className="text-sm font-bold">{draftState.firstPlayer}</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 pt-2 border-t">
+                    <div className="text-center p-2 bg-primary/5 rounded">
+                      <p className="text-xs text-muted-foreground">Picks A</p>
+                      <p className="text-lg font-bold text-primary">{draftState.playerAPicks.length}/5</p>
+                    </div>
+                    <div className="text-center p-2 bg-orange-500/5 rounded">
+                      <p className="text-xs text-muted-foreground">Picks B</p>
+                      <p className="text-lg font-bold text-orange-600 dark:text-orange-400">{draftState.playerBPicks.length}/5</p>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
