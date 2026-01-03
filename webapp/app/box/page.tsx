@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { SignOutButton } from "@/components/sign-out-button";
 
 interface Monster {
   id: number;
@@ -142,6 +143,7 @@ export default function BoxPage() {
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold">Mon Box de Monstres</h1>
           <div className="flex gap-2">
+            <SignOutButton />
             <Button variant="outline" asChild>
               <Link href="/dashboard">Retour</Link>
             </Button>

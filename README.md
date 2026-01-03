@@ -1,10 +1,10 @@
 # SWARM-LLM - Assistant IA pour Draft RTA Summoners War
 
-Application web d'aide à la décision pour les drafts RTA (Real Time Arena) de Summoners War: Sky Arena. Utilise des LLMs pour analyser et recommander les meilleurs picks, bans et stratégies de draft.
+Application web d'aide à la décision pour les drafts RTA (Real Time Arena) de Summoners War: Sky Arena. Utilise des LLMs (Google Gemini) pour analyser et recommander les meilleurs picks, bans et stratégies de draft.
 
-## Démarrage Rapide avec Docker
+## Démarrage Rapide
 
-Pour un guide détaillé pas à pas, consultez [webapp/GUIDE-DOCKER.md](./webapp/GUIDE-DOCKER.md)
+Pour un guide détaillé, consultez [webapp/README-SETUP.md](./webapp/README-SETUP.md)
 
 ### Installation rapide
 
@@ -13,9 +13,10 @@ Pour un guide détaillé pas à pas, consultez [webapp/GUIDE-DOCKER.md](./webapp
    cd webapp
    ```
 
-2. Configurer l'environnement
+2. Configurer l'environnement (optionnel)
    ```bash
    cp .env.example .env
+   # Éditer .env et ajouter votre GEMINI_API_KEY
    ```
 
 3. Lancer avec Docker
@@ -23,15 +24,11 @@ Pour un guide détaillé pas à pas, consultez [webapp/GUIDE-DOCKER.md](./webapp
    docker-compose -f docker-compose.dev.yml up --build
    ```
 
-4. Initialiser la base de données (première fois, dans un nouveau terminal)
-   ```bash
-   docker exec -it swarm-app-dev npx prisma generate
-   docker exec -it swarm-app-dev npx prisma db push
-   ```
+4. Accéder à l'application : **http://localhost:3000**
 
-L'application est accessible sur **http://localhost:3000**
-
-Note: Pour convertir `monsters_rta.json`, consultez [webapp/GUIDE-DOCKER.md](./webapp/GUIDE-DOCKER.md)
+5. Se connecter avec :
+   - **Utilisateur** : `admin`
+   - **Mot de passe** : `admin123`
 
 ## Structure du Projet
 
@@ -41,23 +38,49 @@ SWARM-LLM/
 │   ├── app/            # Pages et routes
 │   ├── components/     # Composants React
 │   ├── lib/           # Utilitaires
+│   │   ├── llm-prompt.ts      # Configuration LLM (modifier ici pour les prompts)
+│   │   ├── gemini-client.ts   # Client API Gemini
+│   │   └── rta-rules.ts       # Règles de draft RTA
 │   ├── prisma/        # Schéma de base de données
-│   ├── data/          # Données JSON des monstres
 │   ├── scripts/       # Scripts utilitaires
-│   └── docker-compose.yml
-├── monsters_rta.json   # Fichier source des monstres (à la racine)
+│   └── docker/        # Scripts Docker
+├── monsters_rta.json   # Fichier source des monstres
 └── README.md          # Ce fichier
 ```
 
 ## Fonctionnalités
 
-- Gestion des comptes utilisateurs (authentification)
-- Gestion des boxes de monstres (import/sélection depuis votre collection)
-- Assistant IA pour les drafts : recommandations de picks et bans basées sur les LLMs
-- Analyse stratégique : suggestions de compositions d'équipe optimales
-- Support des règles de draft RTA officielles
-- Interface responsive avec dark mode
-- Page des règles de draft complète
+- **Authentification** : Gestion des comptes utilisateurs
+- **Gestion du Box** : Import et sélection de votre collection de monstres
+- **Assistant IA** : Recommandations automatiques de picks et bans basées sur Gemini
+- **Règles RTA** : Support des règles officielles de draft RTA
+- **Interface moderne** : Design responsive avec dark mode
+
+## Configuration
+
+### Variables d'environnement
+
+Créez un fichier `.env` dans `webapp/` :
+
+```env
+# Base de données (optionnel - valeurs par défaut)
+POSTGRES_USER=swarm_user
+POSTGRES_PASSWORD=swarm_password
+POSTGRES_DB=swarm_db
+
+# NextAuth
+NEXTAUTH_SECRET=dev-secret-change-in-production
+NEXTAUTH_URL=http://localhost:3000
+
+# Gemini API (requis pour les recommandations)
+GEMINI_API_KEY=votre_cle_api_ici
+```
+
+### Obtenir une clé API Gemini
+
+1. Aller sur https://makersuite.google.com/app/apikey
+2. Créer une nouvelle clé API
+3. Ajouter la clé dans `.env`
 
 ## Commandes Utiles
 
@@ -67,84 +90,40 @@ Dans le dossier `webapp/` :
 # Lancer en mode développement
 docker-compose -f docker-compose.dev.yml up
 
-# Lancer en mode production
-docker-compose up --build
-
 # Arrêter les conteneurs
-docker-compose down
+docker-compose -f docker-compose.dev.yml down
 
 # Voir les logs
-docker-compose logs -f
+docker-compose -f docker-compose.dev.yml logs -f
 
-# Accéder à la base de données
-docker exec -it swarm-postgres-dev psql -U swarm_user -d swarm_db
-
-# Ouvrir Prisma Studio (interface graphique pour la DB)
-docker exec -it swarm-app-dev npx prisma studio
+# Réinitialiser la base de données
+docker-compose -f docker-compose.dev.yml down
+docker volume rm webapp_postgres_data_dev
+docker-compose -f docker-compose.dev.yml up --build
 ```
 
-## Configuration
+## Documentation pour les Développeurs
 
-### Variables d'environnement (`.env`)
+### Modifier les Recommandations IA
 
-```env
-DATABASE_URL="postgresql://swarm_user:swarm_password@postgres:5432/swarm_db"
-NEXTAUTH_URL="http://localhost:3000"
-NEXTAUTH_SECRET="votre-secret-aleatoire"
-```
+Tous les prompts et la configuration LLM sont centralisés dans un seul fichier :
 
-### Conversion des monstres
+- **`webapp/lib/llm-prompt.ts`** : Modifiez ce fichier pour ajuster les prompts, la configuration du modèle, et ajouter du RAG
 
-Le script de conversion transforme `monsters_rta.json` en format utilisable par l'application :
+Consultez [webapp/lib/LLM_README.md](./webapp/lib/LLM_README.md) pour plus de détails.
 
-```bash
-cd webapp
-npm run convert:monsters
-```
+### Architecture
 
-Cela génère `data/monsters.json` avec tous les monstres formatés.
-
-## Dépannage
-
-### Port 3000 déjà utilisé
-
-Modifiez le port dans `docker-compose.dev.yml` :
-```yaml
-ports:
-  - "3001:3000"  # Utiliser le port 3001
-```
-
-### Erreur de connexion à la base de données
-
-Vérifiez que PostgreSQL est bien démarré :
-```bash
-docker-compose ps
-```
-
-### Réinitialiser la base de données
-
-```bash
-docker-compose down -v
-docker-compose -f docker-compose.dev.yml up -d postgres
-docker exec -it swarm-app-dev npx prisma db push
-```
-
-### Reconstruire les conteneurs
-
-```bash
-docker-compose -f docker-compose.dev.yml up --build --force-recreate
-```
-
-## Documentation
-
-- Consultez `/rules` dans l'application pour les règles de draft RTA
-- Le code est commenté en français
-- Architecture : Next.js 14, PostgreSQL, Prisma, Socket.io, Tailwind CSS
-- Utilise des LLMs pour analyser les métas, les synergies entre monstres et recommander les meilleurs choix
+- **Frontend** : Next.js 14 (App Router), React, TypeScript, Tailwind CSS
+- **Backend** : Next.js API Routes
+- **Base de données** : PostgreSQL avec Prisma ORM
+- **Authentification** : NextAuth.js
+- **IA** : Google Gemini API
 
 ## Concept
 
 SWARM-LLM est un assistant intelligent qui vous aide à prendre des décisions éclairées lors de vos drafts RTA. L'application :
+
 - Analyse votre box de monstres
 - Évalue les picks de votre adversaire
 - Recommande les meilleurs picks et bans selon la méta actuelle
@@ -153,9 +132,8 @@ SWARM-LLM est un assistant intelligent qui vous aide à prendre des décisions �
 
 ## Contribution
 
-Voir [CONTRIBUTING.md](./CONTRIBUTING.md) pour les règles de contribution.
+Les contributions sont les bienvenues ! Consultez [CONTRIBUTING.md](./CONTRIBUTING.md) pour les règles de contribution.
 
 ## Licence
 
 [À définir]
-

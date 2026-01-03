@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { prisma } from "@/lib/prisma";
 import { Sword, Box, BookOpen, Zap, TrendingUp, Users } from "lucide-react";
+import { SignOutButtonWrapper } from "@/components/sign-out-button-wrapper";
 
 // Cache pour les statistiques (5 minutes)
 const STATS_CACHE_TTL = 5 * 60 * 1000;
@@ -91,13 +92,16 @@ export default async function DashboardPage() {
     <div className="min-h-screen p-4 md:p-8 bg-background">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* En-tête avec gradient */}
-        <div className="space-y-2">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-            Dashboard
-          </h1>
-          <p className="text-muted-foreground">
-            Bienvenue, <span className="font-semibold text-foreground">{session.user?.name}</span> ! Votre assistant IA pour les drafts RTA est prêt.
-          </p>
+        <div className="flex items-center justify-between">
+          <div className="space-y-2">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+              Dashboard
+            </h1>
+            <p className="text-muted-foreground">
+              Bienvenue, <span className="font-semibold text-foreground">{session.user?.name}</span> ! Votre assistant IA pour les drafts RTA est prêt.
+            </p>
+          </div>
+          <SignOutButtonWrapper />
         </div>
 
         {/* Statistiques rapides */}

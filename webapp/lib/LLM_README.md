@@ -1,38 +1,38 @@
-# LLM Prompt and RAG Configuration Guide
+# Guide LLM - Configuration des Recommandations IA
 
-## Overview
+## Vue d'ensemble
 
-This guide explains how to modify the LLM prompts and add RAG (Retrieval Augmented Generation) capabilities for your colleagues working on the draft recommendation system.
+Ce guide explique comment modifier les prompts et la configuration LLM pour les recommandations de draft. **Tout le code LLM est centralisé dans un seul fichier** pour faciliter le travail collaboratif.
 
-## File Structure
+## Fichier Principal
 
-### Main File: `lib/llm-prompt.ts`
+### `lib/llm-prompt.ts`
 
-**This is the ONLY file you need to modify for LLM/prompt work.**
+**C'est le SEUL fichier à modifier pour travailler sur les prompts et la configuration LLM.**
 
-This file centralizes:
-- System instructions for the AI
-- Prompt templates
-- LLM configuration (model, temperature, etc.)
-- RAG functions
-- Main recommendation generation pipeline
+Ce fichier contient :
+- Instructions système pour l'IA
+- Templates de prompts
+- Configuration LLM (modèle, température, etc.)
+- Fonctions RAG (à implémenter)
+- Pipeline de génération de recommandations
 
-## Quick Start
+## Configuration Rapide
 
-### 1. Modify the System Instructions
+### 1. Modifier les Instructions Système
 
-Edit the `SYSTEM_INSTRUCTIONS` constant in `lib/llm-prompt.ts`:
+Éditez la constante `SYSTEM_INSTRUCTIONS` :
 
 ```typescript
 export const SYSTEM_INSTRUCTIONS = `
-Tu es un assistant expert de Summoners War...
-// Modify this to change how the AI behaves
+Tu es un assistant expert de Summoners War RTA...
+// Modifiez ce texte pour changer le comportement de l'IA
 `;
 ```
 
-### 2. Modify the Prompt Templates
+### 2. Modifier les Prompts Utilisateur
 
-Edit the `buildUserPrompt` function to change how prompts are structured:
+Éditez la fonction `buildUserPrompt` :
 
 ```typescript
 export function buildUserPrompt(
@@ -40,134 +40,99 @@ export function buildUserPrompt(
   currentPhase: "picking" | "banning" | "completed",
   monsterNames?: {...}
 ): string {
-  // Modify this function to change the prompt structure
+  // Modifiez cette fonction pour changer la structure des prompts
 }
 ```
 
-### 3. Adjust LLM Configuration
+### 3. Ajuster la Configuration LLM
 
-Modify the `LLM_CONFIG` object:
+Modifiez l'objet `LLM_CONFIG` :
 
 ```typescript
 export const LLM_CONFIG = {
-  models: ["gemini-2.5-flash", ...],  // Change models
-  temperature: 0.7,                   // 0.0 = deterministic, 1.0 = creative
-  maxOutputTokens: 1500,               // Response length
-  topP: 0.95,
-  topK: 40,
+  models: ["gemini-2.5-flash"],
+  temperature: 0.0,        // Déterminisme (0.0 = réponses prévisibles)
+  maxOutputTokens: 300,    // Longueur maximale de la réponse
+  topP: 0.6,              // Sampling nucleus
+  topK: 10,                // Top-k sampling
 };
 ```
 
-### 4. Add RAG (Retrieval Augmented Generation)
+## Phases de Draft
 
-Implement the `getRAGContext` function to add context from:
-- Previous drafts
-- Monster database
-- Strategy guides
-- Win rate statistics
+### Premier Pick du Joueur A
+
+Pour le premier pick, l'IA reçoit :
+- La liste des monstres disponibles dans le box de l'utilisateur
+- Un prompt spécial court (max 50 mots)
+- Instructions strictes pour recommander uniquement depuis la liste fournie
+
+### Picks Suivants
+
+Pour les picks suivants, l'IA reçoit :
+- Le contexte complet du draft (picks des deux joueurs)
+- Un prompt optimisé (max 60 mots)
+- Les noms des monstres pour meilleure compréhension
+
+### Phase de Bans
+
+Pour les bans, l'IA reçoit :
+- Le contexte du draft complet
+- Un prompt court (max 40 mots)
+- Instructions pour recommander des bans stratégiques
+
+## Ajouter du RAG (Retrieval Augmented Generation)
+
+La fonction `getRAGContext()` est prête à être implémentée :
 
 ```typescript
-export async function getRAGContext(draftState: {...}): Promise<string> {
-  // TODO: Implement your RAG logic here
-  // Examples:
-  // - Load similar drafts from saved data
-  // - Query monster database for synergies
-  // - Retrieve win rate statistics
-  // - Get strategy recommendations from knowledge base
-
+async function getRAGContext(draftState: DraftState): Promise<string> {
+  // TODO: Implémenter la récupération de données contextuelles
+  // Exemples :
+  // - Historique de drafts similaires
+  // - Statistiques de win rate
+  // - Métadonnées de monstres
   return "";
 }
 ```
 
-## Draft Data Collection
+## Collecte de Données
 
-### File: `lib/draft-data-collector.ts`
+Les drafts sont automatiquement sauvegardés dans `data/draft-history.json` pour :
+- Analyser les patterns
+- Améliorer les prompts
+- Implémenter du RAG basé sur l'historique
 
-This module automatically saves all completed drafts to `data/draft-history.json`.
+Accéder aux données via l'API : `GET /api/draft/data`
 
-### Data Structure
+## Performance
 
-Each draft is saved with:
-- Picks and bans for both players
-- Final teams (after bans)
-- LLM recommendations
-- Timestamps and metadata
+Les prompts sont optimisés pour la vitesse :
+- Instructions système courtes (~50 mots)
+- Prompts utilisateur limités (40-60 mots)
+- Modèle rapide : `gemini-2.5-flash`
+- Paramètres optimisés pour la rapidité
 
-### Accessing Draft Data
+## Dépannage
 
-Use the exported functions:
+### Les recommandations ne s'affichent pas
 
-```typescript
-import { getDraftHistory, getDraftsWithMonster, exportDraftHistory } from "@/lib/draft-data-collector";
+1. Vérifier que `GEMINI_API_KEY` est configuré dans `.env`
+2. Vérifier les logs dans la console Docker
+3. Vérifier que c'est bien le tour du joueur A
 
-// Get all drafts
-const allDrafts = await getDraftHistory();
+### Les recommandations sont trop lentes
 
-// Get drafts with a specific monster
-const drafts = await getDraftsWithMonster(monsterId);
+1. Réduire `maxOutputTokens` dans `LLM_CONFIG`
+2. Raccourcir les prompts
+3. Vérifier les quotas de l'API Gemini
 
-// Export to CSV
-const csv = await exportDraftHistory("csv");
-```
+### Les recommandations ne sont pas pertinentes
 
-### Data File Location
+1. Ajuster `SYSTEM_INSTRUCTIONS`
+2. Modifier les prompts dans `buildUserPrompt`
+3. Ajuster `temperature` (0.0 = déterministe, 1.0 = créatif)
 
-Drafts are saved to: `webapp/data/draft-history.json`
+## Support
 
-## Example: Adding RAG from Draft History
-
-```typescript
-export async function getRAGContext(draftState: {...}): Promise<string> {
-  const { getDraftHistory, getDraftsWithMonster } = await import("./draft-data-collector");
-
-  // Get similar drafts
-  const similarDrafts = await getDraftsWithMonster(draftState.playerAPicks[0]);
-
-  // Build context from similar drafts
-  const context = similarDrafts
-    .slice(0, 5) // Top 5 similar drafts
-    .map(draft => `Previous draft: ${draft.finalTeamA.join(", ")} vs ${draft.finalTeamB.join(", ")}`)
-    .join("\n");
-
-  return context;
-}
-```
-
-## Testing Your Changes
-
-1. Modify `lib/llm-prompt.ts`
-2. Restart the server: `docker-compose -f docker-compose.dev.yml restart app`
-3. Test in the draft page
-4. Check logs: `docker-compose -f docker-compose.dev.yml logs app --tail=50`
-
-## Best Practices
-
-1. **Keep prompts clear and specific**: The AI works better with clear instructions
-2. **Test incrementally**: Make small changes and test each one
-3. **Use RAG wisely**: Don't overload the prompt with too much context
-4. **Monitor token usage**: Large prompts = higher costs
-5. **Version your prompts**: Consider adding version numbers to track changes
-
-## Troubleshooting
-
-### LLM not responding correctly
-- Check `SYSTEM_INSTRUCTIONS` - they might be too vague
-- Adjust `temperature` - lower = more consistent, higher = more creative
-- Verify model availability in `LLM_CONFIG.models`
-
-### RAG not working
-- Check that `getRAGContext` returns a string
-- Verify data is being saved in `data/draft-history.json`
-- Check console logs for errors
-
-### Draft data not saving
-- Check that `data/` directory exists and is writable
-- Verify the draft phase is "completed" before saving
-- Check server logs for errors
-
-## Need Help?
-
-- Check the main function `generateRecommendation` to understand the full pipeline
-- Review `lib/gemini-client.ts` for LLM client details
-- Check `lib/draft-data-collector.ts` for data collection functions
-
+Pour toute question sur la configuration LLM, consultez le code dans `lib/llm-prompt.ts` ou ouvrez une issue sur GitHub.

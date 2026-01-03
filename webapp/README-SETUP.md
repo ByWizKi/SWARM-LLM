@@ -57,6 +57,7 @@ POSTGRES_DB=swarm_db
 
 # NextAuth (optionnel - valeur par défaut)
 NEXTAUTH_SECRET=dev-secret-change-in-production
+NEXTAUTH_URL=http://localhost:3000
 
 # Gemini API (requis pour les recommandations IA)
 GEMINI_API_KEY=votre_cle_api_ici
@@ -67,6 +68,8 @@ GEMINI_API_KEY=votre_cle_api_ici
 1. Aller sur https://makersuite.google.com/app/apikey
 2. Créer une nouvelle clé API
 3. Ajouter la clé dans le fichier `.env`
+
+**Note** : Sans clé API Gemini, l'application fonctionnera mais les recommandations IA ne seront pas disponibles.
 
 ## Dépannage
 
@@ -86,14 +89,32 @@ docker volume rm webapp_postgres_data_dev
 docker-compose -f docker-compose.dev.yml up --build
 ```
 
+### Port 3000 déjà utilisé
+
+Modifiez le port dans `docker-compose.dev.yml` :
+
+```yaml
+ports:
+  - "3001:3000"  # Utiliser le port 3001
+```
+
 ## Structure du projet
 
 - `app/` : Pages et routes Next.js
 - `components/` : Composants React réutilisables
 - `lib/` : Bibliothèques et utilitaires
+  - `llm-prompt.ts` : Configuration LLM et prompts (fichier principal pour modifier les recommandations IA)
+  - `gemini-client.ts` : Client pour l'API Gemini
 - `prisma/` : Schéma de base de données
 - `scripts/` : Scripts d'initialisation et utilitaires
 - `docker/` : Scripts d'initialisation Docker
+
+## Fonctionnalités
+
+- **Dashboard** : Vue d'ensemble de votre progression
+- **Gestion du Box** : Configurez votre collection de monstres
+- **Assistant de Draft** : Obtenez des recommandations IA pour vos picks et bans
+- **Règles RTA** : Consultez les règles officielles du draft RTA
 
 ## Support
 

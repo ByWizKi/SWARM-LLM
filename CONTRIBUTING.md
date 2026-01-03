@@ -1,171 +1,101 @@
-# GitHub Collaboration Rules
+# Guide de Contribution
 
-## Purpose
+## Règles de Collaboration
 
-This document defines the rules for collaborating on this project using GitHub.
-Its goal is to ensure **code quality**, **clear communication**, and **conflict-free collaboration** within a team of multiple contributors.
+Ce document définit les règles pour contribuer au projet SWARM-LLM.
 
----
+## Workflow Git
 
-## Team Structure
+### Branches
 
-- 4 contributors
-- All changes are made via Pull Requests
-- The `main` branch is protected
-
----
-
-## Branching Strategy
-
-### 1. Protected branches
-
-- Direct pushes to `main` are not allowed
-- All work must be done in feature branches
-
----
-
-### 2. Branch naming convention
-
-Branches must follow one of the formats below:
+Les branches doivent suivre la convention de nommage :
 
 ```
-feature/<short-description>
-fix/<short-description>
-docs/<short-description>
-refactor/<short-description>
+feature/<description-courte>
+fix/<description-courte>
+docs/<description-courte>
+refactor/<description-courte>
 ```
 
-Examples:
+Exemples :
+- `feature/user-authentication`
+- `fix/login-bug`
+- `docs/update-api-docs`
 
+### Commits
+
+- Les commits doivent être petits et significatifs
+- Les messages de commit doivent être clairs et en français
+- Un commit = une modification logique
+
+Exemples :
 ```
-feature/user-authentication
-fix/login-bug
-docs/update-api-docs
-refactor/database-layer
-```
-
----
-
-## Development Rules
-
-### 3. One purpose per branch
-
-- A branch must address **one task only**
-- Do not mix unrelated changes (e.g. feature + refactor)
-
----
-
-### 4. Keep branches up to date
-
-Before starting work and before opening a Pull Request:
-
-```bash
-git checkout main
-git pull origin main
-git checkout your-branch
-git merge main
+Ajouter bouton de déconnexion
+Corriger bug recommandations premier pick
+Mettre à jour documentation setup
 ```
 
----
+### Push sur main
 
-### 5. Commit guidelines
+Les pushes directs sur `main` sont autorisés pour simplifier le workflow. Cependant :
 
-- Commits must be small and meaningful
-- Commit messages must be clear and written in English
+- Assurez-vous que votre code fonctionne avant de push
+- Testez localement avec Docker
+- Évitez de push du code cassé
 
-Example:
+## Standards de Code
 
-```
-Add validation for user input
-Fix API error handling
-```
+### Structure
 
----
+- Utiliser TypeScript pour tout le code
+- Suivre les conventions Next.js 14 (App Router)
+- Commenter le code complexe en français
 
-## Pull Request Rules
+### Fichiers Importants
 
-### 6. Pull Requests are mandatory
+- **`lib/llm-prompt.ts`** : Modifier uniquement ce fichier pour les prompts LLM
+- **`lib/rta-rules.ts`** : Règles de draft RTA (ne pas modifier sauf changement de règles officielles)
+- **`app/draft/page.tsx`** : Interface principale de draft
 
-Every change must go through a Pull Request:
+### Tests
 
-- No direct merges to `main`
-- No self-merging without review
+Avant de push :
 
----
+1. Tester localement avec Docker
+2. Vérifier que l'application démarre sans erreur
+3. Tester les fonctionnalités modifiées
 
-### 7. Pull Request requirements
+## Documentation
 
-Each Pull Request must:
+### Mettre à jour la documentation
 
-- Have a clear title and description
-- Explain what was changed and why
-- Be reviewed by at least one other contributor
-- Pass all automated checks (if applicable)
+Si vous modifiez une fonctionnalité :
 
----
+1. Mettre à jour `README.md` si nécessaire
+2. Mettre à jour `webapp/README-SETUP.md` si la configuration change
+3. Mettre à jour `webapp/lib/LLM_README.md` si vous modifiez les prompts
 
-### 8. Scope control
+### Ajouter de la documentation
 
-- Avoid large Pull Requests
-- Split large changes into multiple PRs when possible
+- Utiliser le français pour toute la documentation
+- Être clair et concis
+- Inclure des exemples quand c'est pertinent
 
----
+## Communication
 
-## Conflict Management
+- Communiquer avant de travailler sur les mêmes fichiers
+- Demander de l'aide si nécessaire
+- Partager les découvertes importantes
 
-### 9. Preventing conflicts
+## Résolution de Conflits
 
-- Communicate before working on the same files or features
-- Pull and merge `main` regularly
-- Avoid long-lived branches
+Si un conflit Git survient :
 
----
+1. Arrêter de push des changements
+2. Informer l'équipe
+3. Résoudre le conflit en collaboration
+4. Tester après résolution
 
-### 10. Resolving conflicts
+## Questions
 
-If a merge conflict occurs:
-
-1. Stop pushing changes
-2. Inform the team
-3. One contributor resolves the conflict
-4. The resolution must be reviewed before merging
-
----
-
-## Code Quality Standards
-
-### 11. Code ownership and responsibility
-
-- The author of a change is responsible for its quality
-- Reviewers are responsible for catching issues and inconsistencies
-
----
-
-### 12. Documentation updates
-
-- Any functional change must include documentation updates if needed
-- Documentation changes must follow the same review process as code
-
----
-
-## Rules for New Contributors
-
-### 13. Onboarding process
-
-New contributors must:
-
-- Read this document before contributing
-- Start with small, well-defined tasks
-- Ask questions if something is unclear
-- Never push directly to `main`
-
----
-
-## Summary
-
-- Use branches for all work
-- Keep changes focused and small
-- Always use Pull Requests
-- Require peer review
-- Keep branches synchronized
-- Communicate early to avoid conflicts
+Pour toute question, ouvrez une issue sur GitHub ou contactez l'équipe.

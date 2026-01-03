@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RTADraftRules } from "@/lib/rta-rules";
 import { MonsterCard } from "@/components/monster-card";
+import { SignOutButton } from "@/components/sign-out-button";
 
 type Player = "A" | "B";
 
@@ -351,8 +352,20 @@ export default function DraftPage() {
     // Ne pas faire de recommandation si on n'est pas en phase de picking ou banning
     if (draftState.currentPhase === "completed") return;
 
-    // Ne pas faire de recommandation si aucun pick n'a été fait
-    if (draftState.playerAPicks.length === 0 && draftState.playerBPicks.length === 0) return;
+    // Pour la phase de picking : seulement pour le joueur A
+    if (draftState.currentPhase === "picking") {
+      // Si currentTurnInfo existe, vérifier que c'est le tour du joueur A
+      if (currentTurnInfo) {
+        if (currentTurnInfo.currentPlayer !== "A") return;
+      } else {
+        // Si currentTurnInfo n'existe pas encore, vérifier que c'est le premier pick et que le joueur A commence
+        const isFirstPick = draftState.playerAPicks.length === 0 && draftState.playerBPicks.length === 0;
+        if (!isFirstPick || draftState.firstPlayer !== "A") return;
+      }
+    }
+
+    // Pour la phase de banning : seulement pour le joueur A (quand il a moins de bans que le joueur B)
+    if (draftState.currentPhase === "banning" && draftState.playerABans.length >= draftState.playerBBans.length) return;
 
     setLoadingRecommendation(true);
     const clientStart = performance.now();
@@ -409,12 +422,18 @@ export default function DraftPage() {
     // Délai pour éviter trop de requêtes
     const timeoutId = setTimeout(() => {
       if (draftState.currentPhase !== "completed" && firstPlayerSelected) {
-        fetchRecommendation();
+        // Vérifier que c'est le tour du joueur A ou la phase de banning pour le joueur A
+        const isPlayerATurn = currentTurnInfo?.currentPlayer === "A" && draftState.currentPhase === "picking";
+        const isPlayerABanning = draftState.currentPhase === "banning" && draftState.playerABans.length < draftState.playerBBans.length;
+
+        if (isPlayerATurn || isPlayerABanning) {
+          fetchRecommendation();
+        }
       }
     }, 800); // Attendre 800ms après le dernier changement pour éviter trop de requêtes
 
     return () => clearTimeout(timeoutId);
-  }, [draftState.playerAPicks.length, draftState.playerBPicks.length, draftState.currentPhase, draftState.playerABans.length, draftState.playerBBans.length, firstPlayerSelected, fetchRecommendation]);
+  }, [draftState.playerAPicks.length, draftState.playerBPicks.length, draftState.currentPhase, draftState.playerABans.length, draftState.playerBBans.length, firstPlayerSelected, currentTurnInfo, fetchRecommendation]);
 
   if (status === "loading" || !boxChecked) {
     return <div className="min-h-screen flex items-center justify-center">Chargement...</div>;
@@ -538,17 +557,20 @@ export default function DraftPage() {
       <div className="max-w-7xl mx-auto space-y-6">
         {/* En-tête amélioré */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-              Assistant de Draft RTA
-            </h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              {draftState.currentPhase === "picking" && currentTurnInfo
-                ? `Tour ${currentTurnInfo.turn} - ${currentTurnInfo.currentPlayer === "A" ? "Votre tour" : "Tour de l'adversaire"}`
-                : draftState.currentPhase === "banning"
-                ? "Phase de bans"
-                : "Draft terminé"}
-            </p>
+          <div className="flex items-center gap-4">
+            <div>
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+                Assistant de Draft RTA
+              </h1>
+              <p className="text-sm text-muted-foreground mt-1">
+                {draftState.currentPhase === "picking" && currentTurnInfo
+                  ? `Tour ${currentTurnInfo.turn} - ${currentTurnInfo.currentPlayer === "A" ? "Votre tour" : "Tour de l'adversaire"}`
+                  : draftState.currentPhase === "banning"
+                  ? "Phase de bans"
+                  : "Draft terminé"}
+              </p>
+            </div>
+            <SignOutButton />
           </div>
           <div className="flex flex-wrap gap-2">
             <Button variant="outline" size="sm" asChild>
