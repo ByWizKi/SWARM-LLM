@@ -86,11 +86,11 @@ try {
   fs.writeFileSync(outputFile, JSON.stringify(output, null, 2), "utf-8");
 
   console.log(
-    `✅ Conversion terminée ! ${convertedMonsters.length} monstres convertis.`
+    `Conversion terminée ! ${convertedMonsters.length} monstres convertis.`
   );
-  console.log(`📁 Fichier créé: ${outputFile}`);
-  console.log(`\n💡 Pour utiliser les monstres dans l'application, exécutez:`);
-  console.log(`   npm run convert:monsters`);
+  console.log(`Fichier créé: ${outputFile}`);
+  console.log(`\nPour utiliser les monstres dans l'application, exécutez:`);
+  console.log(`npm run convert:monsters`);
 
   // Statistiques
   const stats = {
