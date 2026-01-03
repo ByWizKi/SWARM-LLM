@@ -18,6 +18,9 @@ COPY . .
 # Générer Prisma Client
 RUN npx prisma generate
 
+# Rendre le script d'initialisation exécutable
+RUN chmod +x scripts/init-db.js
+
 EXPOSE 3000
 
 CMD ["npm", "run", "dev"]

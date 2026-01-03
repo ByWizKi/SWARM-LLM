@@ -269,9 +269,9 @@ export default function BoxPage() {
                         <div className="text-xs opacity-80">
                           {monster.element} - {monster.categorie}
                         </div>
-                        <div className="text-xs">{"⭐".repeat(monster.etoiles)}</div>
+                        <div className="text-xs">{monster.etoiles} etoiles</div>
                         {isSelected && (
-                          <div className="text-xs font-bold">✓ Possédé</div>
+                          <div className="text-xs font-bold">Possede</div>
                         )}
                       </div>
                     </div>

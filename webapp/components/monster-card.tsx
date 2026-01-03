@@ -88,7 +88,7 @@ export function MonsterCard({
           <div className="text-xs opacity-80 text-center mt-1">
             {monster.element} - {monster.categorie}
           </div>
-          <div className="text-xs mt-1">{"⭐".repeat(monster.etoiles)}</div>
+          <div className="text-xs mt-1">{monster.etoiles} etoiles</div>
         </>
       )}
     </div>
