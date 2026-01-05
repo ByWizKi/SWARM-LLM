@@ -3,6 +3,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { generateRecommendation } from "@/lib/llm-prompt";
 import { saveDraft } from "@/lib/draft-data-collector";
+import { prisma } from "@/lib/prisma";
+import { RTADraftRules } from "@/lib/rta-rules";
 
 /**
  * API Route pour obtenir des recommandations de draft depuis un LLM
@@ -26,14 +28,19 @@ export async function POST(request: NextRequest) {
     // Vérifier l'authentification
     const session = await getServerSession(authOptions);
     if (!session) {
-      return NextResponse.json(
-        { error: "Non authentifié" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
     }
 
     const body: DraftRecommendationRequest = await request.json();
-    const { playerAPicks, playerBPicks, playerABans = [], playerBBans = [], currentPhase, currentTurn, firstPlayer } = body;
+    const {
+      playerAPicks,
+      playerBPicks,
+      playerABans = [],
+      playerBBans = [],
+      currentPhase,
+      currentTurn,
+      firstPlayer,
+    } = body;
 
     // Valider les données
     if (!Array.isArray(playerAPicks) || !Array.isArray(playerBPicks)) {
@@ -41,6 +48,52 @@ export async function POST(request: NextRequest) {
         { error: "Format de données invalide" },
         { status: 400 }
       );
+    }
+
+    // Mesurer le temps total de la requête
+    const startTime = performance.now();
+    console.log("[PERF] Début de la génération de recommandation");
+
+    // Déterminer si c'est le tour du joueur A (celui qui utilise l'app)
+    const totalPicks = playerAPicks.length + playerBPicks.length;
+    const currentTurnInfo = RTADraftRules.getCurrentTurnInfo(
+      totalPicks,
+      firstPlayer
+    );
+    const isPlayerATurn =
+      (currentPhase === "picking" && currentTurnInfo?.currentPlayer === "A") ||
+      (currentPhase === "banning" && playerABans.length === 0);
+
+    // Vérifier que c'est bien le tour du joueur A
+    if (!isPlayerATurn) {
+      return NextResponse.json(
+        { error: "Ce n'est pas votre tour" },
+        { status: 400 }
+      );
+    }
+
+    // Récupérer le box de l'utilisateur quand c'est le tour du joueur A
+    let userMonsters: number[] = [];
+    if (isPlayerATurn) {
+      try {
+        const box = await prisma.monsterBox.findUnique({
+          where: { userId: session.user.id },
+        });
+        if (box && Array.isArray(box.monsters)) {
+          // Convertir et filtrer les monstres déjà pickés par le joueur A
+          const allUserMonsters = box.monsters
+            .map((id: any) => (typeof id === "number" ? id : parseInt(id, 10)))
+            .filter((id: number) => !isNaN(id));
+          userMonsters = allUserMonsters.filter(
+            (id) => !playerAPicks.includes(id)
+          );
+          console.log(
+            `[PERF] Box utilisateur récupéré: ${allUserMonsters.length} monstres, ${userMonsters.length} disponibles après filtrage`
+          );
+        }
+      } catch (error) {
+        console.error("Erreur lors de la récupération du box:", error);
+      }
     }
 
     // Générer la recommandation en utilisant le fichier centralisé
@@ -52,7 +105,11 @@ export async function POST(request: NextRequest) {
       currentPhase,
       currentTurn,
       firstPlayer,
+      userMonsters, // Passer les monstres disponibles dans le box du joueur A (filtrés)
     });
+
+    const totalTime = performance.now() - startTime;
+    console.log(`[PERF] Temps total de génération: ${totalTime.toFixed(2)}ms`);
 
     // Sauvegarder le draft si terminé (pour analyse future)
     if (currentPhase === "completed") {
@@ -63,8 +120,8 @@ export async function POST(request: NextRequest) {
           playerABans,
           playerBBans,
           firstPlayer,
-          finalTeamA: playerAPicks.filter(id => !playerBBans.includes(id)),
-          finalTeamB: playerBPicks.filter(id => !playerABans.includes(id)),
+          finalTeamA: playerAPicks.filter((id) => !playerBBans.includes(id)),
+          finalTeamB: playerBPicks.filter((id) => !playerABans.includes(id)),
           recommendation,
           metadata: {
             userId: session.user?.id || session.user?.email || "unknown",
@@ -88,5 +145,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-
-

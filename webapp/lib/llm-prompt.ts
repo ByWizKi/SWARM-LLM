@@ -22,38 +22,10 @@ import { loadMonsters, findMonsterById } from "@/lib/monsters";
  * System instructions for the AI assistant
  * Modify this to change the AI's behavior, knowledge, or instructions
  */
+// Instructions système optimisées - version courte pour vitesse maximale
 export const SYSTEM_INSTRUCTIONS = `
-Tu es un assistant expert de Summoners War, spécialisé en RTA (World Arena).
-Tu connais parfaitement les règles officielles de la phase de draft et tu dois toujours les respecter
-dans tes analyses, simulations et conseils.
-
-Règles de la phase de draft RTA :
-
-1. Deux joueurs s'affrontent en temps réel.
-2. Un tirage aléatoire détermine qui commence.
-3. Chaque joueur sélectionne 5 monstres au total selon l'ordre suivant :
-   - Joueur A : 1 pick
-   - Joueur B : 2 picks
-   - Joueur A : 2 picks
-   - Joueur B : 2 picks
-   - Joueur A : 2 picks
-   - Joueur B : 1 pick
-4. Un monstre déjà sélectionné ne peut plus être choisi par l'adversaire.
-5. Les doublons sont interdits (un même monstre ne peut être pick qu'une seule fois).
-6. Après les picks, chaque joueur bannit 1 monstre de l'équipe adverse.
-7. Les bans sont simultanés.
-8. Les monstres bannis ne participent pas au combat.
-9. Chaque joueur combat donc avec 4 monstres.
-10. Les runes, artefacts, skills et leader skills sont verrouillés pendant le draft.
-11. Tous les leader skills fonctionnent normalement et ne s'appliquent qu'à leur propre équipe.
-12. Il existe une limite de temps pour chaque pick ; en cas de dépassement, un pick automatique est effectué.
-13. Le combat se déroule en mode World Arena sans bonus externes (guildes, tours, etc.).
-
-Lorsque tu aides à drafter :
-- Tu dois anticiper les bans.
-- Tu dois analyser la synergie, le contre-pick et la win condition.
-- Tu dois respecter strictement les règles ci-dessus.
-- Tu dois mentionner explicitement les noms complets des monstres que tu recommandes.
+Expert Summoners War RTA. Règles draft : 5 picks/joueur, 1 ban/joueur, 4 monstres finaux.
+Recommandations : noms complets des monstres, synergies, contre-picks, win conditions.
 `;
 
 // ============================================================================
@@ -107,13 +79,13 @@ export function buildDraftContext(
   };
 
   const context = `
-État actuel du draft RTA :
+État actuel du draft RTA - PERSPECTIVE DU JOUEUR A :
 
 - Phase: ${currentPhase}
 - Tour: ${currentTurn + 1}
 - Premier joueur: ${firstPlayer}
 
-Équipe Joueur A (Vous) - ${playerAPicks.length}/5 picks :
+VOTRE ÉQUIPE (Joueur A) - ${playerAPicks.length}/5 picks :
 ${
   playerAPicks.length > 0
     ? playerAPicks
@@ -129,7 +101,7 @@ ${
     : "  Aucun monstre sélectionné pour le moment"
 }
 
-Équipe Joueur B (Adversaire) - ${playerBPicks.length}/5 picks :
+ÉQUIPE ADVERSAIRE (Joueur B) - ${playerBPicks.length}/5 picks :
 ${
   playerBPicks.length > 0
     ? playerBPicks
@@ -214,35 +186,57 @@ export function buildUserPrompt(
     playerBPicks: string[];
     playerABans?: string[];
     playerBBans?: string[];
-  }
+  },
+  isFirstPick?: boolean,
+  availableMonsterNames?: string[]
 ): string {
   // Context already has names if monsterNames was provided to buildDraftContext
   const context = draftContext;
 
   const phaseInstructions = {
-    picking: `
-Tu es en phase de PICKING. Le joueur A doit faire son prochain pick.
-- Analyse les synergies entre les monstres déjà sélectionnés par le Joueur A
-- Identifie les faiblesses et les forces de l'équipe actuelle
-- Recommande 2-5 monstres spécifiques qui compléteraient bien l'équipe du Joueur A
-- IMPORTANT : Mentionne explicitement les noms complets des monstres que tu recommandes (ex: "Je recommande [Nom du Monstre (Élément, Catégorie)]")
-- Explique pourquoi ces monstres sont de bons choix (synergies, contre-picks, win conditions)
-- Anticipe ce que l'adversaire pourrait picker ensuite
-- Sois précis avec les noms des monstres pour faciliter la sélection
+    picking: isFirstPick
+      ? `
+Premier pick Joueur A. Recommande 3-5 monstres polyvalents forts.
+${
+  availableMonsterNames && availableMonsterNames.length > 0
+    ? `Monstres disponibles dans votre box (${
+        availableMonsterNames.length
+      }): ${availableMonsterNames.slice(0, 50).join(", ")}${
+        availableMonsterNames.length > 50 ? "..." : ""
+      }
+IMPORTANT: Recommande UNIQUEMENT des monstres de cette liste.`
+    : "Choisis parmi les monstres disponibles."
+}
+Format: "Je recommande [Nom1], [Nom2], [Nom3] car [raison]"
+Maximum 50 mots.
+`
+      : `
+Pick Joueur A. Recommande 3-5 monstres complétant l'équipe.
+${
+  availableMonsterNames && availableMonsterNames.length > 0
+    ? `Monstres disponibles dans votre box (${
+        availableMonsterNames.length
+      }): ${availableMonsterNames.slice(0, 50).join(", ")}${
+        availableMonsterNames.length > 50 ? "..." : ""
+      }
+IMPORTANT: Recommande UNIQUEMENT des monstres de cette liste.`
+    : ""
+}
+Analyse synergies, faiblesses, forces. Noms complets des monstres.
+Maximum 60 mots.
 `,
     banning: `
-Tu es en phase de BANNING. Le Joueur A doit bannir 1 monstre de l'équipe adverse.
-- Analyse l'équipe adverse (Joueur B) et identifie le monstre le plus dangereux
-- Considère les synergies dans l'équipe adverse
-- Recommande quel monstre bannir et explique pourquoi
-- Explique l'impact de ce ban sur la composition finale
+Ban Joueur A. Bannir 1 monstre de l'équipe adverse.
+Identifie le monstre le plus dangereux ou qui casse les synergies.
+Format: "Je recommande de bannir [Nom] car [raison]"
+Maximum 40 mots.
 `,
     completed: `
-Le draft est terminé. Fais une analyse complète :
-- Évalue la force de chaque équipe finale
-- Identifie les avantages et désavantages de chaque composition
-- Prédit quelle équipe a le plus de chances de gagner et pourquoi
-- Donne des conseils stratégiques pour le combat à venir
+Le draft est terminé. Fais une analyse complète pour le Joueur A :
+- Évalue la force de votre équipe finale (Joueur A) après les bans
+- Identifie les avantages et désavantages de votre composition
+- Prédit vos chances de gagner et pourquoi
+- Donne des conseils stratégiques concis pour le combat à venir (maximum 150 mots)
 `,
   };
 
@@ -254,12 +248,11 @@ Analyse stratégique demandée :
 
 ${phaseInstructions[currentPhase]}
 
-Format de réponse :
-- Sois précis et concret
-- Mentionne les noms des monstres spécifiques
-- Explique tes raisonnements stratégiques
-- Utilise un langage clair et accessible
-- Réponds en français
+Format réponse :
+- Ultra-concis (50 mots max premier pick, 60 mots picks suivants, 40 mots banning)
+- Noms des monstres EN PREMIER
+- Une phrase par monstre
+- Français, direct, focus Joueur A uniquement
 
 Réponds maintenant :`;
 
@@ -276,24 +269,24 @@ Réponds maintenant :`;
  */
 export const LLM_CONFIG = {
   // Models to try in order (fallback if first fails)
+  // Utiliser uniquement gemini-2.5-flash (le plus rapide)
   models: [
-    "gemini-2.5-flash", // Recommended in official docs
-    "gemini-1.5-flash",
-    "gemini-1.5-pro",
-    "gemini-3-pro-preview",
+    "gemini-2.5-flash", // Le plus rapide - disponible avec v1beta
   ],
 
   // Temperature: 0.0 (deterministic) to 1.0 (creative)
-  temperature: 0.7,
+  // Réduite au minimum pour des réponses ultra-rapides et cohérentes
+  temperature: 0.0,
 
-  // Maximum tokens in response
-  maxOutputTokens: 1500,
+  // Maximum tokens in response - réduit drastiquement pour la vitesse
+  // 300 tokens = environ 200 mots en français
+  maxOutputTokens: 300,
 
-  // Top-p sampling (0.0 to 1.0)
-  topP: 0.95,
+  // Top-p sampling (0.0 to 1.0) - réduit pour la vitesse
+  topP: 0.6,
 
-  // Top-k sampling
-  topK: 40,
+  // Top-k sampling - réduit pour la vitesse
+  topK: 10,
 };
 
 // ============================================================================
@@ -310,10 +303,15 @@ export const LLM_CONFIG = {
 export async function callLLM(prompt: string): Promise<string> {
   let lastError: Error | null = null;
 
+  // Timeout retiré - laisser l'API répondre naturellement
+  // Les timeouts étaient trop sévères et interrompaient des requêtes valides
+
   for (const modelName of LLM_CONFIG.models) {
     try {
+      const modelStart = performance.now();
       console.log(`[LLM] Trying model: ${modelName}`);
 
+      const clientStart = performance.now();
       const client = new GeminiClient({
         temperature: LLM_CONFIG.temperature,
         maxOutputTokens: LLM_CONFIG.maxOutputTokens,
@@ -321,22 +319,42 @@ export async function callLLM(prompt: string): Promise<string> {
         topP: LLM_CONFIG.topP,
         topK: LLM_CONFIG.topK,
       });
+      const clientTime = performance.now() - clientStart;
+      console.log(
+        `[PERF] Initialisation du client Gemini: ${clientTime.toFixed(2)}ms`
+      );
 
-      // Generate response with system instructions
+      // Generate response with system instructions - sans timeout
+      const apiStart = performance.now();
       const response = await client.generateWithSystem(
         SYSTEM_INSTRUCTIONS,
         prompt,
-        { model: modelName }
+        {
+          model: modelName,
+        }
       );
+      const apiTime = performance.now() - apiStart;
+      const modelTime = performance.now() - modelStart;
 
       console.log(`[LLM] Model ${modelName} succeeded!`);
+      console.log(
+        `[PERF] Temps d'appel API Gemini: ${apiTime.toFixed(
+          2
+        )}ms (total modèle: ${modelTime.toFixed(2)}ms)`
+      );
+      console.log(
+        `[PERF] Taille du prompt: ${prompt.length} caractères, réponse: ${response.text.length} caractères`
+      );
+
       return response.text;
     } catch (error) {
+      const errorTime = performance.now();
       const errorMsg = error instanceof Error ? error.message : String(error);
       console.log(
         `[LLM] Model ${modelName} failed:`,
         errorMsg.substring(0, 200)
       );
+      console.log(`[PERF] Échec après ${errorTime.toFixed(2)}ms`);
       lastError = error instanceof Error ? error : new Error(String(error));
       continue;
     }
@@ -401,10 +419,19 @@ export async function generateRecommendation(draftData: {
   currentPhase: "picking" | "banning" | "completed";
   currentTurn: number;
   firstPlayer: "A" | "B";
+  userMonsters?: number[]; // Monstres disponibles dans le box de l'utilisateur
 }): Promise<string> {
+  const perfStart = performance.now();
   try {
-    // Load monsters to get names
+    // Étape 1: Load monsters to get names
+    const loadStart = performance.now();
     const allMonsters = await loadMonsters();
+    const loadTime = performance.now() - loadStart;
+    console.log(
+      `[PERF] Chargement des monstres: ${loadTime.toFixed(2)}ms (${
+        allMonsters.length
+      } monstres)`
+    );
 
     const getMonsterName = (id: number): string => {
       const monster = findMonsterById(allMonsters, id);
@@ -413,34 +440,111 @@ export async function generateRecommendation(draftData: {
         : `Monstre ID ${id}`;
     };
 
-    // Get monster names
+    // Étape 2: Get monster names
+    const namesStart = performance.now();
     const monsterNames = {
       playerAPicks: draftData.playerAPicks.map((id) => getMonsterName(id)),
       playerBPicks: draftData.playerBPicks.map((id) => getMonsterName(id)),
       playerABans: draftData.playerABans?.map((id) => getMonsterName(id)),
       playerBBans: draftData.playerBBans?.map((id) => getMonsterName(id)),
     };
+    const namesTime = performance.now() - namesStart;
+    console.log(
+      `[PERF] Extraction des noms de monstres: ${namesTime.toFixed(2)}ms`
+    );
 
-    // Build context with monster names
+    // Étape 3: Build context with monster names
+    const contextStart = performance.now();
     const draftContext = buildDraftContext(draftData, monsterNames);
+    const contextTime = performance.now() - contextStart;
+    console.log(
+      `[PERF] Construction du contexte: ${contextTime.toFixed(2)}ms (${
+        draftContext.length
+      } caractères)`
+    );
 
-    // Get RAG context (if implemented)
+    // Étape 4: Get RAG context (if implemented)
+    const ragStart = performance.now();
     const ragContext = await getRAGContext(draftData);
+    const ragTime = performance.now() - ragStart;
+    if (ragContext) {
+      console.log(
+        `[PERF] Récupération du contexte RAG: ${ragTime.toFixed(2)}ms (${
+          ragContext.length
+        } caractères)`
+      );
+    } else {
+      console.log(
+        `[PERF] Récupération du contexte RAG: ${ragTime.toFixed(2)}ms (vide)`
+      );
+    }
 
-    // Build the full prompt
+    // Étape 5: Déterminer si c'est le premier pick du joueur A
+    const isFirstPick =
+      draftData.currentPhase === "picking" &&
+      draftData.playerAPicks.length === 0 &&
+      draftData.playerBPicks.length === 0 &&
+      draftData.firstPlayer === "A";
+
+    // Pour les picks du joueur A, récupérer les noms des monstres disponibles dans le box
+    let availableMonsterNames: string[] = [];
+    if (
+      draftData.currentPhase === "picking" &&
+      draftData.userMonsters &&
+      draftData.userMonsters.length > 0
+    ) {
+      availableMonsterNames = draftData.userMonsters
+        .map((id) => getMonsterName(id))
+        .filter((name) => !name.includes("Monstre ID")); // Filtrer les monstres non trouvés
+      console.log(
+        `[PERF] Monstres disponibles dans le box: ${availableMonsterNames.length} monstres`
+      );
+    }
+
+    // Étape 6: Build the full prompt
+    const promptStart = performance.now();
     let userPrompt = buildUserPrompt(
       draftContext,
       draftData.currentPhase,
-      monsterNames
+      monsterNames,
+      isFirstPick,
+      availableMonsterNames
     );
 
     // Add RAG context if available
     if (ragContext) {
       userPrompt = `${userPrompt}\n\nContexte additionnel (RAG):\n${ragContext}`;
     }
+    const promptTime = performance.now() - promptStart;
+    console.log(
+      `[PERF] Construction du prompt: ${promptTime.toFixed(2)}ms (${
+        userPrompt.length
+      } caractères)`
+    );
 
-    // Call the LLM
+    // Étape 7: Call the LLM
+    const llmStart = performance.now();
     const recommendation = await callLLM(userPrompt);
+    const llmTime = performance.now() - llmStart;
+    console.log(
+      `[PERF] Appel à l'API Gemini: ${llmTime.toFixed(2)}ms (${
+        recommendation.length
+      } caractères)`
+    );
+
+    const totalTime = performance.now() - perfStart;
+    console.log(
+      `[PERF] Temps total generateRecommendation: ${totalTime.toFixed(2)}ms`
+    );
+    console.log(
+      `[PERF] Répartition: Chargement=${loadTime.toFixed(
+        2
+      )}ms, Noms=${namesTime.toFixed(2)}ms, Contexte=${contextTime.toFixed(
+        2
+      )}ms, RAG=${ragTime.toFixed(2)}ms, Prompt=${promptTime.toFixed(
+        2
+      )}ms, LLM=${llmTime.toFixed(2)}ms`
+    );
 
     return recommendation;
   } catch (error) {
