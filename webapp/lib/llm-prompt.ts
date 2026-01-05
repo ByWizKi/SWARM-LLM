@@ -212,6 +212,16 @@ Maximum 50 mots.
 `
       : `
 Pick Joueur A. Recommande 3-5 monstres complétant l'équipe.
+${
+  availableMonsterNames && availableMonsterNames.length > 0
+    ? `Monstres disponibles dans votre box (${
+        availableMonsterNames.length
+      }): ${availableMonsterNames.slice(0, 50).join(", ")}${
+        availableMonsterNames.length > 50 ? "..." : ""
+      }
+IMPORTANT: Recommande UNIQUEMENT des monstres de cette liste.`
+    : ""
+}
 Analyse synergies, faiblesses, forces. Noms complets des monstres.
 Maximum 60 mots.
 `,
@@ -476,10 +486,10 @@ export async function generateRecommendation(draftData: {
       draftData.playerBPicks.length === 0 &&
       draftData.firstPlayer === "A";
 
-    // Pour le premier pick, récupérer les noms des monstres disponibles dans le box
+    // Pour les picks du joueur A, récupérer les noms des monstres disponibles dans le box
     let availableMonsterNames: string[] = [];
     if (
-      isFirstPick &&
+      draftData.currentPhase === "picking" &&
       draftData.userMonsters &&
       draftData.userMonsters.length > 0
     ) {
