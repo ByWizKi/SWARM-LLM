@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth-config";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { prisma } from "@/lib/prisma";
@@ -157,7 +157,7 @@ export default async function DashboardPage() {
               <div className="text-3xl font-bold">Actif</div>
               <p className="text-xs text-muted-foreground mt-1">
                 Recommandations automatiques disponibles
-              </p>
+            </p>
             </CardContent>
           </Card>
         </div>
@@ -214,7 +214,7 @@ export default async function DashboardPage() {
                         <span>
                           {action.primary ? "Utiliser" : "Accéder"} →
                         </span>
-                      </Button>
+              </Button>
                     </CardContent>
                   </Card>
                 </Link>
@@ -231,7 +231,7 @@ export default async function DashboardPage() {
               Démarrage rapide
             </CardTitle>
             <CardDescription>
-              Suivez ces étapes pour commencer à utiliser l'assistant IA
+              Suivez ces étapes pour commencer à utiliser l&apos;assistant IA
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -256,7 +256,7 @@ export default async function DashboardPage() {
                 <div>
                   <p className="font-semibold">Lancez un Draft</p>
                   <p className="text-sm text-muted-foreground">
-                    Suivez votre draft en cours et recevez des recommandations automatiques de l'IA pour vos picks et bans
+                    Suivez votre draft en cours et recevez des recommandations automatiques de l&apos;IA pour vos picks et bans
                   </p>
                 </div>
               </div>
@@ -267,7 +267,7 @@ export default async function DashboardPage() {
                 <div>
                   <p className="font-semibold">Suivez les Recommandations</p>
                   <p className="text-sm text-muted-foreground">
-                    L'IA analyse votre draft en temps réel et vous suggère les meilleurs picks et bans
+                    L&apos;IA analyse votre draft en temps réel et vous suggère les meilleurs picks et bans
                   </p>
                 </div>
               </div>

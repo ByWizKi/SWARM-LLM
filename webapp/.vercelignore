@@ -1,0 +1,15 @@
+# Fichiers à ignorer lors du déploiement Vercel
+node_modules/
+.next/
+.env.local
+.env.development
+.env.test
+*.log
+.DS_Store
+docker/
+docker-compose*.yml
+Dockerfile*
+scripts/init-db.js
+README-SETUP.md
+.vscode/
+.idea/

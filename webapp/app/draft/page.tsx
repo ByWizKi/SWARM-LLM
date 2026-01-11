@@ -602,13 +602,13 @@ export default function DraftPage() {
             <CardHeader>
               <CardTitle>Box de monstres requis</CardTitle>
               <CardDescription>
-                Vous devez d'abord configurer votre box de monstres avant de
-                pouvoir utiliser l'assistant de draft
+                Vous devez d&apos;abord configurer votre box de monstres avant de
+                pouvoir utiliser l&apos;assistant de draft
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-muted-foreground">
-                Pour utiliser l'assistant de draft, vous devez sélectionner les
+                Pour utiliser l&apos;assistant de draft, vous devez sélectionner les
                 monstres que vous possédez dans votre collection.
               </p>
               <div className="flex gap-4">
@@ -648,7 +648,7 @@ export default function DraftPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-muted-foreground">
-                Le joueur qui commence aura l'avantage du premier pick. Dans le
+                Le joueur qui commence aura l&apos;avantage du premier pick. Dans le
                 jeu, cela est déterminé aléatoirement par le système.
               </p>
               <div className="grid grid-cols-2 gap-4 mt-6">
@@ -720,7 +720,7 @@ export default function DraftPage() {
                 ? `Tour ${currentTurnInfo.turn} - ${
                     currentTurnInfo.currentPlayer === "A"
                       ? "Votre tour"
-                      : "Tour de l'adversaire"
+                      : "Tour de l&apos;adversaire"
                   }`
                 : draftState.currentPhase === "banning"
                 ? "Phase de bans"
@@ -1052,7 +1052,7 @@ export default function DraftPage() {
                             restant(s) dans ce tour
                           </p>
                           <p className="text-xs text-muted-foreground">
-                            Indiquez le(s) monstre(s) que l'adversaire a
+                            Indiquez le(s) monstre(s) que l&apos;adversaire a
                             selectionne dans le jeu (
                             {currentTurnInfo.picksRemainingForPlayer} picks
                             restants au total)
@@ -1164,7 +1164,7 @@ export default function DraftPage() {
                       {draftState.playerABans.length === 0 && (
                         <div className="space-y-2">
                           <p className="text-sm font-semibold">
-                            Joueur A - Bannir un monstre de l'équipe B:
+                            Joueur A - Bannir un monstre de l&apos;équipe B:
                           </p>
                           <div className="max-h-[200px] overflow-y-auto border rounded-lg p-4">
                             <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
@@ -1192,7 +1192,7 @@ export default function DraftPage() {
                       {draftState.playerBBans.length === 0 && (
                         <div className="space-y-2">
                           <p className="text-sm font-semibold">
-                            Joueur B - Bannir un monstre de l'équipe A:
+                            Joueur B - Bannir un monstre de l&apos;équipe A:
                           </p>
                           <div className="max-h-[200px] overflow-y-auto border rounded-lg p-4">
                             <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">

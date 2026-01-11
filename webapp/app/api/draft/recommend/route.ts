@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth-config";
 import { generateRecommendation } from "@/lib/llm-prompt";
 import { saveDraft } from "@/lib/draft-data-collector";
 import { prisma } from "@/lib/prisma";
@@ -53,6 +53,42 @@ export async function POST(request: NextRequest) {
     // Mesurer le temps total de la requête
     const startTime = performance.now();
     console.log("[PERF] Début de la génération de recommandation");
+
+    // Ne pas générer de recommandation si le draft est terminé
+    if (currentPhase === "completed") {
+      // Sauvegarder le draft si terminé (pour analyse future)
+      try {
+        const recommendation = await generateRecommendation({
+          playerAPicks,
+          playerBPicks,
+          playerABans,
+          playerBBans,
+          currentPhase: "banning", // Utiliser "banning" comme phase par défaut pour la génération
+          currentTurn,
+          firstPlayer,
+          userMonsters: [],
+        });
+        await saveDraft({
+          playerAPicks,
+          playerBPicks,
+          playerABans,
+          playerBBans,
+          firstPlayer,
+          finalTeamA: playerAPicks.filter((id) => !playerBBans.includes(id)),
+          finalTeamB: playerBPicks.filter((id) => !playerABans.includes(id)),
+          recommendation,
+          metadata: {
+            userId: session.user?.id || "unknown",
+          },
+        });
+      } catch (error) {
+        console.error("Error saving draft:", error);
+      }
+      return NextResponse.json(
+        { error: "Le draft est terminé" },
+        { status: 400 }
+      );
+    }
 
     // Déterminer si c'est le tour du joueur A (celui qui utilise l'app)
     const totalPicks = playerAPicks.length + playerBPicks.length;
@@ -110,28 +146,6 @@ export async function POST(request: NextRequest) {
 
     const totalTime = performance.now() - startTime;
     console.log(`[PERF] Temps total de génération: ${totalTime.toFixed(2)}ms`);
-
-    // Sauvegarder le draft si terminé (pour analyse future)
-    if (currentPhase === "completed") {
-      try {
-        await saveDraft({
-          playerAPicks,
-          playerBPicks,
-          playerABans,
-          playerBBans,
-          firstPlayer,
-          finalTeamA: playerAPicks.filter((id) => !playerBBans.includes(id)),
-          finalTeamB: playerBPicks.filter((id) => !playerABans.includes(id)),
-          recommendation,
-          metadata: {
-            userId: session.user?.id || session.user?.email || "unknown",
-          },
-        });
-      } catch (error) {
-        console.error("Error saving draft:", error);
-        // Don't fail the request if saving fails
-      }
-    }
 
     return NextResponse.json({
       recommendation,

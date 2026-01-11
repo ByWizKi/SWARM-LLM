@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth-config";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 
@@ -13,8 +13,8 @@ const updateBoxSchema = z.object({
 const boxCache = new Map<string, { data: any; timestamp: number }>();
 const CACHE_TTL = 30 * 1000; // 30 secondes
 
-// Fonction pour invalider le cache (exportable pour utilisation ailleurs)
-export function invalidateBoxCache(userId: string) {
+// Fonction pour invalider le cache (utilisée localement)
+function invalidateBoxCache(userId: string) {
   const cacheKey = `box-${userId}`;
   boxCache.delete(cacheKey);
 }

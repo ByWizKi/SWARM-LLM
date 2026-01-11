@@ -123,7 +123,7 @@ export async function loadMonsters(): Promise<Monster[]> {
     monstersCache = monstres;
     const totalLoadTime = performance.now() - loadStart;
     console.log(`[PERF] Temps total loadMonsters: ${totalLoadTime.toFixed(2)}ms`);
-    return monstersCache;
+    return monstersCache || [];
   } catch (error) {
     console.error('Erreur lors du chargement des monstres:', error);
     return [];

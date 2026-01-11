@@ -15,7 +15,7 @@ export default function RulesPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Vue d'ensemble</CardTitle>
+            <CardTitle>Vue d&apos;ensemble</CardTitle>
             <CardDescription>
               Les règles officielles du mode Real Time Arena (RTA) de Summoners War: Sky Arena
             </CardDescription>
@@ -92,8 +92,8 @@ export default function RulesPage() {
                 </tbody>
               </table>
               <p className="mt-4 text-sm text-muted-foreground">
-                <strong>Note :</strong> Le tableau ci-dessus montre l'ordre si le Joueur A commence.
-                Si le Joueur B commence, l'ordre est inversé : B(1) → A(2) → B(2) → A(2) → B(1).
+                <strong>Note :</strong> Le tableau ci-dessus montre l&apos;ordre si le Joueur A commence.
+                Si le Joueur B commence, l&apos;ordre est inversé : B(1) → A(2) → B(2) → A(2) → B(1).
               </p>
               <p className="mt-2 text-sm font-semibold">
                 Total final : 5 monstres pour chaque joueur
@@ -105,8 +105,8 @@ export default function RulesPage() {
             <div className="mt-4 space-y-2">
               <h3 className="font-semibold">Règles importantes :</h3>
               <ul className="list-disc list-inside space-y-1 text-sm">
-                <li><strong>Pas de doublons :</strong> Un monstre déjà sélectionné ne peut plus être choisi par l'adversaire</li>
-                <li><strong>Ordre strict :</strong> L'ordre des picks doit être respecté scrupuleusement</li>
+                <li><strong>Pas de doublons :</strong> Un monstre déjà sélectionné ne peut plus être choisi par l&apos;adversaire</li>
+                <li><strong>Ordre strict :</strong> L&apos;ordre des picks doit être respecté scrupuleusement</li>
                 <li><strong>Timer :</strong> 30 secondes par pick (pick automatique en cas de dépassement du temps)</li>
                 <li><strong>Visibilité :</strong> Les picks sont révélés en temps réel aux deux joueurs</li>
                 <li><strong>Box personnel :</strong> Vous ne pouvez sélectionner que des monstres présents dans votre box</li>
@@ -119,17 +119,17 @@ export default function RulesPage() {
         <Card>
           <CardHeader>
             <CardTitle>Phase 2 : Bans</CardTitle>
-            <CardDescription>Élimination d'un monstre adverse</CardDescription>
+            <CardDescription>Élimination d&apos;un monstre adverse</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <p>
-              Après la phase de draft, chaque joueur ban 1 monstre de l'équipe adverse.
+              Après la phase de draft, chaque joueur ban 1 monstre de l&apos;équipe adverse.
               Les bans sont simultanés (les deux joueurs bannissent en même temps).
             </p>
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <span className="font-semibold">Simultané :</span>
-                <span>Le Joueur A et le Joueur B bannissent chacun 1 monstre de l'équipe adverse en même temps</span>
+                <span>Le Joueur A et le Joueur B bannissent chacun 1 monstre de l&apos;équipe adverse en même temps</span>
               </div>
             </div>
             <p className="text-sm text-muted-foreground">
@@ -138,7 +138,7 @@ export default function RulesPage() {
             <div className="bg-muted p-4 rounded-md">
               <p className="text-sm">
                 <strong>Important :</strong> Les monstres bannis ne participent pas au combat.
-                Les bans doivent cibler des monstres de l'équipe adverse uniquement.
+                Les bans doivent cibler des monstres de l&apos;équipe adverse uniquement.
               </p>
             </div>
           </CardContent>
@@ -157,7 +157,7 @@ export default function RulesPage() {
             <div className="bg-muted p-4 rounded-md space-y-2">
               <p className="text-sm font-semibold">Règles du leader :</p>
               <ul className="text-sm list-disc list-inside space-y-1">
-                <li>Le leader skill du monstre sélectionné s'applique uniquement à votre propre équipe</li>
+                <li>Le leader skill du monstre sélectionné s&apos;applique uniquement à votre propre équipe</li>
                 <li>Le choix est simultané (les deux joueurs choisissent en même temps)</li>
                 <li>Le leader skill fonctionne normalement selon les règles du jeu</li>
               </ul>
@@ -173,12 +173,12 @@ export default function RulesPage() {
           <CardContent className="space-y-4">
             <p>
               Le combat se déroule avec les 4 monstres de chaque équipe (après les bans).
-              Le leader skill choisi s'applique à l'équipe.
+              Le leader skill choisi s&apos;applique à l&apos;équipe.
             </p>
             <div className="bg-muted p-4 rounded-md space-y-2">
               <p className="text-sm font-semibold">Règles du combat :</p>
               <ul className="text-sm list-disc list-inside space-y-1">
-                <li>Les leader skills fonctionnent normalement et s'appliquent uniquement à leur propre équipe</li>
+                <li>Les leader skills fonctionnent normalement et s&apos;appliquent uniquement à leur propre équipe</li>
                 <li>Pas de bonus externes (guildes, tours, etc.)</li>
                 <li>Mode World Arena standard</li>
                 <li>Les runes, artefacts et skills sont ceux configurés avant le draft (verrouillés pendant le draft)</li>
