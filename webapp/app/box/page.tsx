@@ -47,6 +47,11 @@ export default function BoxPage() {
   const loadMonsters = async () => {
     try {
       const response = await fetch("/api/monsters");
+      if (!response.ok) {
+        console.error("Erreur HTTP:", response.status, response.statusText);
+        setMonsters([]);
+        return;
+      }
       const data = await response.json();
       // S'assurer que chaque monstre a un ID unique (utiliser l'index si pas d'ID)
       const monstersWithIds = (data.monstres || []).map((monster: Monster, index: number) => ({
@@ -56,6 +61,7 @@ export default function BoxPage() {
       setMonsters(monstersWithIds);
     } catch (error) {
       console.error("Erreur lors du chargement des monstres:", error);
+      setMonsters([]);
     } finally {
       setLoading(false);
     }
@@ -84,6 +90,7 @@ export default function BoxPage() {
   const handleSave = async () => {
     setSaving(true);
     try {
+      console.log("[BOX] Sauvegarde de", userMonsters.length, "monstres");
       const response = await fetch("/api/user/box", {
         method: "POST",
         headers: {
@@ -92,15 +99,22 @@ export default function BoxPage() {
         body: JSON.stringify({ monsters: userMonsters }),
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        throw new Error("Erreur lors de la sauvegarde");
+        console.error("[BOX] Erreur de réponse:", data);
+        throw new Error(data.error || "Erreur lors de la sauvegarde");
       }
 
+      console.log("[BOX] Sauvegarde réussie:", data);
       alert("Box sauvegardé avec succès !");
+      // Recharger le box pour s'assurer qu'il est à jour
+      await loadUserBox();
       router.push("/dashboard");
     } catch (error) {
-      console.error("Erreur:", error);
-      alert("Erreur lors de la sauvegarde du box");
+      console.error("[BOX] Erreur:", error);
+      const errorMessage = error instanceof Error ? error.message : "Erreur lors de la sauvegarde du box";
+      alert(errorMessage);
     } finally {
       setSaving(false);
     }

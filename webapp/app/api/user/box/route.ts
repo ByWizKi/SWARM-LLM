@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { prisma } from "@/lib/prisma";
+import { authOptions } from "@/lib/auth-config";
+import { prisma, prismaWrite } from "@/lib/prisma";
 import { z } from "zod";
+
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 const updateBoxSchema = z.object({
   monsters: z.array(z.union([z.number(), z.string()])),
@@ -13,8 +17,8 @@ const updateBoxSchema = z.object({
 const boxCache = new Map<string, { data: any; timestamp: number }>();
 const CACHE_TTL = 30 * 1000; // 30 secondes
 
-// Fonction pour invalider le cache (exportable pour utilisation ailleurs)
-export function invalidateBoxCache(userId: string) {
+// Fonction pour invalider le cache (utilisée localement)
+function invalidateBoxCache(userId: string) {
   const cacheKey = `box-${userId}`;
   boxCache.delete(cacheKey);
 }
@@ -50,7 +54,7 @@ export async function GET() {
       );
     }
 
-    // Récupérer depuis la base de données
+    // Récupérer depuis la base de données (lecture - peut utiliser Accelerate)
     const box = await prisma.monsterBox.findUnique({
       where: { userId },
       select: { monsters: true },
@@ -94,21 +98,37 @@ export async function GET() {
  */
 export async function POST(request: NextRequest) {
   try {
+    console.log("[BOX] Début de la mise à jour du box");
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+
+    if (!session) {
+      console.log("[BOX] Erreur: Pas de session");
       return NextResponse.json(
         { error: "Non authentifié" },
         { status: 401 }
       );
     }
 
-    const body = await request.json();
-    const { monsters } = updateBoxSchema.parse(body);
+    if (!session.user?.id) {
+      console.log("[BOX] Erreur: Pas d'ID utilisateur dans la session");
+      return NextResponse.json(
+        { error: "Session invalide" },
+        { status: 401 }
+      );
+    }
 
+    const body = await request.json();
+    console.log("[BOX] Body reçu:", { monstersCount: body.monsters?.length || 0 });
+
+    const { monsters } = updateBoxSchema.parse(body);
     const userId = session.user.id;
 
+    console.log("[BOX] Mise à jour du box pour userId:", userId, "avec", monsters.length, "monstres");
+
     // Créer ou mettre à jour le box
-    const box = await prisma.monsterBox.upsert({
+    // IMPORTANT: Utiliser prismaWrite (DATABASE_URL direct) pour les écritures
+    // Prisma Accelerate ne supporte pas les écritures
+    const box = await prismaWrite.monsterBox.upsert({
       where: { userId },
       update: {
         monsters: monsters as any,
@@ -118,6 +138,8 @@ export async function POST(request: NextRequest) {
         monsters: monsters as any,
       },
     });
+
+    console.log("[BOX] Box mis à jour avec succès:", { boxId: box.id, monstersCount: Array.isArray(box.monsters) ? box.monsters.length : 0 });
 
     // Invalider le cache
     const cacheKey = `box-${userId}`;
@@ -129,15 +151,43 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
+      console.error("[BOX] Erreur de validation:", error.errors);
       return NextResponse.json(
         { error: error.errors[0].message },
         { status: 400 }
       );
     }
 
-    console.error("Erreur lors de la mise à jour du box:", error);
+    // Log détaillé de l'erreur
+    console.error("[BOX] Erreur lors de la mise à jour du box:", error);
+    if (error instanceof Error) {
+      console.error("[BOX] Message d'erreur:", error.message);
+      console.error("[BOX] Stack:", error.stack);
+
+      // Vérifier si c'est une erreur Prisma
+      if (error.message.includes("P2002")) {
+        return NextResponse.json(
+          { error: "Erreur de contrainte unique" },
+          { status: 400 }
+        );
+      }
+
+      if (error.message.includes("does not exist") || error.message.includes("P2021")) {
+        return NextResponse.json(
+          {
+            error: "La table monster_boxes n'existe pas dans la base de données",
+            details: "Exécutez 'prisma db push' pour créer les tables"
+          },
+          { status: 500 }
+        );
+      }
+    }
+
     return NextResponse.json(
-      { error: "Erreur lors de la mise à jour du box" },
+      {
+        error: "Erreur lors de la mise à jour du box",
+        details: process.env.NODE_ENV === "development" ? (error instanceof Error ? error.message : String(error)) : undefined
+      },
       { status: 500 }
     );
   }

@@ -12,7 +12,7 @@ export default function Home() {
           Assistant IA pour vos Drafts RTA dans Summoners War: Sky Arena
         </p>
         <p className="text-sm text-muted-foreground max-w-xl mx-auto">
-          Utilisez l'intelligence artificielle pour obtenir des recommandations stratégiques sur vos picks, bans et composition d'équipe
+          Utilisez l&apos;intelligence artificielle pour obtenir des recommandations stratégiques sur vos picks, bans et composition d&apos;équipe
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button asChild size="lg">

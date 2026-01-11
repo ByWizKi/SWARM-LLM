@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  output: 'standalone',
-  // Important pour Socket.io
+  // output: 'standalone' est retiré car Vercel gère automatiquement le build
+  // Important pour Socket.io (si utilisé)
   webpack: (config) => {
     config.externals.push({
       'utf-8-validate': 'commonjs utf-8-validate',

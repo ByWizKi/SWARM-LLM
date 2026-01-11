@@ -11,13 +11,13 @@ export const RTADraftRules = {
    * Format: { player: 'A' | 'B', picks: number }
    */
   pickOrder: [
-    { player: 'A', picks: 1 },  // Tour 1: A pick 1 (total A = 1)
-    { player: 'B', picks: 2 },  // Tour 2: B pick 2 (total B = 2)
-    { player: 'A', picks: 2 },  // Tour 3: A pick 2 (total A = 3)
-    { player: 'B', picks: 2 },  // Tour 4: B pick 2 (total B = 4)
-    { player: 'A', picks: 2 },  // Tour 5: A pick 2 (total A = 5)
-    { player: 'B', picks: 1 },  // Tour 6: B pick 1 (total B = 5)
-  ],
+    { player: 'A' as const, picks: 1 },  // Tour 1: A pick 1 (total A = 1)
+    { player: 'B' as const, picks: 2 },  // Tour 2: B pick 2 (total B = 2)
+    { player: 'A' as const, picks: 2 },  // Tour 3: A pick 2 (total A = 3)
+    { player: 'B' as const, picks: 2 },  // Tour 4: B pick 2 (total B = 4)
+    { player: 'A' as const, picks: 2 },  // Tour 5: A pick 2 (total A = 5)
+    { player: 'B' as const, picks: 1 },  // Tour 6: B pick 1 (total B = 5)
+  ] as const satisfies Array<{ player: 'A' | 'B'; picks: number }>,
 
   /**
    * Règles générales
@@ -92,11 +92,14 @@ export const RTADraftRules = {
       return null;
     }
 
-    const adjustedOrder = firstPlayer === 'B'
-      ? this.pickOrder.map(p => ({ ...p, player: p.player === 'A' ? 'B' : 'A' as 'A' | 'B' }))
+    const adjustedOrder: Array<{ player: 'A' | 'B'; picks: number }> = firstPlayer === 'B'
+      ? this.pickOrder.map((p): { player: 'A' | 'B'; picks: number } => ({ ...p, player: (p.player === 'A' ? 'B' : 'A') as 'A' | 'B' }))
       : this.pickOrder;
 
     const currentRound = adjustedOrder[currentPickIndex];
+    if (!currentRound) {
+      return null;
+    }
     const totalPicked = adjustedOrder
       .slice(0, currentPickIndex)
       .reduce((sum, round) => sum + round.picks, 0);
@@ -107,7 +110,7 @@ export const RTADraftRules = {
 
     return {
       turn: currentPickIndex + 1,
-      currentPlayer: currentRound.player,
+      currentPlayer: currentRound.player as 'A' | 'B',
       picksRemaining: 5 - (firstPlayer === currentRound.player ? totalToPick : totalPicked),
     };
   },
