@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { prisma, prismaWrite } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 
@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     
     const { name, password } = registerSchema.parse(body);
 
-    // Vérifier si le pseudo existe déjà
+    // Vérifier si le pseudo existe déjà (lecture - peut utiliser Accelerate)
     console.log("[REGISTER] Vérification de l'existence du pseudo...");
     const existingUser = await prisma.user.findUnique({
       where: { name },
@@ -36,9 +36,9 @@ export async function POST(request: NextRequest) {
     console.log("[REGISTER] Hashage du mot de passe...");
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    // Créer l'utilisateur
+    // Créer l'utilisateur (écriture - utiliser prismaWrite)
     console.log("[REGISTER] Création de l'utilisateur dans la base de données...");
-    const user = await prisma.user.create({
+    const user = await prismaWrite.user.create({
       data: {
         name,
         password: hashedPassword,

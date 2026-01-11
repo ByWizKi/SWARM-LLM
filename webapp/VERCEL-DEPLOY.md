@@ -265,7 +265,8 @@ vercel --prod
 
 2. **Fichiers statiques** : Les images des monstres dans `public/images/` seront déployées automatiquement.
 
-3. **Monsters data** : 
+3. **Monsters data** :
+
    - Le fichier `monsters_rta.json` doit être dans `webapp/` et commité dans le repository
    - Les images des monstres doivent être dans `webapp/public/images/` (633 images PNG)
    - Next.js sert automatiquement les fichiers du dossier `public/` comme fichiers statiques
