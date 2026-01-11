@@ -385,6 +385,7 @@ export default function DraftPage() {
           currentPhase: draftState.currentPhase,
           currentTurn: currentTurnInfo?.turn || 0,
           firstPlayer: draftState.firstPlayer,
+          playerAAvailableIds:getAvailableMonstersForPlayerA().map(m => m.id)//ajout des monstres possibles pour le llm
         }),
       });
 
@@ -419,6 +420,13 @@ export default function DraftPage() {
 
   // Générer automatiquement les recommandations quand le draft change
   useEffect(() => {
+    if (true) {
+    console.log("[AUTO RECO] désactivé");
+    return;
+  }
+
+  console.log("[AUTO RECO] activé");
+
     // Délai pour éviter trop de requêtes
     const timeoutId = setTimeout(() => {
       if (draftState.currentPhase !== "completed" && firstPlayerSelected) {
@@ -1119,10 +1127,10 @@ export default function DraftPage() {
                 </div>
 
                 {/* Bouton de rafraîchissement (optionnel) */}
-                {recommendations && (
+                {"recommendations" && (/*recommendations */
                   <Button
                     onClick={fetchRecommendation}
-                    disabled={loadingRecommendation}
+                    disabled={false}/* disabled={loadingRecommendation}*/
                     variant="outline"
                     size="sm"
                     className="w-full"

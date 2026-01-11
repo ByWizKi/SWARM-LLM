@@ -19,6 +19,7 @@ interface DraftRecommendationRequest {
   currentPhase: "picking" | "banning" | "completed";
   currentTurn: number;
   firstPlayer: "A" | "B";
+  playerAAvailableIds:number[];//Liste des monstres possibles pour le joueur A
 }
 
 export async function POST(request: NextRequest) {
@@ -33,12 +34,12 @@ export async function POST(request: NextRequest) {
     }
 
     const body: DraftRecommendationRequest = await request.json();
-    const { playerAPicks, playerBPicks, playerABans = [], playerBBans = [], currentPhase, currentTurn, firstPlayer } = body;
+    const { playerAPicks, playerBPicks, playerABans = [], playerBBans = [], currentPhase, currentTurn, firstPlayer,playerAAvailableIds=[] } = body;
 
     // Valider les données
     if (!Array.isArray(playerAPicks) || !Array.isArray(playerBPicks)) {
       return NextResponse.json(
-        { error: "Format de données invalide" },
+        { error: "Format de données invalide" },  
         { status: 400 }
       );
     }
@@ -52,9 +53,10 @@ export async function POST(request: NextRequest) {
       currentPhase,
       currentTurn,
       firstPlayer,
-    });
+      playerAAvailableIds,
+    });//ajout des monstres possibles pour le llm
 
-    // Sauvegarder le draft si terminé (pour analyse future)
+    // Sauvegarder le draft si terminé (pour analyse future)  
     if (currentPhase === "completed") {
       try {
         await saveDraft({

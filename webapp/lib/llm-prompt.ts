@@ -209,15 +209,25 @@ Draft terminé - Analyse finale :
 export function buildUserPrompt(
   draftContext: string,
   currentPhase: "picking" | "banning" | "completed",
+  rag : string,
+  nn_contex : string,
   monsterNames?: {
     playerAPicks: string[];
     playerBPicks: string[];
     playerABans?: string[];
     playerBBans?: string[];
-  }
+    playerAAvailable:string[];
+  },
+  
 ): string {
   // Context already has names if monsterNames was provided to buildDraftContext
   const context = draftContext;
+  console.log(monsterNames)
+  const playerAAvailableText = `
+-Voici la liste des monstres que tu peux choisir pour le Joueur A :
+- Choisis uniquement dans ces monstres pour le Joueur A :
+${monsterNames?.playerAAvailable.map(monster => `- ${monster}`).join("\n")}
+`;
 
   const phaseInstructions = {
     picking: `
@@ -229,6 +239,7 @@ Tu es en phase de PICKING. Le joueur A doit faire son prochain pick.
 - Explique pourquoi ces monstres sont de bons choix (synergies, contre-picks, win conditions)
 - Anticipe ce que l'adversaire pourrait picker ensuite
 - Sois précis avec les noms des monstres pour faciliter la sélection
+${playerAAvailableText}
 `,
     banning: `
 Tu es en phase de BANNING. Le Joueur A doit bannir 1 monstre de l'équipe adverse.
@@ -249,6 +260,12 @@ Le draft est terminé. Fais une analyse complète :
   const prompt = `${SYSTEM_INSTRUCTIONS}
 
 ${draftContext}
+
+${rag}
+Voici ce que le réseau de neurone pense des picks possibles, tu peux t'aider pour réfléchir mais ne pas prendre 
+le résultat pour une vérité absolue : 
+
+${nn_contex}
 
 Analyse stratégique demandée :
 
@@ -370,6 +387,7 @@ export async function getRAGContext(draftState: {
   playerABans?: number[];
   playerBBans?: number[];
   currentPhase: "picking" | "banning" | "completed";
+  playerAAvailableIds:number[];
 }): Promise<string> {
   // TODO: Implement your RAG logic here
   // Examples:
@@ -379,7 +397,242 @@ export async function getRAGContext(draftState: {
   // - Get strategy recommendations from knowledge base
 
   // For now, return empty string (no RAG)
-  return "";
+  const fs = await import("fs/promises");
+  const path = await import("path");
+
+  // Charger le JSON brut
+  const filePath = path.join(process.cwd(), "monsters_rta.json");
+  const raw = await fs.readFile(filePath, "utf-8");
+  const monsters: any[] = JSON.parse(raw);
+
+
+  // Créer un map id => nom pour lookup rapide
+  const monsterIdToName: Record<number, string> = {};
+  monsters.forEach(m => { monsterIdToName[m.id] = m.name; });
+
+  //charger le json des stats moyennes
+  const avgStatsPath = path.join(
+    process.cwd(),
+    "average_monster_stats_id.json"
+  );
+  const avgRaw = await fs.readFile(avgStatsPath, "utf-8");
+  const averageStatsById: Record<string, any> = JSON.parse(avgRaw);
+
+
+  //charger les informations de pairs
+  const pairStatsPath = path.join(process.cwd(), "monsters_pairs_id.json");
+  const pairStatsRaw = await fs.readFile(pairStatsPath, "utf-8");
+  const pairStatsById: Record<string, any> = JSON.parse(pairStatsRaw);
+
+
+  //on charge les infos de contexte courte
+  const smallInfoPath = path.join(
+  process.cwd(),
+  "monster_small_info.json"
+  );
+  const smallInfoRaw = await fs.readFile(smallInfoPath, "utf-8");
+  const monsterSmallInfo: Record<string, string> = JSON.parse(smallInfoRaw);
+
+
+  // IDs pertinents (picks + bans)
+  const fullInfoIds = new Set<number>([
+  ...draftState.playerAPicks,
+  ...draftState.playerBPicks,
+  ...(draftState.playerABans || []),
+  ...(draftState.playerBBans || [])
+  ]);
+  // IDs qui peuvent être utilisés mais dont on veut seulement des infos courtes.
+  const lightInfoIds = new Set<number>(
+    draftState.playerAAvailableIds || []
+  );
+
+  const fullMonsters = monsters.filter(m =>
+  fullInfoIds.has(m.id)
+  );
+  const lightMonsters = monsters.filter(m =>
+  lightInfoIds.has(m.id)
+  );
+
+  if (fullMonsters.length === 0) {
+    return "";
+  }
+
+  const lightRagBlocks = lightMonsters
+  .map(monster => {
+    const description = monsterSmallInfo[String(monster.id)];
+    const avgStats = averageStatsById[String(monster.id)];
+
+    if (!description && !avgStats) return null;
+
+    const avgStatsBlock = avgStats
+      ? `
+  Stats moyennes (RTA) :
+  - HP : ${avgStats.HP}
+  - ATK : ${avgStats.ATK}
+  - DEF : ${avgStats.DEF}
+  - SPD : ${avgStats.SPD}
+  - Taux crit : ${avgStats.CRate}
+  - Dégâts crit : ${avgStats.CDmg}
+  - Résistance : ${avgStats.RES}
+  - Précision : ${avgStats.ACC}
+  `.trim()
+        : "Stats moyennes : Non disponibles";
+
+     // Runages
+      const runesBlock = avgStats
+        ? `
+  Runages les plus joués :
+  - ${avgStats.Set1}
+  ${avgStats.Set2 ? `- ${avgStats.Set2}` : ""}
+  ${avgStats.Set3 ? `- ${avgStats.Set3}` : ""}
+  `.trim()
+        : "Runages : Non disponibles";
+
+
+      return `
+   Monstre : ${monster.name} (${monster.element}, ${monster.archetype})
+
+  Description courte :
+  ${description ?? "Description non disponible"}
+
+  ${avgStatsBlock}
+  ${runesBlock}
+  `.trim();
+    })
+    .filter(Boolean);
+
+
+  const ragBlocks = fullMonsters.map(monster => {
+    const avgStats = averageStatsById[String(monster.id)];
+
+    // Stats de base
+    const statsBlock = `
+  Stats clés :
+  - Vitesse : ${monster.speed ?? "N/A"}
+  - HP (lvl max) : ${monster.max_lvl_hp ?? "N/A"}
+  - ATK (lvl max) : ${monster.max_lvl_attack ?? "N/A"}
+  - DEF (lvl max) : ${monster.max_lvl_defense ?? "N/A"}
+  `.trim();
+
+      // Stats moyennes RTA
+      const averageStatsBlock = avgStats
+        ? `
+  Stats moyennes (RTA) :
+  - HP : ${avgStats.HP}
+  - ATK : ${avgStats.ATK}
+  - DEF : ${avgStats.DEF}
+  - SPD : ${avgStats.SPD}
+  - Taux crit : ${avgStats.CRate}
+  - Dégâts crit : ${avgStats.CDmg}
+  - Résistance : ${avgStats.RES}
+  - Précision : ${avgStats.ACC}
+  `.trim()
+        : "Stats moyennes : Non disponibles";
+
+   // Infos “best_with” et “bad_against”
+    const pairStats = pairStatsById[String(monster.id)] || {};
+    const bestWithBlock = pairStats.best_with?.length
+      ? "Meilleurs coéquipiers :\n" + pairStats.best_with
+          .map((p: any) => `- ${monsterIdToName[p.b_monster_id] ?? p.b_monster_id} (WR: ${p.win_together_rate}%)`)
+          .join("\n")
+      : "Meilleurs coéquipiers : Non disponibles";
+
+    const badAgainstBlock = pairStats.bad_against?.length
+      ? "Contres principaux :\n" + pairStats.bad_against
+          .map((p: any) => `- ${monsterIdToName[p.b_monster_id] ?? p.b_monster_id} (WR: ${p.win_against_rate}%)`)
+          .join("\n")
+      : "Contres principaux : Non disponibles";
+
+
+      // Runages
+      const runesBlock = avgStats
+        ? `
+  Runages les plus joués :
+  - ${avgStats.Set1}
+  ${avgStats.Set2 ? `- ${avgStats.Set2}` : ""}
+  ${avgStats.Set3 ? `- ${avgStats.Set3}` : ""}
+  `.trim()
+        : "Runages : Non disponibles";
+
+      // Artifacts
+      const artifactsBlock = avgStats
+        ? `
+  Artifacts fréquents :
+  - Slot 1 :
+  ${(avgStats["Arti 1"] || []).map((a: string) => `  • ${a}`).join("\n")}
+  - Slot 2 :
+  ${(avgStats["Arti 2"] || []).map((a: string) => `  • ${a}`).join("\n")}
+  `.trim()
+        : "Artifacts : Non disponibles";
+
+      // Leader skill
+      let leaderSkillBlock = "Leader Skill : Aucun";
+      if (monster.leader_skill) {
+        const ls = monster.leader_skill;
+        leaderSkillBlock = `
+  Leader Skill :
+  - +${ls.amount}% ${ls.attribute} pour ${
+          ls.area === "Element" ? `les monstres ${ls.element}` : ls.area
+        }
+  `.trim();
+      }
+
+      // Skills
+      const skillsBlock =
+        monster.skills && monster.skills.length > 0
+          ? monster.skills
+              .map(
+                (skill: any, index: number) =>
+                  `${index + 1}. ${skill.name} : ${skill.description}`
+              )
+              .join("\n")
+          : "Aucun skill disponible";
+
+      return `
+  Monstre : ${monster.name} (${monster.element}, ${monster.archetype})
+
+  ${statsBlock}
+
+  ${averageStatsBlock}
+
+  ${runesBlock}
+
+  ${artifactsBlock}
+
+  ${leaderSkillBlock}
+
+  Skills :
+  ${skillsBlock}
+
+  Win-rates Infos : 
+  
+  ${bestWithBlock}
+
+  ${badAgainstBlock}
+  `.trim();
+    });
+  
+  
+    return `
+  === Contexte RAG : Monstres & Compétences ===
+  ${ragBlocks.join("\n\n")}
+  --- Monstres Disponibles (infos légères) ---
+  ${lightRagBlocks.join("\n\n")}
+  `.trim();
+  
+}
+
+
+const pythonApiUrl = process.env.PYTHON_API_URL || "http://swarm-backend:8000";
+
+export async function getNeuralNet_infos(draftState: any,playerBPossibleCounter:any) {
+  const res = await fetch(`${pythonApiUrl}/neural-net`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({...draftState,playerBPossibleCounter})
+  });
+  const data = await res.text();  
+  return data;
 }
 
 // ============================================================================
@@ -401,7 +654,9 @@ export async function generateRecommendation(draftData: {
   currentPhase: "picking" | "banning" | "completed";
   currentTurn: number;
   firstPlayer: "A" | "B";
-}): Promise<string> {
+  playerAAvailableIds:number[];
+}
+): Promise<string> {
   try {
     // Load monsters to get names
     const allMonsters = await loadMonsters();
@@ -419,27 +674,40 @@ export async function generateRecommendation(draftData: {
       playerBPicks: draftData.playerBPicks.map((id) => getMonsterName(id)),
       playerABans: draftData.playerABans?.map((id) => getMonsterName(id)),
       playerBBans: draftData.playerBBans?.map((id) => getMonsterName(id)),
+      playerAAvailable: draftData.playerAAvailableIds.map((id) => getMonsterName(id)),
     };
 
     // Build context with monster names
     const draftContext = buildDraftContext(draftData, monsterNames);
 
     // Get RAG context (if implemented)
-    const ragContext = await getRAGContext(draftData);
+    let ragContext = await getRAGContext(draftData);
+    // 🔍 DEBUG : afficher le RAG dans la console
+    console.log("========== RAG CONTEXT ==========");
+    console.log(ragContext || "(RAG vide)");
+    console.log("=================================");
 
+    ragContext = ragContext ? `Contexte additionnel (RAG):\n${ragContext}` : "";
     // Build the full prompt
-    let userPrompt = buildUserPrompt(
+    // Obtenir le contexte depuis le NN
+    const nnContext = await getNeuralNet_infos(draftData,[0]);
+    const userPrompt = buildUserPrompt(
       draftContext,
       draftData.currentPhase,
+      ragContext,
+      nnContext,
       monsterNames
+      
     );
 
-    // Add RAG context if available
-    if (ragContext) {
-      userPrompt = `${userPrompt}\n\nContexte additionnel (RAG):\n${ragContext}`;
-    }
-
+    // 🔍 DEBUG : afficher le Prompt dans la console
+    console.log("========== Prompt ==========");
+    console.log(userPrompt || "(Prompt vide)");
+    console.log("=================================");
     // Call the LLM
+    console.log(userPrompt.length)
+    
+    console.log(nnContext)
     const recommendation = await callLLM(userPrompt);
 
     return recommendation;
