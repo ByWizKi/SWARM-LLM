@@ -16,13 +16,27 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  # Backend Python (API pour LLM)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: swarm-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - postgres
     networks:
       - swarm-network
+    restart: unless-stopped
 
-  # Application Next.js
+  # Webapp Next.js
   app:
     build:
-      context: .
+      context: ./webapp
       dockerfile: Dockerfile
     container_name: swarm-app
     ports:
@@ -32,13 +46,14 @@ services:
       - DATABASE_URL=postgresql://${POSTGRES_USER:-swarm_user}:${POSTGRES_PASSWORD:-swarm_password}@postgres:5432/${POSTGRES_DB:-swarm_db}
       - NEXTAUTH_URL=http://localhost:3000
       - NEXTAUTH_SECRET=${NEXTAUTH_SECRET:-change-this-secret-in-production}
+      - BACKEND_URL=http://backend:8000  # pour que la webapp connaisse l'API
     depends_on:
-      postgres:
-        condition: service_healthy
+      - postgres
+      - backend
     volumes:
-      - ../monsters_rta.json:/app/monsters_rta.json:ro
-      - ./data/monsters.json:/app/data/monsters.json:ro
-      - ./prisma:/app/prisma:ro
+      - ./monsters_rta.json:/app/monsters_rta.json:ro
+      - ./webapp/data/monsters.json:/app/data/monsters.json:ro
+      - ./webapp/prisma:/app/prisma:ro
     networks:
       - swarm-network
     restart: unless-stopped
@@ -49,4 +64,3 @@ volumes:
 networks:
   swarm-network:
     driver: bridge
-

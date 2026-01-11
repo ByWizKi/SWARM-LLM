@@ -1,5 +1,6 @@
+
 services:
-  # Base de données PostgreSQL pour le développement
+  # Base de données PostgreSQL pour dev
   postgres:
     image: postgres:16-alpine
     container_name: swarm-postgres-dev
@@ -11,7 +12,7 @@ services:
       - "5433:5432"
     volumes:
       - postgres_data_dev:/var/lib/postgresql/data
-      - ./docker/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+      - ./webapp/docker/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-swarm_user} -d ${POSTGRES_DB:-swarm_db}"]
       interval: 10s
@@ -20,10 +21,10 @@ services:
     networks:
       - swarm-network-dev
 
-  # Application Next.js en mode développement
+  # Application Next.js en dev
   app:
     build:
-      context: .
+      context: ./webapp
       dockerfile: Dockerfile.dev
     container_name: swarm-app-dev
     ports:
@@ -34,18 +35,34 @@ services:
       - POSTGRES_HOST=postgres
       - NEXTAUTH_URL=http://localhost:3000
       - NEXTAUTH_SECRET=${NEXTAUTH_SECRET:-dev-secret-change-in-production}
+      - BACKEND_URL=http://backend:8000
     depends_on:
       postgres:
         condition: service_healthy
     volumes:
-      - .:/app
+      - ./webapp:/app
       - /app/node_modules
       - /app/.next
-      - ../monsters_rta.json:/app/monsters_rta.json:ro
+      - ./monsters_rta.json:/app/monsters_rta.json:ro
     networks:
       - swarm-network-dev
     command: sh -c "npx prisma db push --accept-data-loss && node scripts/init-db.js && npm run dev"
     restart: unless-stopped
+
+  # Backend Python
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: swarm-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    networks:
+      - swarm-network-dev
+    restart: unless-stopped
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 
 volumes:
   postgres_data_dev:
@@ -53,4 +70,3 @@ volumes:
 networks:
   swarm-network-dev:
     driver: bridge
-
