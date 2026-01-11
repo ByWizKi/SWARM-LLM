@@ -122,14 +122,14 @@ Dans les paramètres du projet Vercel, allez dans **Settings > General** :
 
 Allez dans **Settings > Environment Variables** et ajoutez :
 
-| Variable              | Description                                    | Exemple                                                     |
-| --------------------- | ---------------------------------------------- | ----------------------------------------------------------- |
-| `DATABASE_URL`        | URL de connexion PostgreSQL (directe)          | `postgresql://user:password@host:5432/dbname`               |
-| `PRISMA_DATABASE_URL` | URL Prisma Accelerate (recommandé, avec cache) | `prisma+postgres://accelerate.prisma-data.net/?api_key=...` |
-| `POSTGRES_URL`        | (Optionnel) Alias de DATABASE_URL              | `postgresql://user:password@host:5432/dbname`               |
-| `NEXTAUTH_SECRET`     | Secret pour NextAuth (générez-en un)           | Utilisez : `openssl rand -base64 32`                        |
-| `NEXTAUTH_URL`        | URL de votre application                       | `https://votre-app.vercel.app`                              |
-| `GEMINI_API_KEY`      | Clé API Google Gemini                          | Votre clé API Gemini                                        |
+| Variable              | Description                                       | Exemple                                                     |
+| --------------------- | ------------------------------------------------- | ----------------------------------------------------------- |
+| `DATABASE_URL`        | URL de connexion PostgreSQL (directe)             | `postgresql://user:password@host:5432/dbname`               |
+| `PRISMA_DATABASE_URL` | URL Prisma Accelerate (recommandé, avec cache)    | `prisma+postgres://accelerate.prisma-data.net/?api_key=...` |
+| `POSTGRES_URL`        | (Optionnel) Alias de DATABASE_URL                 | `postgresql://user:password@host:5432/dbname`               |
+| `NEXTAUTH_SECRET`     | Secret pour NextAuth (générez-en un)              | Utilisez : `openssl rand -base64 32`                        |
+| `NEXTAUTH_URL`        | URL de votre application                          | `https://votre-app.vercel.app`                              |
+| `GEMINI_API_KEY`      | Clé API Google Gemini                             | Votre clé API Gemini                                        |
 | `INIT_DB_SECRET`      | Secret pour l'initialisation de la DB (optionnel) | Générez avec : `openssl rand -base64 32`                    |
 
 **Note importante :**
@@ -265,7 +265,12 @@ vercel --prod
 
 2. **Fichiers statiques** : Les images des monstres dans `public/images/` seront déployées automatiquement.
 
-3. **Monsters data** : Le fichier `monsters_rta.json` doit être accessible. Vérifiez qu'il est bien dans le repository.
+3. **Monsters data** : 
+   - Le fichier `monsters_rta.json` doit être dans `webapp/` et commité dans le repository
+   - Les images des monstres doivent être dans `webapp/public/images/` (633 images PNG)
+   - Next.js sert automatiquement les fichiers du dossier `public/` comme fichiers statiques
+   - Les images sont accessibles via `/images/unit_icon_XXXX_X_X.png`
+   - Vérifiez que tous les fichiers sont bien commités : `git ls-files webapp/`
 
 4. **Build optimizations** : Vercel optimise automatiquement les builds Next.js. Vous n'avez pas besoin de configuration supplémentaire.
 
