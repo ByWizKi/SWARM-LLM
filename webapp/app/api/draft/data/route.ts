@@ -14,6 +14,9 @@ import {
   exportDraftHistory,
 } from "@/lib/draft-data-collector";
 
+// Force dynamic rendering since we use searchParams
+export const dynamic = 'force-dynamic';
+
 /**
  * GET /api/draft/data
  * Retrieve draft history
