@@ -16,6 +16,7 @@ import {
 
 // Force dynamic rendering since we use searchParams
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 /**
  * GET /api/draft/data
