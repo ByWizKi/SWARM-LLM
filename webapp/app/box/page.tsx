@@ -47,6 +47,11 @@ export default function BoxPage() {
   const loadMonsters = async () => {
     try {
       const response = await fetch("/api/monsters");
+      if (!response.ok) {
+        console.error("Erreur HTTP:", response.status, response.statusText);
+        setMonsters([]);
+        return;
+      }
       const data = await response.json();
       // S'assurer que chaque monstre a un ID unique (utiliser l'index si pas d'ID)
       const monstersWithIds = (data.monstres || []).map((monster: Monster, index: number) => ({
@@ -56,6 +61,7 @@ export default function BoxPage() {
       setMonsters(monstersWithIds);
     } catch (error) {
       console.error("Erreur lors du chargement des monstres:", error);
+      setMonsters([]);
     } finally {
       setLoading(false);
     }
