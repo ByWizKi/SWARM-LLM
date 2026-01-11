@@ -13,11 +13,12 @@ export const runtime = 'nodejs';
 export async function GET() {
   try {
     // Essayer plusieurs chemins possibles pour monsters_rta.json
+    // Sur Vercel, process.cwd() pointe vers /var/task/webapp
+    const cwd = process.cwd();
     const possiblePaths = [
-      join(process.cwd(), "monsters_rta.json"), // Dans Docker: /app/monsters_rta.json, Vercel: /var/task/webapp/monsters_rta.json
-      join(process.cwd(), "..", "monsters_rta.json"), // En local depuis webapp/: ../monsters_rta.json
+      join(cwd, "monsters_rta.json"), // Vercel: /var/task/webapp/monsters_rta.json
+      join(cwd, "..", "monsters_rta.json"), // En local depuis webapp/: ../monsters_rta.json
       "/app/monsters_rta.json", // Chemin absolu Docker
-      join(__dirname, "..", "..", "..", "monsters_rta.json"), // Chemin relatif depuis la route
     ];
 
     let fileContent: string | null = null;
