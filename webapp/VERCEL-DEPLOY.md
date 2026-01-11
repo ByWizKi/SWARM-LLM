@@ -54,17 +54,32 @@ Vercel ne fournit pas de base de données PostgreSQL directement. Vous devez uti
 
 Une fois votre base de données créée, vous devez initialiser le schéma Prisma :
 
+### Option A : Via l'API d'initialisation (Recommandé pour Vercel)
+
+1. Ajoutez une variable d'environnement `INIT_DB_SECRET` dans Vercel (générez un secret avec `openssl rand -base64 32`)
+2. Après le premier déploiement, appelez cette URL :
+   ```
+   https://votre-app.vercel.app/api/db/init?secret=VOTRE_SECRET
+   ```
+3. Cela créera automatiquement toutes les tables nécessaires
+
+### Option B : Via Prisma CLI (Localement)
+
 ```bash
-# Localement, avec votre DATABASE_URL
+# Localement, avec votre DATABASE_URL de production
 cd webapp
-npx prisma db push
+DATABASE_URL="votre-url-production" npx prisma db push
 ```
 
-Ou utilisez Prisma Studio pour créer manuellement un utilisateur admin :
+### Option C : Via Prisma Studio
 
 ```bash
-npx prisma studio
+# Localement, avec votre DATABASE_URL de production
+cd webapp
+DATABASE_URL="votre-url-production" npx prisma studio
 ```
+
+**Important :** Si vous utilisez Prisma Accelerate (`PRISMA_DATABASE_URL`), vous devez utiliser `DATABASE_URL` pour les opérations d'écriture comme `db push`. Prisma Accelerate est principalement pour les lectures.
 
 ## Étape 3 : Créer un compte Vercel et connecter le repository
 
@@ -115,6 +130,7 @@ Allez dans **Settings > Environment Variables** et ajoutez :
 | `NEXTAUTH_SECRET`     | Secret pour NextAuth (générez-en un)           | Utilisez : `openssl rand -base64 32`                        |
 | `NEXTAUTH_URL`        | URL de votre application                       | `https://votre-app.vercel.app`                              |
 | `GEMINI_API_KEY`      | Clé API Google Gemini                          | Votre clé API Gemini                                        |
+| `INIT_DB_SECRET`      | Secret pour l'initialisation de la DB (optionnel) | Générez avec : `openssl rand -base64 32`                    |
 
 **Note importante :**
 

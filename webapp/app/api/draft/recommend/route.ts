@@ -92,7 +92,7 @@ export async function POST(request: NextRequest) {
 
     // Déterminer si c'est le tour du joueur A (celui qui utilise l'app)
     const totalPicks = playerAPicks.length + playerBPicks.length;
-    
+
     // Calculer l'index du tour actuel (0-5) à partir du nombre total de picks
     // getCurrentTurnInfo attend l'index du tour, pas le nombre total de picks
     // L'index du tour correspond au nombre de tours complets effectués
@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
       const turn = RTADraftRules.pickOrder[i];
       const picksBeforeThisTurn = picksCounted;
       picksCounted += turn.picks;
-      
+
       // Si le nombre total de picks est inférieur au nombre de picks après ce tour,
       // on est dans ce tour
       if (totalPicks < picksCounted) {
@@ -120,17 +120,17 @@ export async function POST(request: NextRequest) {
         currentTurnIndex = i;
       }
     }
-    
+
     // Limiter l'index au nombre maximum de tours
     if (currentTurnIndex >= RTADraftRules.pickOrder.length) {
       currentTurnIndex = RTADraftRules.pickOrder.length - 1;
     }
-    
+
     const currentTurnInfo = RTADraftRules.getCurrentTurnInfo(
       currentTurnIndex,
       firstPlayer
     );
-    
+
     // Log pour déboguer
     console.log("[DEBUG] État du draft:", {
       totalPicks,
@@ -146,7 +146,7 @@ export async function POST(request: NextRequest) {
 
     // Calculer si c'est le tour du joueur A
     let isPlayerATurn = false;
-    
+
     if (currentPhase === "picking") {
       // En phase de picking, vérifier que c'est le tour du joueur A
       // Si currentTurnInfo est null, on peut quand même permettre si c'est le premier pick
@@ -174,7 +174,7 @@ export async function POST(request: NextRequest) {
     if (!isPlayerATurn) {
       console.log("[DEBUG] Rejeté: Ce n'est pas le tour du joueur A");
       return NextResponse.json(
-        { 
+        {
           error: "Ce n'est pas votre tour",
           debug: {
             currentPhase,
