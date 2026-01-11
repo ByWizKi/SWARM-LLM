@@ -36,7 +36,9 @@ export async function GET(request: NextRequest) {
     //   return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
     // }
 
-    const searchParams = request.nextUrl.searchParams;
+    // Accéder aux searchParams de manière dynamique
+    const url = new URL(request.url);
+    const searchParams = url.searchParams;
     const format = searchParams.get("format") || "json";
     const monsterId = searchParams.get("monsterId");
     const startDate = searchParams.get("startDate");
