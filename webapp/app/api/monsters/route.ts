@@ -46,8 +46,8 @@ export async function GET() {
       console.error("[MONSTERS] Impossible de trouver monsters_rta.json");
       console.error("[MONSTERS] Erreurs:", errors);
       return NextResponse.json(
-        { 
-          error: "Impossible de trouver monsters_rta.json", 
+        {
+          error: "Impossible de trouver monsters_rta.json",
           monstres: [],
           debug: {
             cwd: process.cwd(),
@@ -120,8 +120,8 @@ export async function GET() {
   } catch (error) {
     console.error("[MONSTERS] Erreur lors du parsing de monsters_rta.json:", error);
     return NextResponse.json(
-      { 
-        error: "Erreur lors du traitement de monsters_rta.json", 
+      {
+        error: "Erreur lors du traitement de monsters_rta.json",
         monstres: [],
         details: error instanceof Error ? error.message : String(error)
       },

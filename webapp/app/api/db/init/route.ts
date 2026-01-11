@@ -6,13 +6,13 @@ export const dynamic = 'force-dynamic';
 
 /**
  * Route API pour vérifier l'état de la base de données
- * 
+ *
  * Cette route vérifie si les tables existent dans la base de données.
- * 
+ *
  * Pour l'utiliser:
  * 1. Appelez GET /api/db/init?secret=YOUR_SECRET
  * 2. Le secret doit correspondre à INIT_DB_SECRET dans les variables d'environnement
- * 
+ *
  * NOTE: Cette route ne peut pas créer les tables dans Vercel (environnement serverless).
  * Vous devez utiliser `prisma db push` localement avec votre DATABASE_URL de production.
  */
@@ -25,7 +25,7 @@ export async function GET(request: Request) {
 
     if (!expectedSecret) {
       return NextResponse.json(
-        { 
+        {
           error: "INIT_DB_SECRET n'est pas configuré",
           instructions: "Ajoutez INIT_DB_SECRET dans vos variables d'environnement Vercel"
         },
@@ -46,7 +46,7 @@ export async function GET(request: Request) {
     try {
       const userCount = await prisma.user.count();
       console.log(`[DB_INIT] Vérification réussie: ${userCount} utilisateur(s) dans la base`);
-      
+
       return NextResponse.json({
         message: "Base de données initialisée correctement",
         status: "ok",
@@ -58,7 +58,7 @@ export async function GET(request: Request) {
       if (error?.code === 'P2021' || error?.message?.includes('does not exist')) {
         console.error("[DB_INIT] Les tables n'existent pas dans la base de données");
         return NextResponse.json(
-          { 
+          {
             error: "Les tables n'existent pas dans la base de données",
             instructions: [
               "1. Utilisez Prisma CLI localement pour initialiser la base:",
@@ -77,7 +77,7 @@ export async function GET(request: Request) {
           { status: 500 }
         );
       }
-      
+
       // Autre erreur
       throw error;
     }
