@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     console.log("[REGISTER] Tentative d'inscription pour:", body.name);
-    
+
     const { name, password } = registerSchema.parse(body);
 
     // Vérifier si le pseudo existe déjà (lecture - peut utiliser Accelerate)
@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
     if (error instanceof Error) {
       console.error("[REGISTER] Message d'erreur:", error.message);
       console.error("[REGISTER] Stack:", error.stack);
-      
+
       // Vérifier si c'est une erreur Prisma
       if (error.message.includes("P2002")) {
         return NextResponse.json(
@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
           { status: 400 }
         );
       }
-      
+
       if (error.message.includes("connection") || error.message.includes("database")) {
         return NextResponse.json(
           { error: "Erreur de connexion à la base de données. Veuillez réessayer plus tard." },
@@ -87,7 +87,7 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json(
-      { 
+      {
         error: "Une erreur est survenue lors de l'inscription",
         details: process.env.NODE_ENV === "development" ? (error instanceof Error ? error.message : String(error)) : undefined
       },

@@ -15,6 +15,19 @@ export async function GET() {
     // Essayer plusieurs chemins possibles pour monsters_rta.json
     // Sur Vercel, process.cwd() pointe vers /var/task/webapp
     const cwd = process.cwd();
+    
+    // Lister les fichiers dans le répertoire courant pour déboguer
+    try {
+      const { readdir } = await import('fs/promises');
+      const files = await readdir(cwd);
+      console.log("[MONSTERS] Fichiers dans cwd (premiers 20):", files.slice(0, 20));
+      console.log("[MONSTERS] Nombre total de fichiers:", files.length);
+      const hasMonstersFile = files.includes("monsters_rta.json");
+      console.log("[MONSTERS] monsters_rta.json présent:", hasMonstersFile);
+    } catch (e) {
+      console.log("[MONSTERS] Impossible de lister les fichiers:", e);
+    }
+    
     const possiblePaths = [
       join(cwd, "monsters_rta.json"), // Vercel: /var/task/webapp/monsters_rta.json
       join(cwd, "..", "monsters_rta.json"), // En local depuis webapp/: ../monsters_rta.json

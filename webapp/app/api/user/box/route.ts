@@ -100,7 +100,7 @@ export async function POST(request: NextRequest) {
   try {
     console.log("[BOX] Début de la mise à jour du box");
     const session = await getServerSession(authOptions);
-    
+
     if (!session) {
       console.log("[BOX] Erreur: Pas de session");
       return NextResponse.json(
@@ -119,7 +119,7 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
     console.log("[BOX] Body reçu:", { monstersCount: body.monsters?.length || 0 });
-    
+
     const { monsters } = updateBoxSchema.parse(body);
     const userId = session.user.id;
 
@@ -163,7 +163,7 @@ export async function POST(request: NextRequest) {
     if (error instanceof Error) {
       console.error("[BOX] Message d'erreur:", error.message);
       console.error("[BOX] Stack:", error.stack);
-      
+
       // Vérifier si c'est une erreur Prisma
       if (error.message.includes("P2002")) {
         return NextResponse.json(
@@ -171,10 +171,10 @@ export async function POST(request: NextRequest) {
           { status: 400 }
         );
       }
-      
+
       if (error.message.includes("does not exist") || error.message.includes("P2021")) {
         return NextResponse.json(
-          { 
+          {
             error: "La table monster_boxes n'existe pas dans la base de données",
             details: "Exécutez 'prisma db push' pour créer les tables"
           },
@@ -184,7 +184,7 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json(
-      { 
+      {
         error: "Erreur lors de la mise à jour du box",
         details: process.env.NODE_ENV === "development" ? (error instanceof Error ? error.message : String(error)) : undefined
       },
