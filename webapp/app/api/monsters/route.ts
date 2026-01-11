@@ -2,38 +2,61 @@ import { NextResponse } from "next/server";
 import { readFile } from "fs/promises";
 import { join } from "path";
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 /**
  * API Route pour récupérer la liste de tous les monstres disponibles
  * Charge depuis monsters_rta.json (monté dans Docker ou à la racine en local)
  */
 export async function GET() {
-  // Essayer plusieurs chemins possibles pour monsters_rta.json
-  const possiblePaths = [
-    join(process.cwd(), "monsters_rta.json"), // Dans Docker: /app/monsters_rta.json
-    join(process.cwd(), "..", "monsters_rta.json"), // En local depuis webapp/: ../monsters_rta.json
-  ];
+  try {
+    // Essayer plusieurs chemins possibles pour monsters_rta.json
+    const possiblePaths = [
+      join(process.cwd(), "monsters_rta.json"), // Dans Docker: /app/monsters_rta.json, Vercel: /var/task/webapp/monsters_rta.json
+      join(process.cwd(), "..", "monsters_rta.json"), // En local depuis webapp/: ../monsters_rta.json
+      "/app/monsters_rta.json", // Chemin absolu Docker
+      join(__dirname, "..", "..", "..", "monsters_rta.json"), // Chemin relatif depuis la route
+    ];
 
-  let fileContent: string | null = null;
-  let filePath: string | null = null;
+    let fileContent: string | null = null;
+    let filePath: string | null = null;
+    const errors: string[] = [];
 
-  // Essayer chaque chemin jusqu'à trouver le fichier
-  for (const path of possiblePaths) {
-    try {
-      fileContent = await readFile(path, "utf-8");
-      filePath = path;
-      break;
-    } catch (error) {
-      // Continuer avec le chemin suivant
-      continue;
+    console.log("[MONSTERS] process.cwd():", process.cwd());
+    console.log("[MONSTERS] Tentative de chargement depuis les chemins suivants:", possiblePaths);
+
+    // Essayer chaque chemin jusqu'à trouver le fichier
+    for (const path of possiblePaths) {
+      try {
+        fileContent = await readFile(path, "utf-8");
+        filePath = path;
+        console.log(`[MONSTERS] Fichier trouvé à: ${path} (${fileContent.length} caractères)`);
+        break;
+      } catch (error: any) {
+        errors.push(`${path}: ${error.message}`);
+        // Continuer avec le chemin suivant
+        continue;
+      }
     }
-  }
 
-  if (!fileContent) {
-    return NextResponse.json(
-      { error: "Impossible de trouver monsters_rta.json", monstres: [] },
-      { status: 500 }
-    );
-  }
+    if (!fileContent) {
+      console.error("[MONSTERS] Impossible de trouver monsters_rta.json");
+      console.error("[MONSTERS] Erreurs:", errors);
+      return NextResponse.json(
+        { 
+          error: "Impossible de trouver monsters_rta.json", 
+          monstres: [],
+          debug: {
+            cwd: process.cwd(),
+            pathsTried: possiblePaths,
+            errors: errors,
+          }
+        },
+        { status: 500 }
+      );
+    }
 
   try {
     const rawData = JSON.parse(fileContent);
@@ -95,9 +118,13 @@ export async function GET() {
       monstres,
     });
   } catch (error) {
-    console.error("Erreur lors du parsing de monsters_rta.json:", error);
+    console.error("[MONSTERS] Erreur lors du parsing de monsters_rta.json:", error);
     return NextResponse.json(
-      { error: "Erreur lors du traitement de monsters_rta.json", monstres: [] },
+      { 
+        error: "Erreur lors du traitement de monsters_rta.json", 
+        monstres: [],
+        details: error instanceof Error ? error.message : String(error)
+      },
       { status: 500 }
     );
   }
