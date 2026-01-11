@@ -115,14 +115,26 @@ export async function POST(request: NextRequest) {
     
     if (currentPhase === "picking") {
       // En phase de picking, vérifier que c'est le tour du joueur A
-      isPlayerATurn = currentTurnInfo?.currentPlayer === "A";
+      // Si currentTurnInfo est null, on peut quand même permettre si c'est le premier pick
+      if (currentTurnInfo) {
+        isPlayerATurn = currentTurnInfo.currentPlayer === "A";
+      } else {
+        // Si currentTurnInfo est null, vérifier si c'est le premier pick du joueur A
+        // (totalPicks === 0 et firstPlayer === "A")
+        isPlayerATurn = totalPicks === 0 && firstPlayer === "A";
+      }
     } else if (currentPhase === "banning") {
       // En phase de banning, le joueur A peut bannir si il n'a pas encore banni
       isPlayerATurn = playerABans.length === 0;
     }
 
     // Log pour déboguer
-    console.log("[DEBUG] isPlayerATurn:", isPlayerATurn);
+    console.log("[DEBUG] isPlayerATurn:", isPlayerATurn, {
+      currentPhase,
+      currentTurnInfo: currentTurnInfo ? JSON.stringify(currentTurnInfo) : "null",
+      totalPicks,
+      firstPlayer,
+    });
 
     // Vérifier que c'est bien le tour du joueur A
     if (!isPlayerATurn) {
@@ -132,11 +144,16 @@ export async function POST(request: NextRequest) {
           error: "Ce n'est pas votre tour",
           debug: {
             currentPhase,
-            currentTurnInfo,
+            currentTurnInfo: currentTurnInfo ? {
+              turn: currentTurnInfo.turn,
+              currentPlayer: currentTurnInfo.currentPlayer,
+              picksRemaining: currentTurnInfo.picksRemaining,
+            } : null,
             isPlayerATurn,
             totalPicks,
             playerAPicks: playerAPicks.length,
             playerBPicks: playerBPicks.length,
+            firstPlayer,
           }
         },
         { status: 400 }
