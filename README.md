@@ -8,18 +8,17 @@ Pour un guide détaillé, consultez [webapp/README-SETUP.md](./webapp/README-SET
 
 ### Installation rapide
 
-1. Aller dans le dossier webapp
+1. Aller dans le dossier SWARM-LLM (la racine), vous y êtes déjà normalement
+
+
+2. Pour configurer l'environnement (optionnel)
    ```bash
    cd webapp
-   ```
-
-2. Configurer l'environnement (optionnel)
-   ```bash
    cp .env.example .env
    # Éditer .env et ajouter votre GEMINI_API_KEY
    ```
 
-3. Lancer avec Docker
+3. Lancer avec Docker depuis la racine SWARM-LLM
    ```bash
    docker-compose -f docker-compose.dev.yml up --build
    ```
@@ -34,18 +33,43 @@ Pour un guide détaillé, consultez [webapp/README-SETUP.md](./webapp/README-SET
 
 ```
 SWARM-LLM/
-├── webapp/              # Application web Next.js
-│   ├── app/            # Pages et routes
-│   ├── components/     # Composants React
-│   ├── lib/           # Utilitaires
-│   │   ├── llm-prompt.ts      # Configuration LLM (modifier ici pour les prompts)
-│   │   ├── gemini-client.ts   # Client API Gemini
-│   │   └── rta-rules.ts       # Règles de draft RTA
-│   ├── prisma/        # Schéma de base de données
-│   ├── scripts/       # Scripts utilitaires
-│   └── docker/        # Scripts Docker
-├── monsters_rta.json   # Fichier source des monstres
-└── README.md          # Ce fichier
+├── backend/                # API / ML backend
+│   ├── main.py             # Entrée du backend
+│   ├── my_model.py         # Modèle de prédiction
+│   ├── modele_predic.pt    # Poids du modèle
+│   ├── monsters_rta.json   # Monstres RTA utilisés par le backend
+│   └── requirements.txt    # Fichiers de librairie de Python
+│
+├── webapp/                 # Application web Next.js
+│   ├── app/                # Pages et routes
+│   │   ├── api/            # API routes
+│   │   │   ├── draft/      # Endpoints draft
+│   │   │   ├── monsters/   # Endpoints monstres
+│   │   │   └── user/box/   # Gestion du box utilisateur
+│   │   ├── auth/           # Sign-in / Sign-up
+│   │   ├── box/            # Page du box utilisateur
+│   │   ├── dashboard/      # Tableau de bord
+│   │   ├── draft/          # Page draft
+│   │   └── rules/          # Page règles
+│   │
+│   ├── components/         # Composants React
+│   ├── lib/                # Libs et utilitaires (auth, prisma, LLM, règles, etc.)
+│   │   ├── llm-prompt.ts   # Fichier de configuration des prompts pour le LLM 
+│   │   ├── gemini-client.ts    # Client API Gemini
+│   │   ├── rta-rules.ts    # Règles de draft de RTA
+│   ├── prisma/             # Schéma et migrations DB
+│   ├── public/             # Fichiers statiques / images
+│   └── scripts/            # Scripts utilitaires (convert, init DB)
+│
+├── monsters_rta.json       # Monstres RTA globaux (pour scripts ou docs)
+├── lib/                    # Scripts et utilitaires partagés
+├── scripts/                # Scripts généraux (conversion, téléchargement)
+├── images/                 # Images de référence
+├── .gitignore
+├── docker-compose.yml
+├── README.md
+
+
 ```
 
 ## Fonctionnalités
@@ -84,7 +108,7 @@ GEMINI_API_KEY=votre_cle_api_ici
 
 ## Commandes Utiles
 
-Dans le dossier `webapp/` :
+Dans le dossier racine `SWARM-LLM/` :
 
 ```bash
 # Lancer en mode développement

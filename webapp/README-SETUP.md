@@ -11,7 +11,7 @@
 
 ```bash
 git clone <repository-url>
-cd SWARM-LLM/webapp
+cd SWARM-LLM
 ```
 
 2. Démarrer les conteneurs Docker :
@@ -20,7 +20,7 @@ cd SWARM-LLM/webapp
 docker-compose -f docker-compose.dev.yml up --build
 ```
 
-3. Attendre que les services soient prêts (environ 30 secondes)
+3. Attendre que les services soient prêts (environ 8 à 10 minutes pour l'installation de torch)
 
 4. Accéder à l'application :
 
