@@ -655,6 +655,7 @@ export async function generateRecommendation(draftData: {
   try {
     // Étape 1: Load monsters to get names
     const loadStart = performance.now();
+    const perfStart = performance.now();
     const allMonsters = await loadMonsters();
     const loadTime = performance.now() - loadStart;
     console.log(
@@ -695,7 +696,9 @@ export async function generateRecommendation(draftData: {
     );
 
     // Get RAG context (if implemented)
+    const ragStart= performance.now();
     let ragContext = await getRAGContext(draftData);
+    const ragTime = performance.now() - ragStart;
     // 🔍 DEBUG : afficher le RAG dans la console
     console.log("========== RAG CONTEXT ==========");
     console.log(ragContext || "(RAG vide)");
@@ -705,6 +708,7 @@ export async function generateRecommendation(draftData: {
     // Build the full prompt
     // Obtenir le contexte depuis le NN
     const nnContext = await getNeuralNet_infos(draftData,[0]);
+    const promptStart =  performance.now();
     const userPrompt = buildUserPrompt(
       draftContext,
       draftData.currentPhase,
@@ -713,6 +717,7 @@ export async function generateRecommendation(draftData: {
       monsterNames
       
     );
+    const promptTime = performance.now() - promptStart;
 
     // 🔍 DEBUG : afficher le Prompt dans la console
     console.log("========== Prompt ==========");
@@ -722,6 +727,7 @@ export async function generateRecommendation(draftData: {
     console.log(userPrompt.length)
     
     console.log(nnContext)
+    const llmStart = performance.now()
     const recommendation = await callLLM(userPrompt);
     const llmTime = performance.now() - llmStart;
     console.log(

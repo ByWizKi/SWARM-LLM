@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-
+    const startTime = performance.now();//pour regarder le temps de la requete + rag
     // Générer la recommandation en utilisant le fichier centralisé
     const recommendation = await generateRecommendation({
       playerAPicks,
@@ -208,17 +208,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Générer la recommandation en utilisant le fichier centralisé
-    const recommendation = await generateRecommendation({
-      playerAPicks,
-      playerBPicks,
-      playerABans,
-      playerBBans,
-      currentPhase,
-      currentTurn,
-      firstPlayer,
-      userMonsters, // Passer les monstres disponibles dans le box du joueur A (filtrés)
-    });
+    
 
     const totalTime = performance.now() - startTime;
     console.log(`[PERF] Temps total de génération: ${totalTime.toFixed(2)}ms`);
