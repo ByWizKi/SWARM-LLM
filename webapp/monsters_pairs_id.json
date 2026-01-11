@@ -1,0 +1,9268 @@
+{
+  "10514": {
+    "best_with": [
+      {
+        "b_monster_id": 16613,
+        "win_together_rate": 48.99
+      },
+      {
+        "b_monster_id": 23114,
+        "win_together_rate": 46.88
+      },
+      {
+        "b_monster_id": 14414,
+        "win_together_rate": 46.11
+      },
+      {
+        "b_monster_id": 24514,
+        "win_together_rate": 45.66
+      },
+      {
+        "b_monster_id": 13815,
+        "win_together_rate": 45.4
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 30512,
+        "win_against_rate": 39.84
+      },
+      {
+        "b_monster_id": 24511,
+        "win_against_rate": 42.54
+      },
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 48.64
+      },
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 48.87
+      },
+      {
+        "b_monster_id": 25313,
+        "win_against_rate": 50.0
+      }
+    ]
+  },
+  "11615": {
+    "best_with": [
+      {
+        "b_monster_id": 21415,
+        "win_together_rate": 53.04
+      },
+      {
+        "b_monster_id": 25211,
+        "win_together_rate": 51.21
+      },
+      {
+        "b_monster_id": 23115,
+        "win_together_rate": 50.68
+      },
+      {
+        "b_monster_id": 25011,
+        "win_together_rate": 50.49
+      },
+      {
+        "b_monster_id": 31315,
+        "win_together_rate": 49.84
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16612,
+        "win_against_rate": 47.45
+      }
+    ]
+  },
+  "13413": {
+    "best_with": [
+      {
+        "b_monster_id": 24714,
+        "win_together_rate": 53.16
+      },
+      {
+        "b_monster_id": 23114,
+        "win_together_rate": 46.94
+      },
+      {
+        "b_monster_id": 16613,
+        "win_together_rate": 40.78
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 22211,
+        "win_against_rate": 50.89
+      }
+    ]
+  },
+  "13515": {
+    "best_with": [
+      {
+        "b_monster_id": 31915,
+        "win_together_rate": 56.81
+      },
+      {
+        "b_monster_id": 23715,
+        "win_together_rate": 56.76
+      },
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 56.2
+      },
+      {
+        "b_monster_id": 28313,
+        "win_together_rate": 56.07
+      },
+      {
+        "b_monster_id": 23114,
+        "win_together_rate": 56.05
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 25013,
+        "win_against_rate": 44.26
+      },
+      {
+        "b_monster_id": 31315,
+        "win_against_rate": 45.29
+      },
+      {
+        "b_monster_id": 30914,
+        "win_against_rate": 45.34
+      },
+      {
+        "b_monster_id": 21514,
+        "win_against_rate": 46.26
+      },
+      {
+        "b_monster_id": 16114,
+        "win_against_rate": 46.42
+      }
+    ]
+  },
+  "13811": {
+    "best_with": [
+      {
+        "b_monster_id": 15712,
+        "win_together_rate": 55.76
+      },
+      {
+        "b_monster_id": 25013,
+        "win_together_rate": 50.32
+      },
+      {
+        "b_monster_id": 16812,
+        "win_together_rate": 49.91
+      },
+      {
+        "b_monster_id": 13812,
+        "win_together_rate": 49.73
+      },
+      {
+        "b_monster_id": 26813,
+        "win_together_rate": 48.8
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 42.21
+      },
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 46.18
+      }
+    ]
+  },
+  "13812": {
+    "best_with": [
+      {
+        "b_monster_id": 16115,
+        "win_together_rate": 57.11
+      },
+      {
+        "b_monster_id": 22614,
+        "win_together_rate": 55.96
+      },
+      {
+        "b_monster_id": 28311,
+        "win_together_rate": 55.17
+      },
+      {
+        "b_monster_id": 25115,
+        "win_together_rate": 54.57
+      },
+      {
+        "b_monster_id": 26912,
+        "win_together_rate": 54.26
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 30613,
+        "win_against_rate": 40.73
+      },
+      {
+        "b_monster_id": 32311,
+        "win_against_rate": 41.55
+      },
+      {
+        "b_monster_id": 28311,
+        "win_against_rate": 42.04
+      },
+      {
+        "b_monster_id": 24714,
+        "win_against_rate": 43.74
+      },
+      {
+        "b_monster_id": 31315,
+        "win_against_rate": 44.15
+      }
+    ]
+  },
+  "13814": {
+    "best_with": [
+      {
+        "b_monster_id": 32314,
+        "win_together_rate": 55.26
+      },
+      {
+        "b_monster_id": 31213,
+        "win_together_rate": 54.57
+      },
+      {
+        "b_monster_id": 28914,
+        "win_together_rate": 54.47
+      },
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 53.46
+      },
+      {
+        "b_monster_id": 15712,
+        "win_together_rate": 53.38
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 21214,
+        "win_against_rate": 40.52
+      },
+      {
+        "b_monster_id": 21415,
+        "win_against_rate": 42.42
+      },
+      {
+        "b_monster_id": 18314,
+        "win_against_rate": 42.78
+      },
+      {
+        "b_monster_id": 26813,
+        "win_against_rate": 43.88
+      },
+      {
+        "b_monster_id": 17012,
+        "win_against_rate": 44.62
+      }
+    ]
+  },
+  "13815": {
+    "best_with": [
+      {
+        "b_monster_id": 21311,
+        "win_together_rate": 59.02
+      },
+      {
+        "b_monster_id": 20614,
+        "win_together_rate": 52.58
+      },
+      {
+        "b_monster_id": 21415,
+        "win_together_rate": 52.2
+      },
+      {
+        "b_monster_id": 18615,
+        "win_together_rate": 52.05
+      },
+      {
+        "b_monster_id": 14415,
+        "win_together_rate": 51.63
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 21513,
+        "win_against_rate": 38.27
+      },
+      {
+        "b_monster_id": 20512,
+        "win_against_rate": 40.55
+      },
+      {
+        "b_monster_id": 22211,
+        "win_against_rate": 43.16
+      },
+      {
+        "b_monster_id": 31112,
+        "win_against_rate": 43.53
+      },
+      {
+        "b_monster_id": 16615,
+        "win_against_rate": 43.53
+      }
+    ]
+  },
+  "14034": {
+    "best_with": [
+      {
+        "b_monster_id": 21114,
+        "win_together_rate": 58.6
+      },
+      {
+        "b_monster_id": 30313,
+        "win_together_rate": 57.49
+      },
+      {
+        "b_monster_id": 21514,
+        "win_together_rate": 56.96
+      },
+      {
+        "b_monster_id": 33214,
+        "win_together_rate": 56.77
+      },
+      {
+        "b_monster_id": 24515,
+        "win_together_rate": 56.61
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 25115,
+        "win_against_rate": 43.6
+      },
+      {
+        "b_monster_id": 28915,
+        "win_against_rate": 43.78
+      },
+      {
+        "b_monster_id": 28311,
+        "win_against_rate": 44.33
+      },
+      {
+        "b_monster_id": 31915,
+        "win_against_rate": 44.41
+      },
+      {
+        "b_monster_id": 30015,
+        "win_against_rate": 44.76
+      }
+    ]
+  },
+  "14411": {
+    "best_with": [
+      {
+        "b_monster_id": 30314,
+        "win_together_rate": 58.13
+      },
+      {
+        "b_monster_id": 23712,
+        "win_together_rate": 55.76
+      },
+      {
+        "b_monster_id": 20614,
+        "win_together_rate": 54.96
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 49.03
+      },
+      {
+        "b_monster_id": 23711,
+        "win_against_rate": 55.2
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 56.0
+      }
+    ]
+  },
+  "14413": {
+    "best_with": [
+      {
+        "b_monster_id": 15714,
+        "win_together_rate": 60.62
+      },
+      {
+        "b_monster_id": 29711,
+        "win_together_rate": 55.31
+      },
+      {
+        "b_monster_id": 26811,
+        "win_together_rate": 53.48
+      },
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 52.47
+      },
+      {
+        "b_monster_id": 15715,
+        "win_together_rate": 51.28
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 43.43
+      },
+      {
+        "b_monster_id": 21115,
+        "win_against_rate": 45.34
+      },
+      {
+        "b_monster_id": 26114,
+        "win_against_rate": 46.42
+      },
+      {
+        "b_monster_id": 15715,
+        "win_against_rate": 46.95
+      },
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 47.1
+      }
+    ]
+  },
+  "14414": {
+    "best_with": [
+      {
+        "b_monster_id": 13812,
+        "win_together_rate": 51.59
+      },
+      {
+        "b_monster_id": 26915,
+        "win_together_rate": 50.93
+      },
+      {
+        "b_monster_id": 23114,
+        "win_together_rate": 49.81
+      },
+      {
+        "b_monster_id": 16613,
+        "win_together_rate": 49.73
+      },
+      {
+        "b_monster_id": 20515,
+        "win_together_rate": 49.67
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16615,
+        "win_against_rate": 43.44
+      },
+      {
+        "b_monster_id": 21513,
+        "win_against_rate": 43.59
+      },
+      {
+        "b_monster_id": 28613,
+        "win_against_rate": 44.83
+      },
+      {
+        "b_monster_id": 21214,
+        "win_against_rate": 45.15
+      },
+      {
+        "b_monster_id": 24511,
+        "win_against_rate": 45.16
+      }
+    ]
+  },
+  "14415": {
+    "best_with": [
+      {
+        "b_monster_id": 24714,
+        "win_together_rate": 53.78
+      },
+      {
+        "b_monster_id": 13815,
+        "win_together_rate": 51.63
+      },
+      {
+        "b_monster_id": 23114,
+        "win_together_rate": 51.2
+      },
+      {
+        "b_monster_id": 16613,
+        "win_together_rate": 48.69
+      }
+    ],
+    "bad_against": []
+  },
+  "14514": {
+    "best_with": [
+      {
+        "b_monster_id": 13812,
+        "win_together_rate": 52.84
+      },
+      {
+        "b_monster_id": 24714,
+        "win_together_rate": 51.17
+      },
+      {
+        "b_monster_id": 22913,
+        "win_together_rate": 50.94
+      },
+      {
+        "b_monster_id": 31315,
+        "win_together_rate": 50.81
+      },
+      {
+        "b_monster_id": 24514,
+        "win_together_rate": 50.77
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 21513,
+        "win_against_rate": 39.35
+      },
+      {
+        "b_monster_id": 22211,
+        "win_against_rate": 41.85
+      },
+      {
+        "b_monster_id": 21111,
+        "win_against_rate": 42.99
+      },
+      {
+        "b_monster_id": 16114,
+        "win_against_rate": 44.66
+      },
+      {
+        "b_monster_id": 24511,
+        "win_against_rate": 44.89
+      }
+    ]
+  },
+  "14612": {
+    "best_with": [
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 54.61
+      },
+      {
+        "b_monster_id": 13812,
+        "win_together_rate": 53.19
+      },
+      {
+        "b_monster_id": 14034,
+        "win_together_rate": 51.11
+      },
+      {
+        "b_monster_id": 26113,
+        "win_together_rate": 50.76
+      },
+      {
+        "b_monster_id": 18314,
+        "win_together_rate": 50.55
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 21115,
+        "win_against_rate": 43.64
+      },
+      {
+        "b_monster_id": 26113,
+        "win_against_rate": 43.88
+      },
+      {
+        "b_monster_id": 30512,
+        "win_against_rate": 45.7
+      },
+      {
+        "b_monster_id": 21811,
+        "win_against_rate": 46.22
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 46.68
+      }
+    ]
+  },
+  "14614": {
+    "best_with": [
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 52.75
+      },
+      {
+        "b_monster_id": 25313,
+        "win_together_rate": 50.27
+      },
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 48.99
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16613,
+        "win_against_rate": 53.21
+      }
+    ]
+  },
+  "14615": {
+    "best_with": [
+      {
+        "b_monster_id": 17012,
+        "win_together_rate": 55.88
+      },
+      {
+        "b_monster_id": 23115,
+        "win_together_rate": 55.6
+      },
+      {
+        "b_monster_id": 18314,
+        "win_together_rate": 55.41
+      },
+      {
+        "b_monster_id": 13515,
+        "win_together_rate": 55.22
+      },
+      {
+        "b_monster_id": 19712,
+        "win_together_rate": 54.76
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 33214,
+        "win_against_rate": 44.05
+      },
+      {
+        "b_monster_id": 30314,
+        "win_against_rate": 45.04
+      },
+      {
+        "b_monster_id": 16114,
+        "win_against_rate": 45.41
+      },
+      {
+        "b_monster_id": 16815,
+        "win_against_rate": 45.58
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 46.14
+      }
+    ]
+  },
+  "14712": {
+    "best_with": [
+      {
+        "b_monster_id": 19714,
+        "win_together_rate": 57.71
+      },
+      {
+        "b_monster_id": 15714,
+        "win_together_rate": 56.71
+      },
+      {
+        "b_monster_id": 21514,
+        "win_together_rate": 55.05
+      },
+      {
+        "b_monster_id": 31915,
+        "win_together_rate": 54.19
+      },
+      {
+        "b_monster_id": 21115,
+        "win_together_rate": 53.74
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 28915,
+        "win_against_rate": 42.44
+      },
+      {
+        "b_monster_id": 28112,
+        "win_against_rate": 42.82
+      },
+      {
+        "b_monster_id": 26113,
+        "win_against_rate": 44.88
+      },
+      {
+        "b_monster_id": 21214,
+        "win_against_rate": 45.5
+      },
+      {
+        "b_monster_id": 16615,
+        "win_against_rate": 45.82
+      }
+    ]
+  },
+  "14714": {
+    "best_with": [
+      {
+        "b_monster_id": 16611,
+        "win_together_rate": 53.53
+      },
+      {
+        "b_monster_id": 27214,
+        "win_together_rate": 53.29
+      },
+      {
+        "b_monster_id": 28214,
+        "win_together_rate": 52.47
+      },
+      {
+        "b_monster_id": 26113,
+        "win_together_rate": 51.64
+      },
+      {
+        "b_monster_id": 17012,
+        "win_together_rate": 51.23
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 28915,
+        "win_against_rate": 41.27
+      },
+      {
+        "b_monster_id": 14034,
+        "win_against_rate": 43.07
+      },
+      {
+        "b_monster_id": 16815,
+        "win_against_rate": 43.47
+      },
+      {
+        "b_monster_id": 28313,
+        "win_against_rate": 43.79
+      },
+      {
+        "b_monster_id": 23712,
+        "win_against_rate": 44.94
+      }
+    ]
+  },
+  "15035": {
+    "best_with": [],
+    "bad_against": [
+      {
+        "b_monster_id": 23114,
+        "win_against_rate": 54.79
+      },
+      {
+        "b_monster_id": 16613,
+        "win_against_rate": 60.17
+      }
+    ]
+  },
+  "15712": {
+    "best_with": [
+      {
+        "b_monster_id": 31314,
+        "win_together_rate": 57.97
+      },
+      {
+        "b_monster_id": 30914,
+        "win_together_rate": 57.78
+      },
+      {
+        "b_monster_id": 13811,
+        "win_together_rate": 55.76
+      },
+      {
+        "b_monster_id": 30015,
+        "win_together_rate": 55.36
+      },
+      {
+        "b_monster_id": 33214,
+        "win_together_rate": 55.29
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 28915,
+        "win_against_rate": 38.73
+      },
+      {
+        "b_monster_id": 21012,
+        "win_against_rate": 41.75
+      },
+      {
+        "b_monster_id": 28115,
+        "win_against_rate": 42.95
+      },
+      {
+        "b_monster_id": 33214,
+        "win_against_rate": 43.07
+      },
+      {
+        "b_monster_id": 22611,
+        "win_against_rate": 43.29
+      }
+    ]
+  },
+  "15713": {
+    "best_with": [
+      {
+        "b_monster_id": 22112,
+        "win_together_rate": 57.51
+      },
+      {
+        "b_monster_id": 23515,
+        "win_together_rate": 56.44
+      },
+      {
+        "b_monster_id": 33214,
+        "win_together_rate": 55.9
+      },
+      {
+        "b_monster_id": 16814,
+        "win_together_rate": 54.87
+      },
+      {
+        "b_monster_id": 21211,
+        "win_together_rate": 53.67
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16115,
+        "win_against_rate": 43.07
+      },
+      {
+        "b_monster_id": 13515,
+        "win_against_rate": 44.72
+      },
+      {
+        "b_monster_id": 14414,
+        "win_against_rate": 44.97
+      },
+      {
+        "b_monster_id": 23114,
+        "win_against_rate": 45.15
+      },
+      {
+        "b_monster_id": 32811,
+        "win_against_rate": 45.17
+      }
+    ]
+  },
+  "15714": {
+    "best_with": [
+      {
+        "b_monster_id": 14413,
+        "win_together_rate": 60.62
+      },
+      {
+        "b_monster_id": 20512,
+        "win_together_rate": 57.62
+      },
+      {
+        "b_monster_id": 14712,
+        "win_together_rate": 56.71
+      },
+      {
+        "b_monster_id": 25011,
+        "win_together_rate": 56.7
+      },
+      {
+        "b_monster_id": 15715,
+        "win_together_rate": 54.53
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 15715,
+        "win_against_rate": 38.01
+      },
+      {
+        "b_monster_id": 26113,
+        "win_against_rate": 46.54
+      },
+      {
+        "b_monster_id": 21415,
+        "win_against_rate": 48.89
+      },
+      {
+        "b_monster_id": 25011,
+        "win_against_rate": 49.38
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 49.4
+      }
+    ]
+  },
+  "15715": {
+    "best_with": [
+      {
+        "b_monster_id": 17915,
+        "win_together_rate": 58.23
+      },
+      {
+        "b_monster_id": 29113,
+        "win_together_rate": 58.06
+      },
+      {
+        "b_monster_id": 22611,
+        "win_together_rate": 57.01
+      },
+      {
+        "b_monster_id": 28911,
+        "win_together_rate": 56.33
+      },
+      {
+        "b_monster_id": 31915,
+        "win_together_rate": 56.15
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 21115,
+        "win_against_rate": 44.65
+      },
+      {
+        "b_monster_id": 21314,
+        "win_against_rate": 45.0
+      },
+      {
+        "b_monster_id": 33414,
+        "win_against_rate": 45.01
+      },
+      {
+        "b_monster_id": 16115,
+        "win_against_rate": 45.25
+      },
+      {
+        "b_monster_id": 20714,
+        "win_against_rate": 45.34
+      }
+    ]
+  },
+  "16111": {
+    "best_with": [
+      {
+        "b_monster_id": 28311,
+        "win_together_rate": 53.27
+      },
+      {
+        "b_monster_id": 19712,
+        "win_together_rate": 53.18
+      },
+      {
+        "b_monster_id": 29114,
+        "win_together_rate": 52.91
+      },
+      {
+        "b_monster_id": 25015,
+        "win_together_rate": 52.86
+      },
+      {
+        "b_monster_id": 25011,
+        "win_together_rate": 52.74
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 31915,
+        "win_against_rate": 42.13
+      },
+      {
+        "b_monster_id": 28311,
+        "win_against_rate": 42.38
+      },
+      {
+        "b_monster_id": 28215,
+        "win_against_rate": 42.86
+      },
+      {
+        "b_monster_id": 30015,
+        "win_against_rate": 43.06
+      },
+      {
+        "b_monster_id": 28115,
+        "win_against_rate": 43.61
+      }
+    ]
+  },
+  "16113": {
+    "best_with": [
+      {
+        "b_monster_id": 16115,
+        "win_together_rate": 57.87
+      },
+      {
+        "b_monster_id": 24511,
+        "win_together_rate": 54.42
+      },
+      {
+        "b_monster_id": 14712,
+        "win_together_rate": 53.18
+      },
+      {
+        "b_monster_id": 26114,
+        "win_together_rate": 52.78
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 23711,
+        "win_against_rate": 59.48
+      }
+    ]
+  },
+  "16114": {
+    "best_with": [
+      {
+        "b_monster_id": 17913,
+        "win_together_rate": 57.58
+      },
+      {
+        "b_monster_id": 21314,
+        "win_together_rate": 56.9
+      },
+      {
+        "b_monster_id": 21514,
+        "win_together_rate": 56.47
+      },
+      {
+        "b_monster_id": 30613,
+        "win_together_rate": 55.53
+      },
+      {
+        "b_monster_id": 19714,
+        "win_together_rate": 55.5
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 25613,
+        "win_against_rate": 42.65
+      },
+      {
+        "b_monster_id": 16615,
+        "win_against_rate": 44.32
+      },
+      {
+        "b_monster_id": 21415,
+        "win_against_rate": 44.56
+      },
+      {
+        "b_monster_id": 16613,
+        "win_against_rate": 44.65
+      },
+      {
+        "b_monster_id": 18611,
+        "win_against_rate": 45.12
+      }
+    ]
+  },
+  "16115": {
+    "best_with": [
+      {
+        "b_monster_id": 16113,
+        "win_together_rate": 57.87
+      },
+      {
+        "b_monster_id": 13812,
+        "win_together_rate": 57.11
+      },
+      {
+        "b_monster_id": 23114,
+        "win_together_rate": 56.9
+      },
+      {
+        "b_monster_id": 26113,
+        "win_together_rate": 56.53
+      },
+      {
+        "b_monster_id": 21811,
+        "win_together_rate": 55.73
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 26113,
+        "win_against_rate": 47.51
+      },
+      {
+        "b_monster_id": 16111,
+        "win_against_rate": 47.94
+      },
+      {
+        "b_monster_id": 30512,
+        "win_against_rate": 48.31
+      },
+      {
+        "b_monster_id": 31112,
+        "win_against_rate": 48.74
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 49.67
+      }
+    ]
+  },
+  "16214": {
+    "best_with": [
+      {
+        "b_monster_id": 21415,
+        "win_together_rate": 50.0
+      }
+    ],
+    "bad_against": []
+  },
+  "16312": {
+    "best_with": [],
+    "bad_against": [
+      {
+        "b_monster_id": 21513,
+        "win_against_rate": 45.38
+      },
+      {
+        "b_monster_id": 25313,
+        "win_against_rate": 50.19
+      }
+    ]
+  },
+  "16611": {
+    "best_with": [
+      {
+        "b_monster_id": 26113,
+        "win_together_rate": 53.85
+      },
+      {
+        "b_monster_id": 25911,
+        "win_together_rate": 53.77
+      },
+      {
+        "b_monster_id": 14714,
+        "win_together_rate": 53.53
+      },
+      {
+        "b_monster_id": 14615,
+        "win_together_rate": 53.44
+      },
+      {
+        "b_monster_id": 33214,
+        "win_together_rate": 53.16
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 28313,
+        "win_against_rate": 40.65
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 41.92
+      },
+      {
+        "b_monster_id": 28613,
+        "win_against_rate": 42.46
+      },
+      {
+        "b_monster_id": 24713,
+        "win_against_rate": 42.56
+      },
+      {
+        "b_monster_id": 28311,
+        "win_against_rate": 42.65
+      }
+    ]
+  },
+  "16612": {
+    "best_with": [
+      {
+        "b_monster_id": 28613,
+        "win_together_rate": 53.08
+      },
+      {
+        "b_monster_id": 20512,
+        "win_together_rate": 52.23
+      },
+      {
+        "b_monster_id": 30512,
+        "win_together_rate": 51.86
+      },
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 51.2
+      },
+      {
+        "b_monster_id": 31112,
+        "win_together_rate": 50.62
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 26813,
+        "win_against_rate": 38.54
+      },
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 39.33
+      },
+      {
+        "b_monster_id": 15715,
+        "win_against_rate": 40.46
+      },
+      {
+        "b_monster_id": 25211,
+        "win_against_rate": 40.64
+      },
+      {
+        "b_monster_id": 24714,
+        "win_against_rate": 42.02
+      }
+    ]
+  },
+  "16613": {
+    "best_with": [
+      {
+        "b_monster_id": 18611,
+        "win_together_rate": 55.84
+      },
+      {
+        "b_monster_id": 28315,
+        "win_together_rate": 55.74
+      },
+      {
+        "b_monster_id": 32811,
+        "win_together_rate": 55.69
+      },
+      {
+        "b_monster_id": 18914,
+        "win_together_rate": 55.59
+      },
+      {
+        "b_monster_id": 16115,
+        "win_together_rate": 55.37
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 32311,
+        "win_against_rate": 35.63
+      },
+      {
+        "b_monster_id": 20415,
+        "win_against_rate": 37.79
+      },
+      {
+        "b_monster_id": 23114,
+        "win_against_rate": 38.1
+      },
+      {
+        "b_monster_id": 17915,
+        "win_against_rate": 38.7
+      },
+      {
+        "b_monster_id": 15035,
+        "win_against_rate": 39.83
+      }
+    ]
+  },
+  "16614": {
+    "best_with": [
+      {
+        "b_monster_id": 27214,
+        "win_together_rate": 57.42
+      },
+      {
+        "b_monster_id": 16613,
+        "win_together_rate": 54.21
+      },
+      {
+        "b_monster_id": 16812,
+        "win_together_rate": 53.42
+      },
+      {
+        "b_monster_id": 24712,
+        "win_together_rate": 52.97
+      },
+      {
+        "b_monster_id": 21115,
+        "win_together_rate": 52.03
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16815,
+        "win_against_rate": 42.93
+      },
+      {
+        "b_monster_id": 16111,
+        "win_against_rate": 45.25
+      },
+      {
+        "b_monster_id": 28613,
+        "win_against_rate": 45.87
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 46.16
+      },
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 48.03
+      }
+    ]
+  },
+  "16615": {
+    "best_with": [
+      {
+        "b_monster_id": 19215,
+        "win_together_rate": 58.03
+      },
+      {
+        "b_monster_id": 28311,
+        "win_together_rate": 56.3
+      },
+      {
+        "b_monster_id": 25614,
+        "win_together_rate": 55.91
+      },
+      {
+        "b_monster_id": 16815,
+        "win_together_rate": 55.87
+      },
+      {
+        "b_monster_id": 16811,
+        "win_together_rate": 55.4
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 28915,
+        "win_against_rate": 39.06
+      },
+      {
+        "b_monster_id": 22611,
+        "win_against_rate": 41.49
+      },
+      {
+        "b_monster_id": 20614,
+        "win_against_rate": 42.98
+      },
+      {
+        "b_monster_id": 21211,
+        "win_against_rate": 43.3
+      },
+      {
+        "b_monster_id": 26913,
+        "win_against_rate": 43.61
+      }
+    ]
+  },
+  "16811": {
+    "best_with": [
+      {
+        "b_monster_id": 30015,
+        "win_together_rate": 59.33
+      },
+      {
+        "b_monster_id": 28311,
+        "win_together_rate": 57.03
+      },
+      {
+        "b_monster_id": 32215,
+        "win_together_rate": 56.37
+      },
+      {
+        "b_monster_id": 33214,
+        "win_together_rate": 55.5
+      },
+      {
+        "b_monster_id": 16615,
+        "win_together_rate": 55.4
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 31314,
+        "win_against_rate": 43.97
+      },
+      {
+        "b_monster_id": 21514,
+        "win_against_rate": 44.27
+      },
+      {
+        "b_monster_id": 32215,
+        "win_against_rate": 44.37
+      },
+      {
+        "b_monster_id": 20714,
+        "win_against_rate": 45.0
+      },
+      {
+        "b_monster_id": 31814,
+        "win_against_rate": 45.31
+      }
+    ]
+  },
+  "16812": {
+    "best_with": [
+      {
+        "b_monster_id": 16614,
+        "win_together_rate": 53.42
+      },
+      {
+        "b_monster_id": 28313,
+        "win_together_rate": 52.7
+      },
+      {
+        "b_monster_id": 33214,
+        "win_together_rate": 52.4
+      },
+      {
+        "b_monster_id": 21514,
+        "win_together_rate": 52.26
+      },
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 52.23
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 28311,
+        "win_against_rate": 37.24
+      },
+      {
+        "b_monster_id": 23115,
+        "win_against_rate": 41.42
+      },
+      {
+        "b_monster_id": 28915,
+        "win_against_rate": 41.93
+      },
+      {
+        "b_monster_id": 16615,
+        "win_against_rate": 42.06
+      },
+      {
+        "b_monster_id": 31311,
+        "win_against_rate": 42.49
+      }
+    ]
+  },
+  "16813": {
+    "best_with": [
+      {
+        "b_monster_id": 28311,
+        "win_together_rate": 56.42
+      },
+      {
+        "b_monster_id": 33312,
+        "win_together_rate": 56.36
+      },
+      {
+        "b_monster_id": 18611,
+        "win_together_rate": 55.53
+      },
+      {
+        "b_monster_id": 21211,
+        "win_together_rate": 55.01
+      },
+      {
+        "b_monster_id": 28915,
+        "win_together_rate": 54.73
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16615,
+        "win_against_rate": 39.17
+      },
+      {
+        "b_monster_id": 30613,
+        "win_against_rate": 40.14
+      },
+      {
+        "b_monster_id": 33214,
+        "win_against_rate": 41.74
+      },
+      {
+        "b_monster_id": 28915,
+        "win_against_rate": 42.56
+      },
+      {
+        "b_monster_id": 25011,
+        "win_against_rate": 42.71
+      }
+    ]
+  },
+  "16814": {
+    "best_with": [
+      {
+        "b_monster_id": 25313,
+        "win_together_rate": 56.75
+      },
+      {
+        "b_monster_id": 15715,
+        "win_together_rate": 55.89
+      },
+      {
+        "b_monster_id": 15713,
+        "win_together_rate": 54.87
+      },
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 53.07
+      }
+    ],
+    "bad_against": []
+  },
+  "16815": {
+    "best_with": [
+      {
+        "b_monster_id": 33214,
+        "win_together_rate": 58.88
+      },
+      {
+        "b_monster_id": 28315,
+        "win_together_rate": 56.27
+      },
+      {
+        "b_monster_id": 16615,
+        "win_together_rate": 55.87
+      },
+      {
+        "b_monster_id": 23515,
+        "win_together_rate": 55.67
+      },
+      {
+        "b_monster_id": 22215,
+        "win_together_rate": 55.38
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 30313,
+        "win_against_rate": 44.11
+      },
+      {
+        "b_monster_id": 30015,
+        "win_against_rate": 44.32
+      },
+      {
+        "b_monster_id": 32215,
+        "win_against_rate": 44.95
+      },
+      {
+        "b_monster_id": 29111,
+        "win_against_rate": 45.48
+      },
+      {
+        "b_monster_id": 21111,
+        "win_against_rate": 46.08
+      }
+    ]
+  },
+  "17012": {
+    "best_with": [
+      {
+        "b_monster_id": 32311,
+        "win_together_rate": 58.71
+      },
+      {
+        "b_monster_id": 14615,
+        "win_together_rate": 55.88
+      },
+      {
+        "b_monster_id": 21211,
+        "win_together_rate": 55.46
+      },
+      {
+        "b_monster_id": 29112,
+        "win_together_rate": 53.96
+      },
+      {
+        "b_monster_id": 19712,
+        "win_together_rate": 53.85
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 28115,
+        "win_against_rate": 36.6
+      },
+      {
+        "b_monster_id": 21211,
+        "win_against_rate": 40.07
+      },
+      {
+        "b_monster_id": 16115,
+        "win_against_rate": 43.26
+      },
+      {
+        "b_monster_id": 33214,
+        "win_against_rate": 43.86
+      },
+      {
+        "b_monster_id": 18315,
+        "win_against_rate": 44.06
+      }
+    ]
+  },
+  "17014": {
+    "best_with": [
+      {
+        "b_monster_id": 26813,
+        "win_together_rate": 53.5
+      },
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 52.69
+      },
+      {
+        "b_monster_id": 16615,
+        "win_together_rate": 51.11
+      },
+      {
+        "b_monster_id": 21415,
+        "win_together_rate": 50.38
+      },
+      {
+        "b_monster_id": 16613,
+        "win_together_rate": 49.18
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 21415,
+        "win_against_rate": 42.94
+      },
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 46.73
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 47.87
+      },
+      {
+        "b_monster_id": 26113,
+        "win_against_rate": 50.0
+      },
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 50.34
+      }
+    ]
+  },
+  "17015": {
+    "best_with": [
+      {
+        "b_monster_id": 28915,
+        "win_together_rate": 54.33
+      },
+      {
+        "b_monster_id": 21415,
+        "win_together_rate": 51.59
+      },
+      {
+        "b_monster_id": 21115,
+        "win_together_rate": 50.54
+      }
+    ],
+    "bad_against": []
+  },
+  "17315": {
+    "best_with": [
+      {
+        "b_monster_id": 31315,
+        "win_together_rate": 45.5
+      },
+      {
+        "b_monster_id": 28215,
+        "win_together_rate": 44.85
+      },
+      {
+        "b_monster_id": 23114,
+        "win_together_rate": 44.28
+      },
+      {
+        "b_monster_id": 16613,
+        "win_together_rate": 44.1
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 43.54
+      },
+      {
+        "b_monster_id": 25313,
+        "win_against_rate": 46.67
+      }
+    ]
+  },
+  "17411": {
+    "best_with": [
+      {
+        "b_monster_id": 21211,
+        "win_together_rate": 57.76
+      },
+      {
+        "b_monster_id": 28215,
+        "win_together_rate": 55.11
+      },
+      {
+        "b_monster_id": 16115,
+        "win_together_rate": 55.02
+      },
+      {
+        "b_monster_id": 26915,
+        "win_together_rate": 54.03
+      },
+      {
+        "b_monster_id": 21514,
+        "win_together_rate": 53.52
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 18914,
+        "win_against_rate": 41.25
+      },
+      {
+        "b_monster_id": 17014,
+        "win_against_rate": 43.71
+      },
+      {
+        "b_monster_id": 19215,
+        "win_against_rate": 44.33
+      },
+      {
+        "b_monster_id": 14714,
+        "win_against_rate": 44.62
+      },
+      {
+        "b_monster_id": 21114,
+        "win_against_rate": 45.16
+      }
+    ]
+  },
+  "17412": {
+    "best_with": [
+      {
+        "b_monster_id": 21213,
+        "win_together_rate": 51.61
+      },
+      {
+        "b_monster_id": 22211,
+        "win_together_rate": 50.65
+      },
+      {
+        "b_monster_id": 25611,
+        "win_together_rate": 48.58
+      },
+      {
+        "b_monster_id": 21115,
+        "win_together_rate": 48.54
+      },
+      {
+        "b_monster_id": 28613,
+        "win_together_rate": 48.03
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 21115,
+        "win_against_rate": 40.24
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 41.73
+      },
+      {
+        "b_monster_id": 23712,
+        "win_against_rate": 42.12
+      },
+      {
+        "b_monster_id": 28915,
+        "win_against_rate": 42.95
+      },
+      {
+        "b_monster_id": 23711,
+        "win_against_rate": 43.29
+      }
+    ]
+  },
+  "17911": {
+    "best_with": [
+      {
+        "b_monster_id": 30012,
+        "win_together_rate": 53.33
+      },
+      {
+        "b_monster_id": 25012,
+        "win_together_rate": 51.66
+      },
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 49.26
+      }
+    ],
+    "bad_against": []
+  },
+  "17913": {
+    "best_with": [
+      {
+        "b_monster_id": 21514,
+        "win_together_rate": 57.81
+      },
+      {
+        "b_monster_id": 16114,
+        "win_together_rate": 57.58
+      },
+      {
+        "b_monster_id": 28215,
+        "win_together_rate": 56.18
+      },
+      {
+        "b_monster_id": 21314,
+        "win_together_rate": 55.7
+      },
+      {
+        "b_monster_id": 31311,
+        "win_together_rate": 54.4
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 33214,
+        "win_against_rate": 43.02
+      },
+      {
+        "b_monster_id": 16615,
+        "win_against_rate": 43.37
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 44.83
+      },
+      {
+        "b_monster_id": 25014,
+        "win_against_rate": 45.01
+      },
+      {
+        "b_monster_id": 23115,
+        "win_against_rate": 45.81
+      }
+    ]
+  },
+  "17914": {
+    "best_with": [
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 49.53
+      }
+    ],
+    "bad_against": []
+  },
+  "17915": {
+    "best_with": [
+      {
+        "b_monster_id": 15715,
+        "win_together_rate": 58.23
+      },
+      {
+        "b_monster_id": 20415,
+        "win_together_rate": 54.74
+      },
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 53.54
+      },
+      {
+        "b_monster_id": 21415,
+        "win_together_rate": 52.21
+      },
+      {
+        "b_monster_id": 25414,
+        "win_together_rate": 51.94
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 39.35
+      },
+      {
+        "b_monster_id": 24511,
+        "win_against_rate": 42.32
+      },
+      {
+        "b_monster_id": 23712,
+        "win_against_rate": 42.92
+      },
+      {
+        "b_monster_id": 30512,
+        "win_against_rate": 43.81
+      },
+      {
+        "b_monster_id": 28613,
+        "win_against_rate": 43.95
+      }
+    ]
+  },
+  "18012": {
+    "best_with": [
+      {
+        "b_monster_id": 13812,
+        "win_together_rate": 50.74
+      },
+      {
+        "b_monster_id": 14034,
+        "win_together_rate": 50.3
+      },
+      {
+        "b_monster_id": 25214,
+        "win_together_rate": 49.23
+      },
+      {
+        "b_monster_id": 24514,
+        "win_together_rate": 48.8
+      },
+      {
+        "b_monster_id": 13815,
+        "win_together_rate": 43.87
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 46.84
+      },
+      {
+        "b_monster_id": 25313,
+        "win_against_rate": 51.16
+      }
+    ]
+  },
+  "18314": {
+    "best_with": [
+      {
+        "b_monster_id": 30715,
+        "win_together_rate": 59.39
+      },
+      {
+        "b_monster_id": 29112,
+        "win_together_rate": 56.25
+      },
+      {
+        "b_monster_id": 25014,
+        "win_together_rate": 55.54
+      },
+      {
+        "b_monster_id": 14615,
+        "win_together_rate": 55.41
+      },
+      {
+        "b_monster_id": 28115,
+        "win_together_rate": 55.19
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 24712,
+        "win_against_rate": 45.87
+      },
+      {
+        "b_monster_id": 22913,
+        "win_against_rate": 45.88
+      },
+      {
+        "b_monster_id": 16114,
+        "win_against_rate": 46.33
+      },
+      {
+        "b_monster_id": 28012,
+        "win_against_rate": 46.5
+      },
+      {
+        "b_monster_id": 21514,
+        "win_against_rate": 46.67
+      }
+    ]
+  },
+  "18315": {
+    "best_with": [
+      {
+        "b_monster_id": 31814,
+        "win_together_rate": 58.81
+      },
+      {
+        "b_monster_id": 13515,
+        "win_together_rate": 55.42
+      },
+      {
+        "b_monster_id": 14034,
+        "win_together_rate": 54.7
+      },
+      {
+        "b_monster_id": 19714,
+        "win_together_rate": 53.46
+      },
+      {
+        "b_monster_id": 26113,
+        "win_together_rate": 53.13
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 31315,
+        "win_against_rate": 42.64
+      },
+      {
+        "b_monster_id": 24712,
+        "win_against_rate": 44.18
+      },
+      {
+        "b_monster_id": 22211,
+        "win_against_rate": 44.42
+      },
+      {
+        "b_monster_id": 28311,
+        "win_against_rate": 44.8
+      },
+      {
+        "b_monster_id": 17913,
+        "win_against_rate": 46.07
+      }
+    ]
+  },
+  "18611": {
+    "best_with": [
+      {
+        "b_monster_id": 26113,
+        "win_together_rate": 58.47
+      },
+      {
+        "b_monster_id": 16613,
+        "win_together_rate": 55.84
+      },
+      {
+        "b_monster_id": 16813,
+        "win_together_rate": 55.53
+      },
+      {
+        "b_monster_id": 22611,
+        "win_together_rate": 55.26
+      },
+      {
+        "b_monster_id": 16615,
+        "win_together_rate": 55.0
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 28915,
+        "win_against_rate": 42.68
+      },
+      {
+        "b_monster_id": 15715,
+        "win_against_rate": 44.37
+      },
+      {
+        "b_monster_id": 26813,
+        "win_against_rate": 45.74
+      },
+      {
+        "b_monster_id": 16813,
+        "win_against_rate": 46.77
+      },
+      {
+        "b_monster_id": 25013,
+        "win_against_rate": 48.17
+      }
+    ]
+  },
+  "18612": {
+    "best_with": [
+      {
+        "b_monster_id": 21111,
+        "win_together_rate": 54.75
+      },
+      {
+        "b_monster_id": 31315,
+        "win_together_rate": 54.11
+      },
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 53.38
+      },
+      {
+        "b_monster_id": 31311,
+        "win_together_rate": 52.67
+      },
+      {
+        "b_monster_id": 22913,
+        "win_together_rate": 52.48
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 22211,
+        "win_against_rate": 42.99
+      },
+      {
+        "b_monster_id": 16613,
+        "win_against_rate": 43.47
+      },
+      {
+        "b_monster_id": 30314,
+        "win_against_rate": 45.26
+      },
+      {
+        "b_monster_id": 16114,
+        "win_against_rate": 45.47
+      },
+      {
+        "b_monster_id": 31315,
+        "win_against_rate": 46.05
+      }
+    ]
+  },
+  "18615": {
+    "best_with": [
+      {
+        "b_monster_id": 28315,
+        "win_together_rate": 56.22
+      },
+      {
+        "b_monster_id": 23515,
+        "win_together_rate": 55.78
+      },
+      {
+        "b_monster_id": 16115,
+        "win_together_rate": 54.91
+      },
+      {
+        "b_monster_id": 31311,
+        "win_together_rate": 53.56
+      },
+      {
+        "b_monster_id": 26114,
+        "win_together_rate": 53.34
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 21513,
+        "win_against_rate": 39.26
+      },
+      {
+        "b_monster_id": 22211,
+        "win_against_rate": 42.77
+      },
+      {
+        "b_monster_id": 19215,
+        "win_against_rate": 43.5
+      },
+      {
+        "b_monster_id": 21514,
+        "win_against_rate": 43.98
+      },
+      {
+        "b_monster_id": 16615,
+        "win_against_rate": 45.63
+      }
+    ]
+  },
+  "18913": {
+    "best_with": [
+      {
+        "b_monster_id": 16815,
+        "win_together_rate": 53.7
+      },
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 53.56
+      },
+      {
+        "b_monster_id": 23712,
+        "win_together_rate": 53.07
+      },
+      {
+        "b_monster_id": 25313,
+        "win_together_rate": 52.65
+      },
+      {
+        "b_monster_id": 25715,
+        "win_together_rate": 51.62
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 31315,
+        "win_against_rate": 42.3
+      },
+      {
+        "b_monster_id": 22211,
+        "win_against_rate": 43.52
+      },
+      {
+        "b_monster_id": 16813,
+        "win_against_rate": 44.68
+      },
+      {
+        "b_monster_id": 15712,
+        "win_against_rate": 44.88
+      },
+      {
+        "b_monster_id": 16613,
+        "win_against_rate": 44.99
+      }
+    ]
+  },
+  "18914": {
+    "best_with": [
+      {
+        "b_monster_id": 30715,
+        "win_together_rate": 59.9
+      },
+      {
+        "b_monster_id": 19714,
+        "win_together_rate": 57.35
+      },
+      {
+        "b_monster_id": 16613,
+        "win_together_rate": 55.59
+      },
+      {
+        "b_monster_id": 28115,
+        "win_together_rate": 55.35
+      },
+      {
+        "b_monster_id": 23115,
+        "win_together_rate": 54.98
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 28613,
+        "win_against_rate": 42.6
+      },
+      {
+        "b_monster_id": 30512,
+        "win_against_rate": 46.01
+      },
+      {
+        "b_monster_id": 15715,
+        "win_against_rate": 47.41
+      },
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 49.23
+      },
+      {
+        "b_monster_id": 13812,
+        "win_against_rate": 50.53
+      }
+    ]
+  },
+  "18915": {
+    "best_with": [
+      {
+        "b_monster_id": 22211,
+        "win_together_rate": 56.89
+      },
+      {
+        "b_monster_id": 16613,
+        "win_together_rate": 53.09
+      },
+      {
+        "b_monster_id": 26813,
+        "win_together_rate": 52.44
+      },
+      {
+        "b_monster_id": 30015,
+        "win_together_rate": 51.48
+      },
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 49.63
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 15715,
+        "win_against_rate": 46.38
+      },
+      {
+        "b_monster_id": 25313,
+        "win_against_rate": 48.13
+      },
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 49.38
+      },
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 50.81
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 51.77
+      }
+    ]
+  },
+  "19212": {
+    "best_with": [
+      {
+        "b_monster_id": 24713,
+        "win_together_rate": 53.35
+      },
+      {
+        "b_monster_id": 26813,
+        "win_together_rate": 51.89
+      },
+      {
+        "b_monster_id": 17411,
+        "win_together_rate": 51.17
+      },
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 50.85
+      },
+      {
+        "b_monster_id": 17012,
+        "win_together_rate": 49.57
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 21115,
+        "win_against_rate": 42.01
+      },
+      {
+        "b_monster_id": 15712,
+        "win_against_rate": 47.22
+      },
+      {
+        "b_monster_id": 16812,
+        "win_against_rate": 47.92
+      },
+      {
+        "b_monster_id": 26813,
+        "win_against_rate": 48.21
+      },
+      {
+        "b_monster_id": 28915,
+        "win_against_rate": 48.36
+      }
+    ]
+  },
+  "19214": {
+    "best_with": [
+      {
+        "b_monster_id": 25313,
+        "win_together_rate": 50.92
+      },
+      {
+        "b_monster_id": 20711,
+        "win_together_rate": 50.0
+      },
+      {
+        "b_monster_id": 21314,
+        "win_together_rate": 49.74
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16613,
+        "win_against_rate": 48.9
+      }
+    ]
+  },
+  "19215": {
+    "best_with": [
+      {
+        "b_monster_id": 21514,
+        "win_together_rate": 59.81
+      },
+      {
+        "b_monster_id": 16615,
+        "win_together_rate": 58.03
+      },
+      {
+        "b_monster_id": 21513,
+        "win_together_rate": 57.67
+      },
+      {
+        "b_monster_id": 31314,
+        "win_together_rate": 56.83
+      },
+      {
+        "b_monster_id": 33311,
+        "win_together_rate": 56.78
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 25012,
+        "win_against_rate": 42.25
+      },
+      {
+        "b_monster_id": 15712,
+        "win_against_rate": 43.73
+      },
+      {
+        "b_monster_id": 26111,
+        "win_against_rate": 44.63
+      },
+      {
+        "b_monster_id": 25613,
+        "win_against_rate": 45.33
+      },
+      {
+        "b_monster_id": 23713,
+        "win_against_rate": 45.48
+      }
+    ]
+  },
+  "19415": {
+    "best_with": [
+      {
+        "b_monster_id": 13515,
+        "win_together_rate": 47.87
+      },
+      {
+        "b_monster_id": 30715,
+        "win_together_rate": 45.4
+      }
+    ],
+    "bad_against": []
+  },
+  "19611": {
+    "best_with": [
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 50.95
+      },
+      {
+        "b_monster_id": 16111,
+        "win_together_rate": 50.76
+      },
+      {
+        "b_monster_id": 15713,
+        "win_together_rate": 49.9
+      },
+      {
+        "b_monster_id": 21811,
+        "win_together_rate": 49.15
+      },
+      {
+        "b_monster_id": 19215,
+        "win_together_rate": 48.31
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 42.31
+      },
+      {
+        "b_monster_id": 16111,
+        "win_against_rate": 42.74
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 43.47
+      },
+      {
+        "b_monster_id": 16815,
+        "win_against_rate": 43.81
+      },
+      {
+        "b_monster_id": 23712,
+        "win_against_rate": 44.61
+      }
+    ]
+  },
+  "19614": {
+    "best_with": [
+      {
+        "b_monster_id": 33311,
+        "win_together_rate": 53.02
+      }
+    ],
+    "bad_against": []
+  },
+  "19712": {
+    "best_with": [
+      {
+        "b_monster_id": 25614,
+        "win_together_rate": 59.27
+      },
+      {
+        "b_monster_id": 29111,
+        "win_together_rate": 55.69
+      },
+      {
+        "b_monster_id": 23115,
+        "win_together_rate": 55.43
+      },
+      {
+        "b_monster_id": 21214,
+        "win_together_rate": 55.09
+      },
+      {
+        "b_monster_id": 25413,
+        "win_together_rate": 54.91
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 20515,
+        "win_against_rate": 44.97
+      },
+      {
+        "b_monster_id": 23114,
+        "win_against_rate": 45.55
+      },
+      {
+        "b_monster_id": 18615,
+        "win_against_rate": 45.64
+      },
+      {
+        "b_monster_id": 16114,
+        "win_against_rate": 45.74
+      },
+      {
+        "b_monster_id": 30014,
+        "win_against_rate": 46.09
+      }
+    ]
+  },
+  "19713": {
+    "best_with": [
+      {
+        "b_monster_id": 33414,
+        "win_together_rate": 55.56
+      },
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 51.86
+      },
+      {
+        "b_monster_id": 17411,
+        "win_together_rate": 51.38
+      },
+      {
+        "b_monster_id": 14034,
+        "win_together_rate": 51.28
+      },
+      {
+        "b_monster_id": 18615,
+        "win_together_rate": 51.01
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 21111,
+        "win_against_rate": 40.63
+      },
+      {
+        "b_monster_id": 16813,
+        "win_against_rate": 40.66
+      },
+      {
+        "b_monster_id": 17012,
+        "win_against_rate": 41.86
+      },
+      {
+        "b_monster_id": 30512,
+        "win_against_rate": 42.42
+      },
+      {
+        "b_monster_id": 17411,
+        "win_against_rate": 43.84
+      }
+    ]
+  },
+  "19714": {
+    "best_with": [
+      {
+        "b_monster_id": 14712,
+        "win_together_rate": 57.71
+      },
+      {
+        "b_monster_id": 21115,
+        "win_together_rate": 57.41
+      },
+      {
+        "b_monster_id": 18914,
+        "win_together_rate": 57.35
+      },
+      {
+        "b_monster_id": 30715,
+        "win_together_rate": 57.11
+      },
+      {
+        "b_monster_id": 25311,
+        "win_together_rate": 55.6
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 25014,
+        "win_against_rate": 43.55
+      },
+      {
+        "b_monster_id": 27214,
+        "win_against_rate": 46.51
+      },
+      {
+        "b_monster_id": 20512,
+        "win_against_rate": 47.54
+      },
+      {
+        "b_monster_id": 15712,
+        "win_against_rate": 47.67
+      },
+      {
+        "b_monster_id": 19712,
+        "win_against_rate": 48.18
+      }
+    ]
+  },
+  "19715": {
+    "best_with": [
+      {
+        "b_monster_id": 13812,
+        "win_together_rate": 46.33
+      }
+    ],
+    "bad_against": []
+  },
+  "20114": {
+    "best_with": [
+      {
+        "b_monster_id": 20415,
+        "win_together_rate": 55.54
+      },
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 54.35
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 54.29
+      }
+    ]
+  },
+  "20415": {
+    "best_with": [
+      {
+        "b_monster_id": 31314,
+        "win_together_rate": 56.85
+      },
+      {
+        "b_monster_id": 30613,
+        "win_together_rate": 56.7
+      },
+      {
+        "b_monster_id": 20114,
+        "win_together_rate": 55.54
+      },
+      {
+        "b_monster_id": 30311,
+        "win_together_rate": 54.97
+      },
+      {
+        "b_monster_id": 17915,
+        "win_together_rate": 54.74
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 21811,
+        "win_against_rate": 44.25
+      },
+      {
+        "b_monster_id": 21115,
+        "win_against_rate": 45.49
+      },
+      {
+        "b_monster_id": 16114,
+        "win_against_rate": 45.78
+      },
+      {
+        "b_monster_id": 23712,
+        "win_against_rate": 46.28
+      },
+      {
+        "b_monster_id": 16615,
+        "win_against_rate": 46.64
+      }
+    ]
+  },
+  "20512": {
+    "best_with": [
+      {
+        "b_monster_id": 15714,
+        "win_together_rate": 57.62
+      },
+      {
+        "b_monster_id": 28311,
+        "win_together_rate": 55.26
+      },
+      {
+        "b_monster_id": 22211,
+        "win_together_rate": 54.62
+      },
+      {
+        "b_monster_id": 30613,
+        "win_together_rate": 53.86
+      },
+      {
+        "b_monster_id": 16114,
+        "win_together_rate": 53.16
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 21115,
+        "win_against_rate": 43.29
+      },
+      {
+        "b_monster_id": 30914,
+        "win_against_rate": 44.21
+      },
+      {
+        "b_monster_id": 33214,
+        "win_against_rate": 44.33
+      },
+      {
+        "b_monster_id": 21811,
+        "win_against_rate": 44.89
+      },
+      {
+        "b_monster_id": 30314,
+        "win_against_rate": 45.09
+      }
+    ]
+  },
+  "20515": {
+    "best_with": [
+      {
+        "b_monster_id": 21214,
+        "win_together_rate": 54.0
+      },
+      {
+        "b_monster_id": 21514,
+        "win_together_rate": 53.3
+      },
+      {
+        "b_monster_id": 30314,
+        "win_together_rate": 53.01
+      },
+      {
+        "b_monster_id": 15712,
+        "win_together_rate": 52.16
+      },
+      {
+        "b_monster_id": 30914,
+        "win_together_rate": 52.08
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16615,
+        "win_against_rate": 40.71
+      },
+      {
+        "b_monster_id": 30015,
+        "win_against_rate": 41.37
+      },
+      {
+        "b_monster_id": 19215,
+        "win_against_rate": 42.47
+      },
+      {
+        "b_monster_id": 18611,
+        "win_against_rate": 43.13
+      },
+      {
+        "b_monster_id": 19714,
+        "win_against_rate": 43.52
+      }
+    ]
+  },
+  "20614": {
+    "best_with": [
+      {
+        "b_monster_id": 32114,
+        "win_together_rate": 59.64
+      },
+      {
+        "b_monster_id": 28115,
+        "win_together_rate": 56.86
+      },
+      {
+        "b_monster_id": 27214,
+        "win_together_rate": 55.45
+      },
+      {
+        "b_monster_id": 26113,
+        "win_together_rate": 55.1
+      },
+      {
+        "b_monster_id": 14411,
+        "win_together_rate": 54.96
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 14034,
+        "win_against_rate": 41.06
+      },
+      {
+        "b_monster_id": 33214,
+        "win_against_rate": 41.88
+      },
+      {
+        "b_monster_id": 26113,
+        "win_against_rate": 43.27
+      },
+      {
+        "b_monster_id": 18314,
+        "win_against_rate": 43.45
+      },
+      {
+        "b_monster_id": 30914,
+        "win_against_rate": 44.68
+      }
+    ]
+  },
+  "20711": {
+    "best_with": [
+      {
+        "b_monster_id": 25313,
+        "win_together_rate": 50.94
+      },
+      {
+        "b_monster_id": 21314,
+        "win_together_rate": 50.66
+      },
+      {
+        "b_monster_id": 19214,
+        "win_together_rate": 50.0
+      }
+    ],
+    "bad_against": []
+  },
+  "20714": {
+    "best_with": [
+      {
+        "b_monster_id": 26812,
+        "win_together_rate": 57.91
+      },
+      {
+        "b_monster_id": 25613,
+        "win_together_rate": 56.92
+      },
+      {
+        "b_monster_id": 33214,
+        "win_together_rate": 56.62
+      },
+      {
+        "b_monster_id": 25014,
+        "win_together_rate": 56.58
+      },
+      {
+        "b_monster_id": 26113,
+        "win_together_rate": 56.39
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 28311,
+        "win_against_rate": 41.65
+      },
+      {
+        "b_monster_id": 17913,
+        "win_against_rate": 42.15
+      },
+      {
+        "b_monster_id": 28315,
+        "win_against_rate": 42.43
+      },
+      {
+        "b_monster_id": 24712,
+        "win_against_rate": 44.61
+      },
+      {
+        "b_monster_id": 24713,
+        "win_against_rate": 44.72
+      }
+    ]
+  },
+  "21012": {
+    "best_with": [
+      {
+        "b_monster_id": 21211,
+        "win_together_rate": 54.72
+      },
+      {
+        "b_monster_id": 33214,
+        "win_together_rate": 53.92
+      },
+      {
+        "b_monster_id": 20714,
+        "win_together_rate": 53.89
+      },
+      {
+        "b_monster_id": 14034,
+        "win_together_rate": 53.44
+      },
+      {
+        "b_monster_id": 16114,
+        "win_together_rate": 53.25
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16815,
+        "win_against_rate": 39.92
+      },
+      {
+        "b_monster_id": 14034,
+        "win_against_rate": 42.02
+      },
+      {
+        "b_monster_id": 21214,
+        "win_against_rate": 42.65
+      },
+      {
+        "b_monster_id": 27214,
+        "win_against_rate": 43.34
+      },
+      {
+        "b_monster_id": 16114,
+        "win_against_rate": 43.42
+      }
+    ]
+  },
+  "21111": {
+    "best_with": [
+      {
+        "b_monster_id": 21214,
+        "win_together_rate": 59.38
+      },
+      {
+        "b_monster_id": 18612,
+        "win_together_rate": 54.75
+      },
+      {
+        "b_monster_id": 30512,
+        "win_together_rate": 52.72
+      },
+      {
+        "b_monster_id": 18314,
+        "win_together_rate": 52.42
+      },
+      {
+        "b_monster_id": 24511,
+        "win_together_rate": 52.37
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 22211,
+        "win_against_rate": 36.35
+      },
+      {
+        "b_monster_id": 21513,
+        "win_against_rate": 40.0
+      },
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 40.8
+      },
+      {
+        "b_monster_id": 25011,
+        "win_against_rate": 43.45
+      },
+      {
+        "b_monster_id": 31112,
+        "win_against_rate": 43.78
+      }
+    ]
+  },
+  "21112": {
+    "best_with": [
+      {
+        "b_monster_id": 26113,
+        "win_together_rate": 50.43
+      },
+      {
+        "b_monster_id": 23712,
+        "win_together_rate": 48.14
+      },
+      {
+        "b_monster_id": 28611,
+        "win_together_rate": 48.1
+      },
+      {
+        "b_monster_id": 15715,
+        "win_together_rate": 48.06
+      },
+      {
+        "b_monster_id": 15713,
+        "win_together_rate": 47.48
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 24712,
+        "win_against_rate": 44.13
+      },
+      {
+        "b_monster_id": 21415,
+        "win_against_rate": 48.6
+      },
+      {
+        "b_monster_id": 26813,
+        "win_against_rate": 49.43
+      },
+      {
+        "b_monster_id": 23711,
+        "win_against_rate": 51.7
+      },
+      {
+        "b_monster_id": 16613,
+        "win_against_rate": 53.28
+      }
+    ]
+  },
+  "21114": {
+    "best_with": [
+      {
+        "b_monster_id": 21314,
+        "win_together_rate": 60.06
+      },
+      {
+        "b_monster_id": 14034,
+        "win_together_rate": 58.6
+      },
+      {
+        "b_monster_id": 25011,
+        "win_together_rate": 52.99
+      },
+      {
+        "b_monster_id": 15715,
+        "win_together_rate": 52.97
+      },
+      {
+        "b_monster_id": 16613,
+        "win_together_rate": 52.49
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 26113,
+        "win_against_rate": 42.82
+      },
+      {
+        "b_monster_id": 15715,
+        "win_against_rate": 45.0
+      },
+      {
+        "b_monster_id": 13812,
+        "win_against_rate": 45.11
+      },
+      {
+        "b_monster_id": 25013,
+        "win_against_rate": 47.3
+      },
+      {
+        "b_monster_id": 21115,
+        "win_against_rate": 47.37
+      }
+    ]
+  },
+  "21115": {
+    "best_with": [
+      {
+        "b_monster_id": 19714,
+        "win_together_rate": 57.41
+      },
+      {
+        "b_monster_id": 30014,
+        "win_together_rate": 57.14
+      },
+      {
+        "b_monster_id": 25613,
+        "win_together_rate": 56.12
+      },
+      {
+        "b_monster_id": 31115,
+        "win_together_rate": 55.8
+      },
+      {
+        "b_monster_id": 28311,
+        "win_together_rate": 55.71
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 29711,
+        "win_against_rate": 39.11
+      },
+      {
+        "b_monster_id": 26811,
+        "win_against_rate": 42.14
+      },
+      {
+        "b_monster_id": 15712,
+        "win_against_rate": 43.51
+      },
+      {
+        "b_monster_id": 30015,
+        "win_against_rate": 44.09
+      },
+      {
+        "b_monster_id": 20614,
+        "win_against_rate": 44.54
+      }
+    ]
+  },
+  "21211": {
+    "best_with": [
+      {
+        "b_monster_id": 17411,
+        "win_together_rate": 57.76
+      },
+      {
+        "b_monster_id": 26113,
+        "win_together_rate": 56.53
+      },
+      {
+        "b_monster_id": 33312,
+        "win_together_rate": 56.48
+      },
+      {
+        "b_monster_id": 28915,
+        "win_together_rate": 55.64
+      },
+      {
+        "b_monster_id": 17012,
+        "win_together_rate": 55.46
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 23115,
+        "win_against_rate": 46.78
+      },
+      {
+        "b_monster_id": 28313,
+        "win_against_rate": 46.88
+      },
+      {
+        "b_monster_id": 13812,
+        "win_against_rate": 47.87
+      },
+      {
+        "b_monster_id": 25211,
+        "win_against_rate": 47.98
+      },
+      {
+        "b_monster_id": 33214,
+        "win_against_rate": 48.16
+      }
+    ]
+  },
+  "21213": {
+    "best_with": [
+      {
+        "b_monster_id": 23115,
+        "win_together_rate": 55.14
+      },
+      {
+        "b_monster_id": 22211,
+        "win_together_rate": 54.44
+      },
+      {
+        "b_monster_id": 13814,
+        "win_together_rate": 53.35
+      },
+      {
+        "b_monster_id": 32311,
+        "win_together_rate": 53.13
+      },
+      {
+        "b_monster_id": 25013,
+        "win_together_rate": 52.3
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 28915,
+        "win_against_rate": 41.36
+      },
+      {
+        "b_monster_id": 15715,
+        "win_against_rate": 41.43
+      },
+      {
+        "b_monster_id": 33214,
+        "win_against_rate": 42.67
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 44.94
+      },
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 45.25
+      }
+    ]
+  },
+  "21214": {
+    "best_with": [
+      {
+        "b_monster_id": 21111,
+        "win_together_rate": 59.38
+      },
+      {
+        "b_monster_id": 27211,
+        "win_together_rate": 56.24
+      },
+      {
+        "b_monster_id": 20714,
+        "win_together_rate": 55.83
+      },
+      {
+        "b_monster_id": 31915,
+        "win_together_rate": 55.32
+      },
+      {
+        "b_monster_id": 21514,
+        "win_together_rate": 55.25
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 30314,
+        "win_against_rate": 42.53
+      },
+      {
+        "b_monster_id": 30914,
+        "win_against_rate": 42.99
+      },
+      {
+        "b_monster_id": 16114,
+        "win_against_rate": 44.02
+      },
+      {
+        "b_monster_id": 29114,
+        "win_against_rate": 45.43
+      },
+      {
+        "b_monster_id": 16111,
+        "win_against_rate": 46.27
+      }
+    ]
+  },
+  "21215": {
+    "best_with": [
+      {
+        "b_monster_id": 27214,
+        "win_together_rate": 55.28
+      },
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 54.6
+      },
+      {
+        "b_monster_id": 15713,
+        "win_together_rate": 52.68
+      },
+      {
+        "b_monster_id": 16811,
+        "win_together_rate": 52.65
+      },
+      {
+        "b_monster_id": 21115,
+        "win_together_rate": 51.03
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 28613,
+        "win_against_rate": 43.53
+      },
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 45.47
+      },
+      {
+        "b_monster_id": 26113,
+        "win_against_rate": 45.86
+      },
+      {
+        "b_monster_id": 23712,
+        "win_against_rate": 46.89
+      },
+      {
+        "b_monster_id": 25313,
+        "win_against_rate": 47.04
+      }
+    ]
+  },
+  "21311": {
+    "best_with": [
+      {
+        "b_monster_id": 13815,
+        "win_together_rate": 59.02
+      },
+      {
+        "b_monster_id": 24714,
+        "win_together_rate": 53.34
+      },
+      {
+        "b_monster_id": 18314,
+        "win_together_rate": 50.0
+      },
+      {
+        "b_monster_id": 23114,
+        "win_together_rate": 48.36
+      },
+      {
+        "b_monster_id": 15715,
+        "win_together_rate": 48.35
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 14034,
+        "win_against_rate": 40.97
+      },
+      {
+        "b_monster_id": 24712,
+        "win_against_rate": 41.15
+      },
+      {
+        "b_monster_id": 21513,
+        "win_against_rate": 41.22
+      },
+      {
+        "b_monster_id": 26113,
+        "win_against_rate": 41.98
+      },
+      {
+        "b_monster_id": 16815,
+        "win_against_rate": 42.77
+      }
+    ]
+  },
+  "21314": {
+    "best_with": [
+      {
+        "b_monster_id": 21114,
+        "win_together_rate": 60.06
+      },
+      {
+        "b_monster_id": 30914,
+        "win_together_rate": 58.38
+      },
+      {
+        "b_monster_id": 16114,
+        "win_together_rate": 56.9
+      },
+      {
+        "b_monster_id": 17913,
+        "win_together_rate": 55.7
+      },
+      {
+        "b_monster_id": 29114,
+        "win_together_rate": 54.37
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 31315,
+        "win_against_rate": 43.5
+      },
+      {
+        "b_monster_id": 30512,
+        "win_against_rate": 45.48
+      },
+      {
+        "b_monster_id": 17913,
+        "win_against_rate": 45.69
+      },
+      {
+        "b_monster_id": 13812,
+        "win_against_rate": 45.74
+      },
+      {
+        "b_monster_id": 18314,
+        "win_against_rate": 47.53
+      }
+    ]
+  },
+  "21413": {
+    "best_with": [],
+    "bad_against": [
+      {
+        "b_monster_id": 26113,
+        "win_against_rate": 53.65
+      }
+    ]
+  },
+  "21415": {
+    "best_with": [
+      {
+        "b_monster_id": 26915,
+        "win_together_rate": 55.63
+      },
+      {
+        "b_monster_id": 16115,
+        "win_together_rate": 55.45
+      },
+      {
+        "b_monster_id": 22611,
+        "win_together_rate": 54.78
+      },
+      {
+        "b_monster_id": 28315,
+        "win_together_rate": 54.34
+      },
+      {
+        "b_monster_id": 21514,
+        "win_together_rate": 53.63
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 29711,
+        "win_against_rate": 40.85
+      },
+      {
+        "b_monster_id": 32215,
+        "win_against_rate": 40.89
+      },
+      {
+        "b_monster_id": 32311,
+        "win_against_rate": 41.14
+      },
+      {
+        "b_monster_id": 17915,
+        "win_against_rate": 42.92
+      },
+      {
+        "b_monster_id": 28911,
+        "win_against_rate": 43.55
+      }
+    ]
+  },
+  "21512": {
+    "best_with": [
+      {
+        "b_monster_id": 21514,
+        "win_together_rate": 56.8
+      },
+      {
+        "b_monster_id": 28311,
+        "win_together_rate": 56.26
+      },
+      {
+        "b_monster_id": 30014,
+        "win_together_rate": 55.29
+      },
+      {
+        "b_monster_id": 21115,
+        "win_together_rate": 54.5
+      },
+      {
+        "b_monster_id": 20614,
+        "win_together_rate": 52.92
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 25014,
+        "win_against_rate": 42.75
+      },
+      {
+        "b_monster_id": 16615,
+        "win_against_rate": 43.54
+      },
+      {
+        "b_monster_id": 17012,
+        "win_against_rate": 44.7
+      },
+      {
+        "b_monster_id": 26113,
+        "win_against_rate": 44.77
+      },
+      {
+        "b_monster_id": 21811,
+        "win_against_rate": 45.26
+      }
+    ]
+  },
+  "21513": {
+    "best_with": [
+      {
+        "b_monster_id": 19215,
+        "win_together_rate": 57.67
+      },
+      {
+        "b_monster_id": 24713,
+        "win_together_rate": 56.22
+      },
+      {
+        "b_monster_id": 30314,
+        "win_together_rate": 55.81
+      },
+      {
+        "b_monster_id": 22211,
+        "win_together_rate": 55.78
+      },
+      {
+        "b_monster_id": 33311,
+        "win_together_rate": 55.15
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 26113,
+        "win_against_rate": 43.17
+      },
+      {
+        "b_monster_id": 33214,
+        "win_against_rate": 43.35
+      },
+      {
+        "b_monster_id": 21214,
+        "win_against_rate": 44.07
+      },
+      {
+        "b_monster_id": 21115,
+        "win_against_rate": 44.16
+      },
+      {
+        "b_monster_id": 14615,
+        "win_against_rate": 44.2
+      }
+    ]
+  },
+  "21514": {
+    "best_with": [
+      {
+        "b_monster_id": 19215,
+        "win_together_rate": 59.81
+      },
+      {
+        "b_monster_id": 28311,
+        "win_together_rate": 58.84
+      },
+      {
+        "b_monster_id": 17913,
+        "win_together_rate": 57.81
+      },
+      {
+        "b_monster_id": 30914,
+        "win_together_rate": 57.33
+      },
+      {
+        "b_monster_id": 14034,
+        "win_together_rate": 56.96
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 33214,
+        "win_against_rate": 38.79
+      },
+      {
+        "b_monster_id": 24714,
+        "win_against_rate": 44.21
+      },
+      {
+        "b_monster_id": 28915,
+        "win_against_rate": 44.48
+      },
+      {
+        "b_monster_id": 22611,
+        "win_against_rate": 44.99
+      },
+      {
+        "b_monster_id": 20714,
+        "win_against_rate": 45.37
+      }
+    ]
+  },
+  "21515": {
+    "best_with": [],
+    "bad_against": [
+      {
+        "b_monster_id": 23114,
+        "win_against_rate": 59.94
+      }
+    ]
+  },
+  "21811": {
+    "best_with": [
+      {
+        "b_monster_id": 30015,
+        "win_together_rate": 59.0
+      },
+      {
+        "b_monster_id": 28215,
+        "win_together_rate": 57.14
+      },
+      {
+        "b_monster_id": 16115,
+        "win_together_rate": 55.73
+      },
+      {
+        "b_monster_id": 31314,
+        "win_together_rate": 55.31
+      },
+      {
+        "b_monster_id": 28311,
+        "win_together_rate": 55.15
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 31915,
+        "win_against_rate": 41.6
+      },
+      {
+        "b_monster_id": 32915,
+        "win_against_rate": 42.86
+      },
+      {
+        "b_monster_id": 14413,
+        "win_against_rate": 43.25
+      },
+      {
+        "b_monster_id": 33214,
+        "win_against_rate": 44.85
+      },
+      {
+        "b_monster_id": 15714,
+        "win_against_rate": 44.93
+      }
+    ]
+  },
+  "22112": {
+    "best_with": [
+      {
+        "b_monster_id": 15713,
+        "win_together_rate": 57.51
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 23711,
+        "win_against_rate": 57.33
+      }
+    ]
+  },
+  "22114": {
+    "best_with": [
+      {
+        "b_monster_id": 33214,
+        "win_together_rate": 55.42
+      },
+      {
+        "b_monster_id": 21115,
+        "win_together_rate": 55.23
+      },
+      {
+        "b_monster_id": 24712,
+        "win_together_rate": 51.78
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 23712,
+        "win_against_rate": 47.11
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 47.16
+      },
+      {
+        "b_monster_id": 16111,
+        "win_against_rate": 48.63
+      },
+      {
+        "b_monster_id": 15715,
+        "win_against_rate": 53.58
+      },
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 53.73
+      }
+    ]
+  },
+  "22211": {
+    "best_with": [
+      {
+        "b_monster_id": 32311,
+        "win_together_rate": 58.12
+      },
+      {
+        "b_monster_id": 18915,
+        "win_together_rate": 56.89
+      },
+      {
+        "b_monster_id": 21513,
+        "win_together_rate": 55.78
+      },
+      {
+        "b_monster_id": 19215,
+        "win_together_rate": 55.05
+      },
+      {
+        "b_monster_id": 31112,
+        "win_together_rate": 54.91
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 22611,
+        "win_against_rate": 42.49
+      },
+      {
+        "b_monster_id": 21214,
+        "win_against_rate": 43.08
+      },
+      {
+        "b_monster_id": 28915,
+        "win_against_rate": 43.92
+      },
+      {
+        "b_monster_id": 27214,
+        "win_against_rate": 44.24
+      },
+      {
+        "b_monster_id": 26811,
+        "win_against_rate": 44.31
+      }
+    ]
+  },
+  "22212": {
+    "best_with": [],
+    "bad_against": [
+      {
+        "b_monster_id": 16613,
+        "win_against_rate": 56.77
+      }
+    ]
+  },
+  "22213": {
+    "best_with": [],
+    "bad_against": [
+      {
+        "b_monster_id": 21415,
+        "win_against_rate": 51.45
+      },
+      {
+        "b_monster_id": 16613,
+        "win_against_rate": 58.44
+      }
+    ]
+  },
+  "22214": {
+    "best_with": [
+      {
+        "b_monster_id": 33214,
+        "win_together_rate": 55.45
+      },
+      {
+        "b_monster_id": 21115,
+        "win_together_rate": 53.6
+      },
+      {
+        "b_monster_id": 21415,
+        "win_together_rate": 50.08
+      },
+      {
+        "b_monster_id": 16615,
+        "win_together_rate": 48.61
+      },
+      {
+        "b_monster_id": 25313,
+        "win_together_rate": 47.59
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 15712,
+        "win_against_rate": 40.56
+      },
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 43.68
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 45.5
+      },
+      {
+        "b_monster_id": 15715,
+        "win_against_rate": 46.79
+      },
+      {
+        "b_monster_id": 25313,
+        "win_against_rate": 47.5
+      }
+    ]
+  },
+  "22215": {
+    "best_with": [
+      {
+        "b_monster_id": 32111,
+        "win_together_rate": 56.18
+      },
+      {
+        "b_monster_id": 16815,
+        "win_together_rate": 55.38
+      },
+      {
+        "b_monster_id": 16114,
+        "win_together_rate": 55.32
+      },
+      {
+        "b_monster_id": 21214,
+        "win_together_rate": 54.23
+      },
+      {
+        "b_monster_id": 15712,
+        "win_together_rate": 53.96
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 33214,
+        "win_against_rate": 40.83
+      },
+      {
+        "b_monster_id": 14615,
+        "win_against_rate": 42.36
+      },
+      {
+        "b_monster_id": 29112,
+        "win_against_rate": 42.82
+      },
+      {
+        "b_monster_id": 26813,
+        "win_against_rate": 44.14
+      },
+      {
+        "b_monster_id": 15712,
+        "win_against_rate": 44.42
+      }
+    ]
+  },
+  "22611": {
+    "best_with": [
+      {
+        "b_monster_id": 33214,
+        "win_together_rate": 57.48
+      },
+      {
+        "b_monster_id": 15715,
+        "win_together_rate": 57.01
+      },
+      {
+        "b_monster_id": 28915,
+        "win_together_rate": 56.51
+      },
+      {
+        "b_monster_id": 24714,
+        "win_together_rate": 55.48
+      },
+      {
+        "b_monster_id": 18611,
+        "win_together_rate": 55.26
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 13812,
+        "win_against_rate": 43.24
+      },
+      {
+        "b_monster_id": 26113,
+        "win_against_rate": 46.15
+      },
+      {
+        "b_monster_id": 14615,
+        "win_against_rate": 46.81
+      },
+      {
+        "b_monster_id": 15715,
+        "win_against_rate": 47.02
+      },
+      {
+        "b_monster_id": 25011,
+        "win_against_rate": 47.22
+      }
+    ]
+  },
+  "22614": {
+    "best_with": [
+      {
+        "b_monster_id": 13812,
+        "win_together_rate": 55.96
+      },
+      {
+        "b_monster_id": 21811,
+        "win_together_rate": 49.7
+      }
+    ],
+    "bad_against": []
+  },
+  "22913": {
+    "best_with": [
+      {
+        "b_monster_id": 23115,
+        "win_together_rate": 54.16
+      },
+      {
+        "b_monster_id": 26113,
+        "win_together_rate": 52.76
+      },
+      {
+        "b_monster_id": 18612,
+        "win_together_rate": 52.48
+      },
+      {
+        "b_monster_id": 28215,
+        "win_together_rate": 51.88
+      },
+      {
+        "b_monster_id": 25011,
+        "win_together_rate": 51.56
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 31315,
+        "win_against_rate": 37.17
+      },
+      {
+        "b_monster_id": 21513,
+        "win_against_rate": 40.63
+      },
+      {
+        "b_monster_id": 22211,
+        "win_against_rate": 41.39
+      },
+      {
+        "b_monster_id": 26813,
+        "win_against_rate": 41.45
+      },
+      {
+        "b_monster_id": 28311,
+        "win_against_rate": 41.47
+      }
+    ]
+  },
+  "22915": {
+    "best_with": [
+      {
+        "b_monster_id": 15715,
+        "win_together_rate": 47.45
+      }
+    ],
+    "bad_against": []
+  },
+  "23111": {
+    "best_with": [
+      {
+        "b_monster_id": 16613,
+        "win_together_rate": 48.59
+      },
+      {
+        "b_monster_id": 25613,
+        "win_together_rate": 48.49
+      },
+      {
+        "b_monster_id": 21415,
+        "win_together_rate": 46.36
+      },
+      {
+        "b_monster_id": 28915,
+        "win_together_rate": 45.69
+      },
+      {
+        "b_monster_id": 26813,
+        "win_together_rate": 45.2
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 23712,
+        "win_against_rate": 40.11
+      },
+      {
+        "b_monster_id": 28611,
+        "win_against_rate": 40.13
+      },
+      {
+        "b_monster_id": 28915,
+        "win_against_rate": 40.32
+      },
+      {
+        "b_monster_id": 15715,
+        "win_against_rate": 40.75
+      },
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 41.28
+      }
+    ]
+  },
+  "23113": {
+    "best_with": [
+      {
+        "b_monster_id": 21415,
+        "win_together_rate": 53.11
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 23115,
+        "win_against_rate": 51.54
+      },
+      {
+        "b_monster_id": 25211,
+        "win_against_rate": 52.65
+      }
+    ]
+  },
+  "23114": {
+    "best_with": [
+      {
+        "b_monster_id": 16115,
+        "win_together_rate": 56.9
+      },
+      {
+        "b_monster_id": 13515,
+        "win_together_rate": 56.05
+      },
+      {
+        "b_monster_id": 21811,
+        "win_together_rate": 53.33
+      },
+      {
+        "b_monster_id": 25115,
+        "win_together_rate": 53.15
+      },
+      {
+        "b_monster_id": 13812,
+        "win_together_rate": 52.46
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 32311,
+        "win_against_rate": 37.39
+      },
+      {
+        "b_monster_id": 21515,
+        "win_against_rate": 40.06
+      },
+      {
+        "b_monster_id": 32111,
+        "win_against_rate": 42.63
+      },
+      {
+        "b_monster_id": 19714,
+        "win_against_rate": 43.45
+      },
+      {
+        "b_monster_id": 31315,
+        "win_against_rate": 43.86
+      }
+    ]
+  },
+  "23115": {
+    "best_with": [
+      {
+        "b_monster_id": 32811,
+        "win_together_rate": 56.31
+      },
+      {
+        "b_monster_id": 26113,
+        "win_together_rate": 56.18
+      },
+      {
+        "b_monster_id": 28315,
+        "win_together_rate": 55.9
+      },
+      {
+        "b_monster_id": 14615,
+        "win_together_rate": 55.6
+      },
+      {
+        "b_monster_id": 19712,
+        "win_together_rate": 55.43
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 27211,
+        "win_against_rate": 43.25
+      },
+      {
+        "b_monster_id": 31315,
+        "win_against_rate": 43.63
+      },
+      {
+        "b_monster_id": 20415,
+        "win_against_rate": 44.48
+      },
+      {
+        "b_monster_id": 19714,
+        "win_against_rate": 45.4
+      },
+      {
+        "b_monster_id": 28012,
+        "win_against_rate": 45.55
+      }
+    ]
+  },
+  "23512": {
+    "best_with": [
+      {
+        "b_monster_id": 21514,
+        "win_together_rate": 55.29
+      },
+      {
+        "b_monster_id": 21214,
+        "win_together_rate": 52.22
+      },
+      {
+        "b_monster_id": 16815,
+        "win_together_rate": 51.98
+      },
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 51.72
+      },
+      {
+        "b_monster_id": 30914,
+        "win_together_rate": 51.6
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 33214,
+        "win_against_rate": 42.29
+      },
+      {
+        "b_monster_id": 28311,
+        "win_against_rate": 42.68
+      },
+      {
+        "b_monster_id": 29114,
+        "win_against_rate": 44.1
+      },
+      {
+        "b_monster_id": 17411,
+        "win_against_rate": 45.11
+      },
+      {
+        "b_monster_id": 16613,
+        "win_against_rate": 45.39
+      }
+    ]
+  },
+  "23513": {
+    "best_with": [
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 56.04
+      },
+      {
+        "b_monster_id": 23712,
+        "win_together_rate": 54.12
+      },
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 49.65
+      },
+      {
+        "b_monster_id": 25313,
+        "win_together_rate": 48.73
+      },
+      {
+        "b_monster_id": 15713,
+        "win_together_rate": 46.29
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 47.1
+      },
+      {
+        "b_monster_id": 25313,
+        "win_against_rate": 49.03
+      },
+      {
+        "b_monster_id": 16613,
+        "win_against_rate": 49.34
+      },
+      {
+        "b_monster_id": 21811,
+        "win_against_rate": 50.27
+      },
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 54.25
+      }
+    ]
+  },
+  "23514": {
+    "best_with": [
+      {
+        "b_monster_id": 26113,
+        "win_together_rate": 51.61
+      },
+      {
+        "b_monster_id": 16811,
+        "win_together_rate": 51.47
+      },
+      {
+        "b_monster_id": 28215,
+        "win_together_rate": 51.46
+      },
+      {
+        "b_monster_id": 31915,
+        "win_together_rate": 50.7
+      },
+      {
+        "b_monster_id": 15713,
+        "win_together_rate": 50.59
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 23712,
+        "win_against_rate": 43.95
+      },
+      {
+        "b_monster_id": 26113,
+        "win_against_rate": 46.02
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 46.29
+      },
+      {
+        "b_monster_id": 24712,
+        "win_against_rate": 48.29
+      },
+      {
+        "b_monster_id": 15715,
+        "win_against_rate": 48.31
+      }
+    ]
+  },
+  "23515": {
+    "best_with": [
+      {
+        "b_monster_id": 15713,
+        "win_together_rate": 56.44
+      },
+      {
+        "b_monster_id": 18615,
+        "win_together_rate": 55.78
+      },
+      {
+        "b_monster_id": 16815,
+        "win_together_rate": 55.67
+      },
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 55.38
+      },
+      {
+        "b_monster_id": 14034,
+        "win_together_rate": 53.99
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 46.56
+      },
+      {
+        "b_monster_id": 30512,
+        "win_against_rate": 48.46
+      },
+      {
+        "b_monster_id": 16613,
+        "win_against_rate": 48.84
+      },
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 50.76
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 51.26
+      }
+    ]
+  },
+  "23711": {
+    "best_with": [
+      {
+        "b_monster_id": 23715,
+        "win_together_rate": 58.33
+      },
+      {
+        "b_monster_id": 32311,
+        "win_together_rate": 56.74
+      },
+      {
+        "b_monster_id": 25015,
+        "win_together_rate": 54.52
+      },
+      {
+        "b_monster_id": 20114,
+        "win_together_rate": 54.35
+      },
+      {
+        "b_monster_id": 31314,
+        "win_together_rate": 53.87
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 29711,
+        "win_against_rate": 38.15
+      },
+      {
+        "b_monster_id": 30913,
+        "win_against_rate": 39.55
+      },
+      {
+        "b_monster_id": 33312,
+        "win_against_rate": 40.23
+      },
+      {
+        "b_monster_id": 26811,
+        "win_against_rate": 40.43
+      },
+      {
+        "b_monster_id": 30015,
+        "win_against_rate": 40.47
+      }
+    ]
+  },
+  "23712": {
+    "best_with": [
+      {
+        "b_monster_id": 32114,
+        "win_together_rate": 57.53
+      },
+      {
+        "b_monster_id": 14411,
+        "win_together_rate": 55.76
+      },
+      {
+        "b_monster_id": 33214,
+        "win_together_rate": 55.17
+      },
+      {
+        "b_monster_id": 30515,
+        "win_together_rate": 54.23
+      },
+      {
+        "b_monster_id": 23513,
+        "win_together_rate": 54.12
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 21314,
+        "win_against_rate": 37.07
+      },
+      {
+        "b_monster_id": 25415,
+        "win_against_rate": 40.34
+      },
+      {
+        "b_monster_id": 33312,
+        "win_against_rate": 41.38
+      },
+      {
+        "b_monster_id": 19713,
+        "win_against_rate": 42.35
+      },
+      {
+        "b_monster_id": 18615,
+        "win_against_rate": 42.46
+      }
+    ]
+  },
+  "23713": {
+    "best_with": [
+      {
+        "b_monster_id": 24713,
+        "win_together_rate": 56.37
+      },
+      {
+        "b_monster_id": 15715,
+        "win_together_rate": 55.71
+      },
+      {
+        "b_monster_id": 26114,
+        "win_together_rate": 55.41
+      },
+      {
+        "b_monster_id": 31311,
+        "win_together_rate": 54.3
+      },
+      {
+        "b_monster_id": 23712,
+        "win_together_rate": 53.29
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 31112,
+        "win_against_rate": 42.31
+      },
+      {
+        "b_monster_id": 16114,
+        "win_against_rate": 43.7
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 44.04
+      },
+      {
+        "b_monster_id": 24511,
+        "win_against_rate": 44.8
+      },
+      {
+        "b_monster_id": 30512,
+        "win_against_rate": 45.68
+      }
+    ]
+  },
+  "23715": {
+    "best_with": [
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 58.33
+      },
+      {
+        "b_monster_id": 13515,
+        "win_together_rate": 56.76
+      }
+    ],
+    "bad_against": []
+  },
+  "24511": {
+    "best_with": [
+      {
+        "b_monster_id": 30913,
+        "win_together_rate": 57.14
+      },
+      {
+        "b_monster_id": 19714,
+        "win_together_rate": 55.26
+      },
+      {
+        "b_monster_id": 16113,
+        "win_together_rate": 54.42
+      },
+      {
+        "b_monster_id": 25413,
+        "win_together_rate": 53.76
+      },
+      {
+        "b_monster_id": 33414,
+        "win_together_rate": 53.32
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 18611,
+        "win_against_rate": 39.51
+      },
+      {
+        "b_monster_id": 22211,
+        "win_against_rate": 42.19
+      },
+      {
+        "b_monster_id": 21513,
+        "win_against_rate": 42.97
+      },
+      {
+        "b_monster_id": 16615,
+        "win_against_rate": 43.03
+      },
+      {
+        "b_monster_id": 16114,
+        "win_against_rate": 43.54
+      }
+    ]
+  },
+  "24512": {
+    "best_with": [
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 55.67
+      },
+      {
+        "b_monster_id": 16613,
+        "win_together_rate": 54.93
+      },
+      {
+        "b_monster_id": 18314,
+        "win_together_rate": 52.58
+      },
+      {
+        "b_monster_id": 13812,
+        "win_together_rate": 52.41
+      },
+      {
+        "b_monster_id": 26113,
+        "win_together_rate": 52.14
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 24511,
+        "win_against_rate": 41.9
+      },
+      {
+        "b_monster_id": 17411,
+        "win_against_rate": 42.31
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 43.01
+      },
+      {
+        "b_monster_id": 15715,
+        "win_against_rate": 43.47
+      },
+      {
+        "b_monster_id": 16114,
+        "win_against_rate": 44.29
+      }
+    ]
+  },
+  "24513": {
+    "best_with": [
+      {
+        "b_monster_id": 25011,
+        "win_together_rate": 51.55
+      },
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 50.0
+      },
+      {
+        "b_monster_id": 16613,
+        "win_together_rate": 47.94
+      },
+      {
+        "b_monster_id": 21415,
+        "win_together_rate": 46.79
+      },
+      {
+        "b_monster_id": 28112,
+        "win_together_rate": 46.23
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 23711,
+        "win_against_rate": 52.85
+      }
+    ]
+  },
+  "24514": {
+    "best_with": [
+      {
+        "b_monster_id": 24511,
+        "win_together_rate": 51.76
+      },
+      {
+        "b_monster_id": 14514,
+        "win_together_rate": 50.77
+      },
+      {
+        "b_monster_id": 14034,
+        "win_together_rate": 50.45
+      },
+      {
+        "b_monster_id": 13812,
+        "win_together_rate": 50.32
+      },
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 48.81
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16615,
+        "win_against_rate": 40.55
+      },
+      {
+        "b_monster_id": 21111,
+        "win_against_rate": 42.71
+      },
+      {
+        "b_monster_id": 31112,
+        "win_against_rate": 43.84
+      },
+      {
+        "b_monster_id": 22211,
+        "win_against_rate": 43.92
+      },
+      {
+        "b_monster_id": 30512,
+        "win_against_rate": 44.43
+      }
+    ]
+  },
+  "24515": {
+    "best_with": [
+      {
+        "b_monster_id": 14034,
+        "win_together_rate": 56.61
+      },
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 54.43
+      },
+      {
+        "b_monster_id": 25715,
+        "win_together_rate": 52.92
+      },
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 52.44
+      },
+      {
+        "b_monster_id": 25313,
+        "win_together_rate": 52.05
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 45.6
+      },
+      {
+        "b_monster_id": 26113,
+        "win_against_rate": 46.33
+      },
+      {
+        "b_monster_id": 24511,
+        "win_against_rate": 47.68
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 48.24
+      },
+      {
+        "b_monster_id": 23711,
+        "win_against_rate": 48.59
+      }
+    ]
+  },
+  "24712": {
+    "best_with": [
+      {
+        "b_monster_id": 31313,
+        "win_together_rate": 56.81
+      },
+      {
+        "b_monster_id": 28913,
+        "win_together_rate": 56.21
+      },
+      {
+        "b_monster_id": 32311,
+        "win_together_rate": 55.54
+      },
+      {
+        "b_monster_id": 14034,
+        "win_together_rate": 53.85
+      },
+      {
+        "b_monster_id": 28311,
+        "win_together_rate": 53.51
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 26111,
+        "win_against_rate": 38.49
+      },
+      {
+        "b_monster_id": 25314,
+        "win_against_rate": 41.45
+      },
+      {
+        "b_monster_id": 22211,
+        "win_against_rate": 42.06
+      },
+      {
+        "b_monster_id": 16615,
+        "win_against_rate": 42.15
+      },
+      {
+        "b_monster_id": 20614,
+        "win_against_rate": 42.76
+      }
+    ]
+  },
+  "24713": {
+    "best_with": [
+      {
+        "b_monster_id": 23713,
+        "win_together_rate": 56.37
+      },
+      {
+        "b_monster_id": 21513,
+        "win_together_rate": 56.22
+      },
+      {
+        "b_monster_id": 19215,
+        "win_together_rate": 54.25
+      },
+      {
+        "b_monster_id": 21115,
+        "win_together_rate": 53.85
+      },
+      {
+        "b_monster_id": 14712,
+        "win_together_rate": 53.68
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 33214,
+        "win_against_rate": 40.39
+      },
+      {
+        "b_monster_id": 21514,
+        "win_against_rate": 41.8
+      },
+      {
+        "b_monster_id": 29112,
+        "win_against_rate": 42.99
+      },
+      {
+        "b_monster_id": 28315,
+        "win_against_rate": 44.07
+      },
+      {
+        "b_monster_id": 21211,
+        "win_against_rate": 44.89
+      }
+    ]
+  },
+  "24714": {
+    "best_with": [
+      {
+        "b_monster_id": 22611,
+        "win_together_rate": 55.48
+      },
+      {
+        "b_monster_id": 25413,
+        "win_together_rate": 55.36
+      },
+      {
+        "b_monster_id": 25115,
+        "win_together_rate": 55.2
+      },
+      {
+        "b_monster_id": 25715,
+        "win_together_rate": 54.76
+      },
+      {
+        "b_monster_id": 23115,
+        "win_together_rate": 54.69
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 32311,
+        "win_against_rate": 43.05
+      },
+      {
+        "b_monster_id": 21513,
+        "win_against_rate": 44.8
+      },
+      {
+        "b_monster_id": 25014,
+        "win_against_rate": 44.84
+      },
+      {
+        "b_monster_id": 26114,
+        "win_against_rate": 45.07
+      },
+      {
+        "b_monster_id": 19714,
+        "win_against_rate": 45.19
+      }
+    ]
+  },
+  "24715": {
+    "best_with": [
+      {
+        "b_monster_id": 21415,
+        "win_together_rate": 47.7
+      }
+    ],
+    "bad_against": []
+  },
+  "25011": {
+    "best_with": [
+      {
+        "b_monster_id": 29711,
+        "win_together_rate": 58.98
+      },
+      {
+        "b_monster_id": 15714,
+        "win_together_rate": 56.7
+      },
+      {
+        "b_monster_id": 31015,
+        "win_together_rate": 55.69
+      },
+      {
+        "b_monster_id": 32215,
+        "win_together_rate": 54.76
+      },
+      {
+        "b_monster_id": 14034,
+        "win_together_rate": 54.03
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 23713,
+        "win_against_rate": 40.95
+      },
+      {
+        "b_monster_id": 23114,
+        "win_against_rate": 42.94
+      },
+      {
+        "b_monster_id": 31915,
+        "win_against_rate": 43.16
+      },
+      {
+        "b_monster_id": 19712,
+        "win_against_rate": 43.48
+      },
+      {
+        "b_monster_id": 29114,
+        "win_against_rate": 43.7
+      }
+    ]
+  },
+  "25012": {
+    "best_with": [
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 54.84
+      },
+      {
+        "b_monster_id": 26111,
+        "win_together_rate": 52.44
+      },
+      {
+        "b_monster_id": 17911,
+        "win_together_rate": 51.66
+      },
+      {
+        "b_monster_id": 30012,
+        "win_together_rate": 50.98
+      },
+      {
+        "b_monster_id": 21415,
+        "win_together_rate": 50.44
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 21115,
+        "win_against_rate": 40.34
+      },
+      {
+        "b_monster_id": 31112,
+        "win_against_rate": 42.95
+      },
+      {
+        "b_monster_id": 25014,
+        "win_against_rate": 43.36
+      },
+      {
+        "b_monster_id": 23711,
+        "win_against_rate": 43.93
+      },
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 44.08
+      }
+    ]
+  },
+  "25013": {
+    "best_with": [
+      {
+        "b_monster_id": 22611,
+        "win_together_rate": 54.94
+      },
+      {
+        "b_monster_id": 32311,
+        "win_together_rate": 52.88
+      },
+      {
+        "b_monster_id": 21213,
+        "win_together_rate": 52.3
+      },
+      {
+        "b_monster_id": 18611,
+        "win_together_rate": 51.67
+      },
+      {
+        "b_monster_id": 16611,
+        "win_together_rate": 51.65
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 21214,
+        "win_against_rate": 38.52
+      },
+      {
+        "b_monster_id": 16815,
+        "win_against_rate": 41.65
+      },
+      {
+        "b_monster_id": 21811,
+        "win_against_rate": 42.0
+      },
+      {
+        "b_monster_id": 26114,
+        "win_against_rate": 42.16
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 42.28
+      }
+    ]
+  },
+  "25014": {
+    "best_with": [
+      {
+        "b_monster_id": 20714,
+        "win_together_rate": 56.58
+      },
+      {
+        "b_monster_id": 26113,
+        "win_together_rate": 56.25
+      },
+      {
+        "b_monster_id": 25211,
+        "win_together_rate": 55.9
+      },
+      {
+        "b_monster_id": 18314,
+        "win_together_rate": 55.54
+      },
+      {
+        "b_monster_id": 30613,
+        "win_together_rate": 55.54
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 19712,
+        "win_against_rate": 41.56
+      },
+      {
+        "b_monster_id": 18314,
+        "win_against_rate": 43.59
+      },
+      {
+        "b_monster_id": 33214,
+        "win_against_rate": 43.82
+      },
+      {
+        "b_monster_id": 20714,
+        "win_against_rate": 44.32
+      },
+      {
+        "b_monster_id": 28915,
+        "win_against_rate": 45.38
+      }
+    ]
+  },
+  "25015": {
+    "best_with": [
+      {
+        "b_monster_id": 25614,
+        "win_together_rate": 58.27
+      },
+      {
+        "b_monster_id": 26913,
+        "win_together_rate": 55.82
+      },
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 54.52
+      },
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 54.4
+      },
+      {
+        "b_monster_id": 29112,
+        "win_together_rate": 53.35
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 43.68
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 43.99
+      },
+      {
+        "b_monster_id": 26113,
+        "win_against_rate": 44.29
+      },
+      {
+        "b_monster_id": 25313,
+        "win_against_rate": 46.17
+      },
+      {
+        "b_monster_id": 33214,
+        "win_against_rate": 46.29
+      }
+    ]
+  },
+  "25114": {
+    "best_with": [
+      {
+        "b_monster_id": 25211,
+        "win_together_rate": 48.8
+      },
+      {
+        "b_monster_id": 20515,
+        "win_together_rate": 48.52
+      },
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 48.05
+      },
+      {
+        "b_monster_id": 27214,
+        "win_together_rate": 47.95
+      },
+      {
+        "b_monster_id": 16613,
+        "win_together_rate": 45.75
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 21415,
+        "win_against_rate": 47.68
+      }
+    ]
+  },
+  "25115": {
+    "best_with": [
+      {
+        "b_monster_id": 31315,
+        "win_together_rate": 58.62
+      },
+      {
+        "b_monster_id": 30914,
+        "win_together_rate": 56.89
+      },
+      {
+        "b_monster_id": 24714,
+        "win_together_rate": 55.2
+      },
+      {
+        "b_monster_id": 13812,
+        "win_together_rate": 54.57
+      },
+      {
+        "b_monster_id": 16815,
+        "win_together_rate": 54.2
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 28613,
+        "win_against_rate": 46.58
+      },
+      {
+        "b_monster_id": 18314,
+        "win_against_rate": 46.67
+      },
+      {
+        "b_monster_id": 20512,
+        "win_against_rate": 47.41
+      },
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 48.83
+      },
+      {
+        "b_monster_id": 22211,
+        "win_against_rate": 49.48
+      }
+    ]
+  },
+  "25211": {
+    "best_with": [
+      {
+        "b_monster_id": 33214,
+        "win_together_rate": 56.12
+      },
+      {
+        "b_monster_id": 25014,
+        "win_together_rate": 55.9
+      },
+      {
+        "b_monster_id": 28913,
+        "win_together_rate": 54.56
+      },
+      {
+        "b_monster_id": 21115,
+        "win_together_rate": 53.73
+      },
+      {
+        "b_monster_id": 32311,
+        "win_together_rate": 53.31
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16815,
+        "win_against_rate": 43.91
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 43.95
+      },
+      {
+        "b_monster_id": 29711,
+        "win_against_rate": 44.25
+      },
+      {
+        "b_monster_id": 33214,
+        "win_against_rate": 44.31
+      },
+      {
+        "b_monster_id": 22211,
+        "win_against_rate": 44.67
+      }
+    ]
+  },
+  "25212": {
+    "best_with": [
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 53.86
+      },
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 50.3
+      },
+      {
+        "b_monster_id": 17411,
+        "win_together_rate": 49.39
+      },
+      {
+        "b_monster_id": 15713,
+        "win_together_rate": 47.25
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 21115,
+        "win_against_rate": 45.6
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 46.33
+      },
+      {
+        "b_monster_id": 21415,
+        "win_against_rate": 48.48
+      },
+      {
+        "b_monster_id": 26813,
+        "win_against_rate": 49.72
+      },
+      {
+        "b_monster_id": 16613,
+        "win_against_rate": 50.11
+      }
+    ]
+  },
+  "25214": {
+    "best_with": [
+      {
+        "b_monster_id": 18012,
+        "win_together_rate": 49.23
+      },
+      {
+        "b_monster_id": 23114,
+        "win_together_rate": 48.62
+      }
+    ],
+    "bad_against": []
+  },
+  "25215": {
+    "best_with": [
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 49.41
+      },
+      {
+        "b_monster_id": 28613,
+        "win_together_rate": 48.84
+      }
+    ],
+    "bad_against": []
+  },
+  "25311": {
+    "best_with": [
+      {
+        "b_monster_id": 19714,
+        "win_together_rate": 55.6
+      },
+      {
+        "b_monster_id": 16114,
+        "win_together_rate": 54.94
+      },
+      {
+        "b_monster_id": 21211,
+        "win_together_rate": 54.51
+      },
+      {
+        "b_monster_id": 22611,
+        "win_together_rate": 52.36
+      },
+      {
+        "b_monster_id": 21214,
+        "win_together_rate": 51.9
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 20714,
+        "win_against_rate": 41.48
+      },
+      {
+        "b_monster_id": 14034,
+        "win_against_rate": 42.03
+      },
+      {
+        "b_monster_id": 16815,
+        "win_against_rate": 42.47
+      },
+      {
+        "b_monster_id": 28311,
+        "win_against_rate": 42.52
+      },
+      {
+        "b_monster_id": 16114,
+        "win_against_rate": 42.89
+      }
+    ]
+  },
+  "25313": {
+    "best_with": [
+      {
+        "b_monster_id": 16814,
+        "win_together_rate": 56.75
+      },
+      {
+        "b_monster_id": 30015,
+        "win_together_rate": 55.63
+      },
+      {
+        "b_monster_id": 28115,
+        "win_together_rate": 54.07
+      },
+      {
+        "b_monster_id": 29711,
+        "win_together_rate": 52.88
+      },
+      {
+        "b_monster_id": 18913,
+        "win_together_rate": 52.65
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 22611,
+        "win_against_rate": 43.77
+      },
+      {
+        "b_monster_id": 25315,
+        "win_against_rate": 44.5
+      },
+      {
+        "b_monster_id": 33312,
+        "win_against_rate": 44.74
+      },
+      {
+        "b_monster_id": 33214,
+        "win_against_rate": 45.02
+      },
+      {
+        "b_monster_id": 21514,
+        "win_against_rate": 45.05
+      }
+    ]
+  },
+  "25314": {
+    "best_with": [
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 55.97
+      },
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 51.52
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 23711,
+        "win_against_rate": 50.91
+      },
+      {
+        "b_monster_id": 16613,
+        "win_against_rate": 56.06
+      },
+      {
+        "b_monster_id": 24712,
+        "win_against_rate": 58.55
+      }
+    ]
+  },
+  "25315": {
+    "best_with": [
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 53.09
+      },
+      {
+        "b_monster_id": 15713,
+        "win_together_rate": 49.84
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 44.77
+      },
+      {
+        "b_monster_id": 28613,
+        "win_against_rate": 46.86
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 50.46
+      },
+      {
+        "b_monster_id": 23711,
+        "win_against_rate": 51.37
+      },
+      {
+        "b_monster_id": 24511,
+        "win_against_rate": 55.05
+      }
+    ]
+  },
+  "25412": {
+    "best_with": [
+      {
+        "b_monster_id": 26813,
+        "win_together_rate": 51.05
+      },
+      {
+        "b_monster_id": 21115,
+        "win_together_rate": 50.6
+      },
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 47.18
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 46.4
+      },
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 47.84
+      },
+      {
+        "b_monster_id": 23712,
+        "win_against_rate": 50.16
+      }
+    ]
+  },
+  "25413": {
+    "best_with": [
+      {
+        "b_monster_id": 24714,
+        "win_together_rate": 55.36
+      },
+      {
+        "b_monster_id": 19712,
+        "win_together_rate": 54.91
+      },
+      {
+        "b_monster_id": 24511,
+        "win_together_rate": 53.76
+      },
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 53.31
+      },
+      {
+        "b_monster_id": 25715,
+        "win_together_rate": 53.28
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 21811,
+        "win_against_rate": 41.5
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 43.99
+      },
+      {
+        "b_monster_id": 18615,
+        "win_against_rate": 45.83
+      },
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 45.95
+      },
+      {
+        "b_monster_id": 16613,
+        "win_against_rate": 46.69
+      }
+    ]
+  },
+  "25414": {
+    "best_with": [
+      {
+        "b_monster_id": 17915,
+        "win_together_rate": 51.94
+      },
+      {
+        "b_monster_id": 21415,
+        "win_together_rate": 51.42
+      },
+      {
+        "b_monster_id": 30515,
+        "win_together_rate": 51.29
+      },
+      {
+        "b_monster_id": 24714,
+        "win_together_rate": 51.13
+      },
+      {
+        "b_monster_id": 13812,
+        "win_together_rate": 51.12
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 21513,
+        "win_against_rate": 37.93
+      },
+      {
+        "b_monster_id": 30512,
+        "win_against_rate": 41.34
+      },
+      {
+        "b_monster_id": 22211,
+        "win_against_rate": 42.27
+      },
+      {
+        "b_monster_id": 31112,
+        "win_against_rate": 42.82
+      },
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 43.24
+      }
+    ]
+  },
+  "25415": {
+    "best_with": [
+      {
+        "b_monster_id": 18314,
+        "win_together_rate": 53.93
+      },
+      {
+        "b_monster_id": 26114,
+        "win_together_rate": 52.71
+      },
+      {
+        "b_monster_id": 18615,
+        "win_together_rate": 52.42
+      },
+      {
+        "b_monster_id": 15713,
+        "win_together_rate": 52.32
+      },
+      {
+        "b_monster_id": 31112,
+        "win_together_rate": 51.75
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 21115,
+        "win_against_rate": 42.8
+      },
+      {
+        "b_monster_id": 28613,
+        "win_against_rate": 42.96
+      },
+      {
+        "b_monster_id": 30512,
+        "win_against_rate": 44.39
+      },
+      {
+        "b_monster_id": 16813,
+        "win_against_rate": 45.58
+      },
+      {
+        "b_monster_id": 17913,
+        "win_against_rate": 46.65
+      }
+    ]
+  },
+  "25611": {
+    "best_with": [
+      {
+        "b_monster_id": 16813,
+        "win_together_rate": 52.07
+      },
+      {
+        "b_monster_id": 21213,
+        "win_together_rate": 51.52
+      },
+      {
+        "b_monster_id": 17412,
+        "win_together_rate": 48.58
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 41.33
+      },
+      {
+        "b_monster_id": 23711,
+        "win_against_rate": 45.43
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 48.39
+      },
+      {
+        "b_monster_id": 28613,
+        "win_against_rate": 51.67
+      }
+    ]
+  },
+  "25613": {
+    "best_with": [
+      {
+        "b_monster_id": 20714,
+        "win_together_rate": 56.92
+      },
+      {
+        "b_monster_id": 21115,
+        "win_together_rate": 56.12
+      },
+      {
+        "b_monster_id": 33214,
+        "win_together_rate": 54.63
+      },
+      {
+        "b_monster_id": 15715,
+        "win_together_rate": 54.49
+      },
+      {
+        "b_monster_id": 23115,
+        "win_together_rate": 54.44
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 25015,
+        "win_against_rate": 44.5
+      },
+      {
+        "b_monster_id": 25011,
+        "win_against_rate": 44.69
+      },
+      {
+        "b_monster_id": 25614,
+        "win_against_rate": 45.17
+      },
+      {
+        "b_monster_id": 14615,
+        "win_against_rate": 45.18
+      },
+      {
+        "b_monster_id": 23712,
+        "win_against_rate": 45.32
+      }
+    ]
+  },
+  "25614": {
+    "best_with": [
+      {
+        "b_monster_id": 19712,
+        "win_together_rate": 59.27
+      },
+      {
+        "b_monster_id": 25015,
+        "win_together_rate": 58.27
+      },
+      {
+        "b_monster_id": 16615,
+        "win_together_rate": 55.91
+      },
+      {
+        "b_monster_id": 27214,
+        "win_together_rate": 54.55
+      },
+      {
+        "b_monster_id": 30613,
+        "win_together_rate": 54.1
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 18314,
+        "win_against_rate": 42.0
+      },
+      {
+        "b_monster_id": 27214,
+        "win_against_rate": 44.15
+      },
+      {
+        "b_monster_id": 17913,
+        "win_against_rate": 44.76
+      },
+      {
+        "b_monster_id": 29112,
+        "win_against_rate": 45.86
+      },
+      {
+        "b_monster_id": 20714,
+        "win_against_rate": 46.42
+      }
+    ]
+  },
+  "25615": {
+    "best_with": [
+      {
+        "b_monster_id": 21115,
+        "win_together_rate": 50.0
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 47.39
+      }
+    ]
+  },
+  "25712": {
+    "best_with": [
+      {
+        "b_monster_id": 26113,
+        "win_together_rate": 55.71
+      },
+      {
+        "b_monster_id": 18314,
+        "win_together_rate": 55.01
+      },
+      {
+        "b_monster_id": 18315,
+        "win_together_rate": 53.02
+      },
+      {
+        "b_monster_id": 13812,
+        "win_together_rate": 52.86
+      },
+      {
+        "b_monster_id": 24511,
+        "win_together_rate": 51.73
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 22211,
+        "win_against_rate": 39.16
+      },
+      {
+        "b_monster_id": 24712,
+        "win_against_rate": 39.26
+      },
+      {
+        "b_monster_id": 31315,
+        "win_against_rate": 42.97
+      },
+      {
+        "b_monster_id": 20512,
+        "win_against_rate": 46.71
+      },
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 46.8
+      }
+    ]
+  },
+  "25715": {
+    "best_with": [
+      {
+        "b_monster_id": 31311,
+        "win_together_rate": 59.9
+      },
+      {
+        "b_monster_id": 28315,
+        "win_together_rate": 57.47
+      },
+      {
+        "b_monster_id": 24714,
+        "win_together_rate": 54.76
+      },
+      {
+        "b_monster_id": 21115,
+        "win_together_rate": 54.73
+      },
+      {
+        "b_monster_id": 15712,
+        "win_together_rate": 54.41
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 31315,
+        "win_against_rate": 41.13
+      },
+      {
+        "b_monster_id": 26812,
+        "win_against_rate": 44.58
+      },
+      {
+        "b_monster_id": 21111,
+        "win_against_rate": 44.62
+      },
+      {
+        "b_monster_id": 18615,
+        "win_against_rate": 44.71
+      },
+      {
+        "b_monster_id": 32111,
+        "win_against_rate": 45.53
+      }
+    ]
+  },
+  "25911": {
+    "best_with": [
+      {
+        "b_monster_id": 16611,
+        "win_together_rate": 53.77
+      },
+      {
+        "b_monster_id": 16615,
+        "win_together_rate": 52.75
+      },
+      {
+        "b_monster_id": 17012,
+        "win_together_rate": 52.55
+      },
+      {
+        "b_monster_id": 26113,
+        "win_together_rate": 52.29
+      },
+      {
+        "b_monster_id": 23712,
+        "win_together_rate": 51.89
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 17012,
+        "win_against_rate": 41.87
+      },
+      {
+        "b_monster_id": 26813,
+        "win_against_rate": 42.19
+      },
+      {
+        "b_monster_id": 28613,
+        "win_against_rate": 42.42
+      },
+      {
+        "b_monster_id": 26113,
+        "win_against_rate": 43.56
+      },
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 43.63
+      }
+    ]
+  },
+  "25915": {
+    "best_with": [
+      {
+        "b_monster_id": 28611,
+        "win_together_rate": 56.07
+      }
+    ],
+    "bad_against": []
+  },
+  "26111": {
+    "best_with": [
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 57.54
+      },
+      {
+        "b_monster_id": 30012,
+        "win_together_rate": 54.91
+      },
+      {
+        "b_monster_id": 28613,
+        "win_together_rate": 52.86
+      },
+      {
+        "b_monster_id": 25012,
+        "win_together_rate": 52.44
+      },
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 51.9
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 25014,
+        "win_against_rate": 44.4
+      },
+      {
+        "b_monster_id": 21115,
+        "win_against_rate": 45.14
+      },
+      {
+        "b_monster_id": 21811,
+        "win_against_rate": 51.33
+      },
+      {
+        "b_monster_id": 30613,
+        "win_against_rate": 52.93
+      },
+      {
+        "b_monster_id": 15712,
+        "win_against_rate": 53.06
+      }
+    ]
+  },
+  "26113": {
+    "best_with": [
+      {
+        "b_monster_id": 28311,
+        "win_together_rate": 60.71
+      },
+      {
+        "b_monster_id": 33214,
+        "win_together_rate": 58.61
+      },
+      {
+        "b_monster_id": 18611,
+        "win_together_rate": 58.47
+      },
+      {
+        "b_monster_id": 21211,
+        "win_together_rate": 56.53
+      },
+      {
+        "b_monster_id": 16115,
+        "win_together_rate": 56.53
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16114,
+        "win_against_rate": 43.87
+      },
+      {
+        "b_monster_id": 30015,
+        "win_against_rate": 43.9
+      },
+      {
+        "b_monster_id": 21012,
+        "win_against_rate": 44.98
+      },
+      {
+        "b_monster_id": 33214,
+        "win_against_rate": 45.22
+      },
+      {
+        "b_monster_id": 30311,
+        "win_against_rate": 45.58
+      }
+    ]
+  },
+  "26114": {
+    "best_with": [
+      {
+        "b_monster_id": 23713,
+        "win_together_rate": 55.41
+      },
+      {
+        "b_monster_id": 26113,
+        "win_together_rate": 54.66
+      },
+      {
+        "b_monster_id": 33214,
+        "win_together_rate": 54.42
+      },
+      {
+        "b_monster_id": 19712,
+        "win_together_rate": 54.21
+      },
+      {
+        "b_monster_id": 13515,
+        "win_together_rate": 53.94
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 18615,
+        "win_against_rate": 41.36
+      },
+      {
+        "b_monster_id": 19215,
+        "win_against_rate": 42.6
+      },
+      {
+        "b_monster_id": 27211,
+        "win_against_rate": 44.1
+      },
+      {
+        "b_monster_id": 23114,
+        "win_against_rate": 44.74
+      },
+      {
+        "b_monster_id": 26812,
+        "win_against_rate": 44.97
+      }
+    ]
+  },
+  "26811": {
+    "best_with": [
+      {
+        "b_monster_id": 31315,
+        "win_together_rate": 55.73
+      },
+      {
+        "b_monster_id": 29711,
+        "win_together_rate": 55.66
+      },
+      {
+        "b_monster_id": 21314,
+        "win_together_rate": 54.05
+      },
+      {
+        "b_monster_id": 14413,
+        "win_together_rate": 53.48
+      },
+      {
+        "b_monster_id": 26113,
+        "win_together_rate": 52.58
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 14034,
+        "win_against_rate": 41.34
+      },
+      {
+        "b_monster_id": 16114,
+        "win_against_rate": 42.08
+      },
+      {
+        "b_monster_id": 18314,
+        "win_against_rate": 42.93
+      },
+      {
+        "b_monster_id": 15715,
+        "win_against_rate": 42.94
+      },
+      {
+        "b_monster_id": 16815,
+        "win_against_rate": 45.27
+      }
+    ]
+  },
+  "26812": {
+    "best_with": [
+      {
+        "b_monster_id": 33214,
+        "win_together_rate": 59.09
+      },
+      {
+        "b_monster_id": 20714,
+        "win_together_rate": 57.91
+      },
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 56.53
+      },
+      {
+        "b_monster_id": 30015,
+        "win_together_rate": 54.9
+      },
+      {
+        "b_monster_id": 30512,
+        "win_together_rate": 53.52
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 32111,
+        "win_against_rate": 42.61
+      },
+      {
+        "b_monster_id": 23512,
+        "win_against_rate": 43.57
+      },
+      {
+        "b_monster_id": 16111,
+        "win_against_rate": 44.96
+      },
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 45.3
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 45.7
+      }
+    ]
+  },
+  "26813": {
+    "best_with": [
+      {
+        "b_monster_id": 32311,
+        "win_together_rate": 56.27
+      },
+      {
+        "b_monster_id": 19215,
+        "win_together_rate": 55.6
+      },
+      {
+        "b_monster_id": 18611,
+        "win_together_rate": 54.68
+      },
+      {
+        "b_monster_id": 14615,
+        "win_together_rate": 54.62
+      },
+      {
+        "b_monster_id": 27214,
+        "win_together_rate": 54.55
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 26913,
+        "win_against_rate": 41.69
+      },
+      {
+        "b_monster_id": 28115,
+        "win_against_rate": 41.69
+      },
+      {
+        "b_monster_id": 23713,
+        "win_against_rate": 43.3
+      },
+      {
+        "b_monster_id": 18314,
+        "win_against_rate": 43.32
+      },
+      {
+        "b_monster_id": 29114,
+        "win_against_rate": 43.52
+      }
+    ]
+  },
+  "26814": {
+    "best_with": [
+      {
+        "b_monster_id": 25011,
+        "win_together_rate": 48.51
+      }
+    ],
+    "bad_against": []
+  },
+  "26912": {
+    "best_with": [
+      {
+        "b_monster_id": 13812,
+        "win_together_rate": 54.26
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16613,
+        "win_against_rate": 56.72
+      }
+    ]
+  },
+  "26913": {
+    "best_with": [
+      {
+        "b_monster_id": 32311,
+        "win_together_rate": 59.7
+      },
+      {
+        "b_monster_id": 25015,
+        "win_together_rate": 55.82
+      },
+      {
+        "b_monster_id": 29112,
+        "win_together_rate": 52.99
+      },
+      {
+        "b_monster_id": 17411,
+        "win_together_rate": 51.35
+      },
+      {
+        "b_monster_id": 28611,
+        "win_together_rate": 51.28
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 39.48
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 44.18
+      },
+      {
+        "b_monster_id": 23712,
+        "win_against_rate": 44.48
+      },
+      {
+        "b_monster_id": 15715,
+        "win_against_rate": 46.36
+      },
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 46.75
+      }
+    ]
+  },
+  "26915": {
+    "best_with": [
+      {
+        "b_monster_id": 21415,
+        "win_together_rate": 55.63
+      },
+      {
+        "b_monster_id": 17411,
+        "win_together_rate": 54.03
+      },
+      {
+        "b_monster_id": 25313,
+        "win_together_rate": 51.06
+      },
+      {
+        "b_monster_id": 14414,
+        "win_together_rate": 50.93
+      },
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 49.42
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 26813,
+        "win_against_rate": 46.88
+      },
+      {
+        "b_monster_id": 16615,
+        "win_against_rate": 48.41
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 50.0
+      },
+      {
+        "b_monster_id": 21415,
+        "win_against_rate": 52.76
+      },
+      {
+        "b_monster_id": 25011,
+        "win_against_rate": 53.55
+      }
+    ]
+  },
+  "27211": {
+    "best_with": [
+      {
+        "b_monster_id": 21214,
+        "win_together_rate": 56.24
+      },
+      {
+        "b_monster_id": 16114,
+        "win_together_rate": 54.24
+      },
+      {
+        "b_monster_id": 21314,
+        "win_together_rate": 53.58
+      },
+      {
+        "b_monster_id": 30314,
+        "win_together_rate": 53.5
+      },
+      {
+        "b_monster_id": 30914,
+        "win_together_rate": 53.2
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 26812,
+        "win_against_rate": 37.93
+      },
+      {
+        "b_monster_id": 33214,
+        "win_against_rate": 43.75
+      },
+      {
+        "b_monster_id": 22215,
+        "win_against_rate": 44.08
+      },
+      {
+        "b_monster_id": 15712,
+        "win_against_rate": 44.41
+      },
+      {
+        "b_monster_id": 21514,
+        "win_against_rate": 45.37
+      }
+    ]
+  },
+  "27212": {
+    "best_with": [
+      {
+        "b_monster_id": 21115,
+        "win_together_rate": 54.5
+      },
+      {
+        "b_monster_id": 16811,
+        "win_together_rate": 50.91
+      },
+      {
+        "b_monster_id": 16111,
+        "win_together_rate": 49.35
+      },
+      {
+        "b_monster_id": 25313,
+        "win_together_rate": 48.31
+      },
+      {
+        "b_monster_id": 15713,
+        "win_together_rate": 46.51
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 43.83
+      },
+      {
+        "b_monster_id": 25313,
+        "win_against_rate": 48.01
+      },
+      {
+        "b_monster_id": 23711,
+        "win_against_rate": 50.82
+      },
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 51.48
+      }
+    ]
+  },
+  "27213": {
+    "best_with": [
+      {
+        "b_monster_id": 18611,
+        "win_together_rate": 48.37
+      },
+      {
+        "b_monster_id": 24714,
+        "win_together_rate": 47.64
+      },
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 46.77
+      },
+      {
+        "b_monster_id": 13812,
+        "win_together_rate": 45.95
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 42.13
+      },
+      {
+        "b_monster_id": 25313,
+        "win_against_rate": 44.53
+      },
+      {
+        "b_monster_id": 23711,
+        "win_against_rate": 45.39
+      },
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 51.12
+      }
+    ]
+  },
+  "27214": {
+    "best_with": [
+      {
+        "b_monster_id": 16614,
+        "win_together_rate": 57.42
+      },
+      {
+        "b_monster_id": 28915,
+        "win_together_rate": 56.58
+      },
+      {
+        "b_monster_id": 28315,
+        "win_together_rate": 56.54
+      },
+      {
+        "b_monster_id": 20614,
+        "win_together_rate": 55.45
+      },
+      {
+        "b_monster_id": 21215,
+        "win_together_rate": 55.28
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 20614,
+        "win_against_rate": 44.99
+      },
+      {
+        "b_monster_id": 18315,
+        "win_against_rate": 45.51
+      },
+      {
+        "b_monster_id": 33214,
+        "win_against_rate": 46.05
+      },
+      {
+        "b_monster_id": 22611,
+        "win_against_rate": 46.22
+      },
+      {
+        "b_monster_id": 21214,
+        "win_against_rate": 46.58
+      }
+    ]
+  },
+  "27215": {
+    "best_with": [
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 53.15
+      },
+      {
+        "b_monster_id": 17012,
+        "win_together_rate": 52.38
+      },
+      {
+        "b_monster_id": 21811,
+        "win_together_rate": 52.36
+      },
+      {
+        "b_monster_id": 21115,
+        "win_together_rate": 52.07
+      },
+      {
+        "b_monster_id": 18314,
+        "win_together_rate": 51.84
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 43.18
+      },
+      {
+        "b_monster_id": 20714,
+        "win_against_rate": 43.27
+      },
+      {
+        "b_monster_id": 16111,
+        "win_against_rate": 43.57
+      },
+      {
+        "b_monster_id": 17012,
+        "win_against_rate": 44.0
+      },
+      {
+        "b_monster_id": 23512,
+        "win_against_rate": 44.28
+      }
+    ]
+  },
+  "27911": {
+    "best_with": [
+      {
+        "b_monster_id": 20515,
+        "win_together_rate": 49.86
+      }
+    ],
+    "bad_against": []
+  },
+  "27914": {
+    "best_with": [
+      {
+        "b_monster_id": 21415,
+        "win_together_rate": 51.29
+      }
+    ],
+    "bad_against": []
+  },
+  "28012": {
+    "best_with": [
+      {
+        "b_monster_id": 16613,
+        "win_together_rate": 53.81
+      },
+      {
+        "b_monster_id": 21115,
+        "win_together_rate": 53.64
+      },
+      {
+        "b_monster_id": 15712,
+        "win_together_rate": 53.3
+      },
+      {
+        "b_monster_id": 16615,
+        "win_together_rate": 53.17
+      },
+      {
+        "b_monster_id": 20714,
+        "win_together_rate": 52.88
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 30314,
+        "win_against_rate": 43.02
+      },
+      {
+        "b_monster_id": 31311,
+        "win_against_rate": 43.57
+      },
+      {
+        "b_monster_id": 19712,
+        "win_against_rate": 44.94
+      },
+      {
+        "b_monster_id": 21115,
+        "win_against_rate": 44.98
+      },
+      {
+        "b_monster_id": 33214,
+        "win_against_rate": 45.57
+      }
+    ]
+  },
+  "28013": {
+    "best_with": [
+      {
+        "b_monster_id": 28915,
+        "win_together_rate": 52.99
+      },
+      {
+        "b_monster_id": 23512,
+        "win_together_rate": 49.55
+      },
+      {
+        "b_monster_id": 28611,
+        "win_together_rate": 49.26
+      },
+      {
+        "b_monster_id": 16111,
+        "win_together_rate": 49.23
+      },
+      {
+        "b_monster_id": 21415,
+        "win_together_rate": 48.23
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 21115,
+        "win_against_rate": 41.27
+      },
+      {
+        "b_monster_id": 26113,
+        "win_against_rate": 41.82
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 42.29
+      },
+      {
+        "b_monster_id": 17012,
+        "win_against_rate": 43.11
+      },
+      {
+        "b_monster_id": 26813,
+        "win_against_rate": 43.14
+      }
+    ]
+  },
+  "28112": {
+    "best_with": [
+      {
+        "b_monster_id": 28311,
+        "win_together_rate": 55.49
+      },
+      {
+        "b_monster_id": 21513,
+        "win_together_rate": 54.11
+      },
+      {
+        "b_monster_id": 22211,
+        "win_together_rate": 53.18
+      },
+      {
+        "b_monster_id": 19714,
+        "win_together_rate": 52.46
+      },
+      {
+        "b_monster_id": 28611,
+        "win_together_rate": 51.46
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 33214,
+        "win_against_rate": 41.2
+      },
+      {
+        "b_monster_id": 26113,
+        "win_against_rate": 42.02
+      },
+      {
+        "b_monster_id": 32311,
+        "win_against_rate": 42.51
+      },
+      {
+        "b_monster_id": 24714,
+        "win_against_rate": 43.21
+      },
+      {
+        "b_monster_id": 25011,
+        "win_against_rate": 43.41
+      }
+    ]
+  },
+  "28115": {
+    "best_with": [
+      {
+        "b_monster_id": 20614,
+        "win_together_rate": 56.86
+      },
+      {
+        "b_monster_id": 30715,
+        "win_together_rate": 55.69
+      },
+      {
+        "b_monster_id": 26113,
+        "win_together_rate": 55.44
+      },
+      {
+        "b_monster_id": 18914,
+        "win_together_rate": 55.35
+      },
+      {
+        "b_monster_id": 18314,
+        "win_together_rate": 55.19
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 17913,
+        "win_against_rate": 43.48
+      },
+      {
+        "b_monster_id": 14034,
+        "win_against_rate": 43.58
+      },
+      {
+        "b_monster_id": 16114,
+        "win_against_rate": 43.89
+      },
+      {
+        "b_monster_id": 26113,
+        "win_against_rate": 44.93
+      },
+      {
+        "b_monster_id": 25313,
+        "win_against_rate": 46.35
+      }
+    ]
+  },
+  "28214": {
+    "best_with": [
+      {
+        "b_monster_id": 14714,
+        "win_together_rate": 52.47
+      },
+      {
+        "b_monster_id": 27214,
+        "win_together_rate": 50.33
+      },
+      {
+        "b_monster_id": 15713,
+        "win_together_rate": 50.0
+      },
+      {
+        "b_monster_id": 16811,
+        "win_together_rate": 48.25
+      },
+      {
+        "b_monster_id": 25313,
+        "win_together_rate": 47.72
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 42.42
+      },
+      {
+        "b_monster_id": 23711,
+        "win_against_rate": 46.19
+      },
+      {
+        "b_monster_id": 25313,
+        "win_against_rate": 50.67
+      },
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 52.16
+      },
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 53.01
+      }
+    ]
+  },
+  "28215": {
+    "best_with": [
+      {
+        "b_monster_id": 21811,
+        "win_together_rate": 57.14
+      },
+      {
+        "b_monster_id": 17913,
+        "win_together_rate": 56.18
+      },
+      {
+        "b_monster_id": 17411,
+        "win_together_rate": 55.11
+      },
+      {
+        "b_monster_id": 26113,
+        "win_together_rate": 53.9
+      },
+      {
+        "b_monster_id": 32915,
+        "win_together_rate": 53.72
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 31315,
+        "win_against_rate": 42.03
+      },
+      {
+        "b_monster_id": 25211,
+        "win_against_rate": 45.19
+      },
+      {
+        "b_monster_id": 28311,
+        "win_against_rate": 45.63
+      },
+      {
+        "b_monster_id": 22211,
+        "win_against_rate": 46.1
+      },
+      {
+        "b_monster_id": 28112,
+        "win_against_rate": 46.31
+      }
+    ]
+  },
+  "28311": {
+    "best_with": [
+      {
+        "b_monster_id": 26113,
+        "win_together_rate": 60.71
+      },
+      {
+        "b_monster_id": 21514,
+        "win_together_rate": 58.84
+      },
+      {
+        "b_monster_id": 31115,
+        "win_together_rate": 58.12
+      },
+      {
+        "b_monster_id": 16811,
+        "win_together_rate": 57.03
+      },
+      {
+        "b_monster_id": 16813,
+        "win_together_rate": 56.42
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 21115,
+        "win_against_rate": 42.6
+      },
+      {
+        "b_monster_id": 30914,
+        "win_against_rate": 44.47
+      },
+      {
+        "b_monster_id": 33214,
+        "win_against_rate": 45.33
+      },
+      {
+        "b_monster_id": 21514,
+        "win_against_rate": 46.38
+      },
+      {
+        "b_monster_id": 16615,
+        "win_against_rate": 46.65
+      }
+    ]
+  },
+  "28312": {
+    "best_with": [
+      {
+        "b_monster_id": 30015,
+        "win_together_rate": 61.52
+      },
+      {
+        "b_monster_id": 26111,
+        "win_together_rate": 57.54
+      },
+      {
+        "b_monster_id": 31115,
+        "win_together_rate": 56.71
+      },
+      {
+        "b_monster_id": 26812,
+        "win_together_rate": 56.53
+      },
+      {
+        "b_monster_id": 13515,
+        "win_together_rate": 56.2
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 14411,
+        "win_against_rate": 44.0
+      },
+      {
+        "b_monster_id": 30015,
+        "win_against_rate": 45.43
+      },
+      {
+        "b_monster_id": 33312,
+        "win_against_rate": 45.52
+      },
+      {
+        "b_monster_id": 20114,
+        "win_against_rate": 45.71
+      },
+      {
+        "b_monster_id": 13815,
+        "win_against_rate": 46.03
+      }
+    ]
+  },
+  "28313": {
+    "best_with": [
+      {
+        "b_monster_id": 13515,
+        "win_together_rate": 56.07
+      },
+      {
+        "b_monster_id": 21514,
+        "win_together_rate": 55.88
+      },
+      {
+        "b_monster_id": 23115,
+        "win_together_rate": 54.1
+      },
+      {
+        "b_monster_id": 20714,
+        "win_together_rate": 54.08
+      },
+      {
+        "b_monster_id": 17012,
+        "win_together_rate": 53.67
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 31314,
+        "win_against_rate": 39.74
+      },
+      {
+        "b_monster_id": 30015,
+        "win_against_rate": 40.58
+      },
+      {
+        "b_monster_id": 28315,
+        "win_against_rate": 40.69
+      },
+      {
+        "b_monster_id": 19215,
+        "win_against_rate": 42.09
+      },
+      {
+        "b_monster_id": 31315,
+        "win_against_rate": 44.57
+      }
+    ]
+  },
+  "28314": {
+    "best_with": [
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 52.17
+      },
+      {
+        "b_monster_id": 15713,
+        "win_together_rate": 49.69
+      },
+      {
+        "b_monster_id": 23712,
+        "win_together_rate": 49.17
+      },
+      {
+        "b_monster_id": 16815,
+        "win_together_rate": 48.8
+      },
+      {
+        "b_monster_id": 18615,
+        "win_together_rate": 48.74
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 42.49
+      },
+      {
+        "b_monster_id": 21115,
+        "win_against_rate": 44.22
+      },
+      {
+        "b_monster_id": 30512,
+        "win_against_rate": 45.06
+      },
+      {
+        "b_monster_id": 25313,
+        "win_against_rate": 45.71
+      },
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 47.04
+      }
+    ]
+  },
+  "28315": {
+    "best_with": [
+      {
+        "b_monster_id": 25715,
+        "win_together_rate": 57.47
+      },
+      {
+        "b_monster_id": 27214,
+        "win_together_rate": 56.54
+      },
+      {
+        "b_monster_id": 16815,
+        "win_together_rate": 56.27
+      },
+      {
+        "b_monster_id": 18615,
+        "win_together_rate": 56.22
+      },
+      {
+        "b_monster_id": 23115,
+        "win_together_rate": 55.9
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 26113,
+        "win_against_rate": 44.76
+      },
+      {
+        "b_monster_id": 19712,
+        "win_against_rate": 45.23
+      },
+      {
+        "b_monster_id": 24714,
+        "win_against_rate": 45.39
+      },
+      {
+        "b_monster_id": 22211,
+        "win_against_rate": 46.55
+      },
+      {
+        "b_monster_id": 23115,
+        "win_against_rate": 47.13
+      }
+    ]
+  },
+  "28611": {
+    "best_with": [
+      {
+        "b_monster_id": 25915,
+        "win_together_rate": 56.07
+      },
+      {
+        "b_monster_id": 22611,
+        "win_together_rate": 53.92
+      },
+      {
+        "b_monster_id": 25011,
+        "win_together_rate": 52.26
+      },
+      {
+        "b_monster_id": 21211,
+        "win_together_rate": 52.17
+      },
+      {
+        "b_monster_id": 33214,
+        "win_together_rate": 51.97
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16114,
+        "win_against_rate": 35.91
+      },
+      {
+        "b_monster_id": 21214,
+        "win_against_rate": 38.72
+      },
+      {
+        "b_monster_id": 16815,
+        "win_against_rate": 40.15
+      },
+      {
+        "b_monster_id": 30314,
+        "win_against_rate": 40.37
+      },
+      {
+        "b_monster_id": 28313,
+        "win_against_rate": 41.34
+      }
+    ]
+  },
+  "28612": {
+    "best_with": [
+      {
+        "b_monster_id": 24511,
+        "win_together_rate": 51.62
+      },
+      {
+        "b_monster_id": 24714,
+        "win_together_rate": 51.16
+      },
+      {
+        "b_monster_id": 23713,
+        "win_together_rate": 51.14
+      },
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 46.59
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 46.15
+      },
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 50.14
+      },
+      {
+        "b_monster_id": 25313,
+        "win_against_rate": 51.03
+      },
+      {
+        "b_monster_id": 23711,
+        "win_against_rate": 56.49
+      }
+    ]
+  },
+  "28613": {
+    "best_with": [
+      {
+        "b_monster_id": 32215,
+        "win_together_rate": 58.26
+      },
+      {
+        "b_monster_id": 28911,
+        "win_together_rate": 54.91
+      },
+      {
+        "b_monster_id": 28311,
+        "win_together_rate": 53.99
+      },
+      {
+        "b_monster_id": 17913,
+        "win_together_rate": 53.63
+      },
+      {
+        "b_monster_id": 16612,
+        "win_together_rate": 53.08
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 31314,
+        "win_against_rate": 39.89
+      },
+      {
+        "b_monster_id": 30015,
+        "win_against_rate": 40.37
+      },
+      {
+        "b_monster_id": 21214,
+        "win_against_rate": 42.03
+      },
+      {
+        "b_monster_id": 21115,
+        "win_against_rate": 42.17
+      },
+      {
+        "b_monster_id": 30313,
+        "win_against_rate": 42.86
+      }
+    ]
+  },
+  "28911": {
+    "best_with": [
+      {
+        "b_monster_id": 15715,
+        "win_together_rate": 56.33
+      },
+      {
+        "b_monster_id": 28613,
+        "win_together_rate": 54.91
+      },
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 52.77
+      },
+      {
+        "b_monster_id": 14034,
+        "win_together_rate": 52.74
+      },
+      {
+        "b_monster_id": 32111,
+        "win_together_rate": 52.36
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 21811,
+        "win_against_rate": 43.68
+      },
+      {
+        "b_monster_id": 21115,
+        "win_against_rate": 43.86
+      },
+      {
+        "b_monster_id": 28613,
+        "win_against_rate": 45.35
+      },
+      {
+        "b_monster_id": 26813,
+        "win_against_rate": 46.67
+      },
+      {
+        "b_monster_id": 15712,
+        "win_against_rate": 46.98
+      }
+    ]
+  },
+  "28913": {
+    "best_with": [
+      {
+        "b_monster_id": 24712,
+        "win_together_rate": 56.21
+      },
+      {
+        "b_monster_id": 22211,
+        "win_together_rate": 54.9
+      },
+      {
+        "b_monster_id": 25211,
+        "win_together_rate": 54.56
+      },
+      {
+        "b_monster_id": 16613,
+        "win_together_rate": 54.11
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 23114,
+        "win_against_rate": 54.66
+      },
+      {
+        "b_monster_id": 16613,
+        "win_against_rate": 58.08
+      },
+      {
+        "b_monster_id": 31315,
+        "win_against_rate": 58.5
+      }
+    ]
+  },
+  "28914": {
+    "best_with": [
+      {
+        "b_monster_id": 13814,
+        "win_together_rate": 54.47
+      },
+      {
+        "b_monster_id": 21115,
+        "win_together_rate": 53.59
+      },
+      {
+        "b_monster_id": 32314,
+        "win_together_rate": 52.69
+      },
+      {
+        "b_monster_id": 26113,
+        "win_together_rate": 52.67
+      },
+      {
+        "b_monster_id": 16111,
+        "win_together_rate": 50.88
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 15715,
+        "win_against_rate": 45.71
+      },
+      {
+        "b_monster_id": 23711,
+        "win_against_rate": 48.06
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 49.48
+      },
+      {
+        "b_monster_id": 25313,
+        "win_against_rate": 49.51
+      },
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 49.56
+      }
+    ]
+  },
+  "28915": {
+    "best_with": [
+      {
+        "b_monster_id": 33312,
+        "win_together_rate": 56.75
+      },
+      {
+        "b_monster_id": 27214,
+        "win_together_rate": 56.58
+      },
+      {
+        "b_monster_id": 22611,
+        "win_together_rate": 56.51
+      },
+      {
+        "b_monster_id": 21211,
+        "win_together_rate": 55.64
+      },
+      {
+        "b_monster_id": 18611,
+        "win_together_rate": 54.98
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 23711,
+        "win_against_rate": 43.09
+      },
+      {
+        "b_monster_id": 25015,
+        "win_against_rate": 44.69
+      },
+      {
+        "b_monster_id": 25614,
+        "win_against_rate": 45.78
+      },
+      {
+        "b_monster_id": 14615,
+        "win_against_rate": 45.93
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 46.38
+      }
+    ]
+  },
+  "29111": {
+    "best_with": [
+      {
+        "b_monster_id": 19712,
+        "win_together_rate": 55.69
+      },
+      {
+        "b_monster_id": 17012,
+        "win_together_rate": 53.33
+      },
+      {
+        "b_monster_id": 21811,
+        "win_together_rate": 52.96
+      },
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 52.68
+      },
+      {
+        "b_monster_id": 18314,
+        "win_together_rate": 51.8
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 44.89
+      },
+      {
+        "b_monster_id": 17411,
+        "win_against_rate": 45.08
+      },
+      {
+        "b_monster_id": 16613,
+        "win_against_rate": 45.59
+      },
+      {
+        "b_monster_id": 30512,
+        "win_against_rate": 46.48
+      },
+      {
+        "b_monster_id": 21415,
+        "win_against_rate": 46.89
+      }
+    ]
+  },
+  "29112": {
+    "best_with": [
+      {
+        "b_monster_id": 18314,
+        "win_together_rate": 56.25
+      },
+      {
+        "b_monster_id": 29113,
+        "win_together_rate": 56.14
+      },
+      {
+        "b_monster_id": 26113,
+        "win_together_rate": 54.13
+      },
+      {
+        "b_monster_id": 17012,
+        "win_together_rate": 53.96
+      },
+      {
+        "b_monster_id": 17913,
+        "win_together_rate": 53.81
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 17411,
+        "win_against_rate": 44.41
+      },
+      {
+        "b_monster_id": 16615,
+        "win_against_rate": 45.11
+      },
+      {
+        "b_monster_id": 31315,
+        "win_against_rate": 45.34
+      },
+      {
+        "b_monster_id": 18615,
+        "win_against_rate": 45.87
+      },
+      {
+        "b_monster_id": 21115,
+        "win_against_rate": 46.61
+      }
+    ]
+  },
+  "29113": {
+    "best_with": [
+      {
+        "b_monster_id": 15715,
+        "win_together_rate": 58.06
+      },
+      {
+        "b_monster_id": 29112,
+        "win_together_rate": 56.14
+      },
+      {
+        "b_monster_id": 15713,
+        "win_together_rate": 53.57
+      },
+      {
+        "b_monster_id": 16811,
+        "win_together_rate": 51.58
+      },
+      {
+        "b_monster_id": 17411,
+        "win_together_rate": 51.54
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 15715,
+        "win_against_rate": 47.42
+      },
+      {
+        "b_monster_id": 23711,
+        "win_against_rate": 47.5
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 50.11
+      },
+      {
+        "b_monster_id": 21811,
+        "win_against_rate": 50.68
+      },
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 52.44
+      }
+    ]
+  },
+  "29114": {
+    "best_with": [
+      {
+        "b_monster_id": 19714,
+        "win_together_rate": 54.43
+      },
+      {
+        "b_monster_id": 21314,
+        "win_together_rate": 54.37
+      },
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 53.56
+      },
+      {
+        "b_monster_id": 21214,
+        "win_together_rate": 53.44
+      },
+      {
+        "b_monster_id": 16815,
+        "win_together_rate": 53.36
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 33214,
+        "win_against_rate": 45.45
+      },
+      {
+        "b_monster_id": 14712,
+        "win_against_rate": 45.72
+      },
+      {
+        "b_monster_id": 31315,
+        "win_against_rate": 46.03
+      },
+      {
+        "b_monster_id": 24713,
+        "win_against_rate": 46.26
+      },
+      {
+        "b_monster_id": 30314,
+        "win_against_rate": 46.61
+      }
+    ]
+  },
+  "29115": {
+    "best_with": [
+      {
+        "b_monster_id": 21415,
+        "win_together_rate": 52.24
+      },
+      {
+        "b_monster_id": 32811,
+        "win_together_rate": 51.9
+      },
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 47.92
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 48.4
+      },
+      {
+        "b_monster_id": 23711,
+        "win_against_rate": 49.53
+      },
+      {
+        "b_monster_id": 25313,
+        "win_against_rate": 53.53
+      }
+    ]
+  },
+  "29711": {
+    "best_with": [
+      {
+        "b_monster_id": 25011,
+        "win_together_rate": 58.98
+      },
+      {
+        "b_monster_id": 26811,
+        "win_together_rate": 55.66
+      },
+      {
+        "b_monster_id": 14413,
+        "win_together_rate": 55.31
+      },
+      {
+        "b_monster_id": 26113,
+        "win_together_rate": 53.88
+      },
+      {
+        "b_monster_id": 21314,
+        "win_together_rate": 53.48
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 30512,
+        "win_against_rate": 47.28
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 47.64
+      },
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 50.37
+      },
+      {
+        "b_monster_id": 24511,
+        "win_against_rate": 52.46
+      },
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 52.6
+      }
+    ]
+  },
+  "29713": {
+    "best_with": [
+      {
+        "b_monster_id": 21314,
+        "win_together_rate": 51.36
+      }
+    ],
+    "bad_against": []
+  },
+  "29714": {
+    "best_with": [],
+    "bad_against": [
+      {
+        "b_monster_id": 16613,
+        "win_against_rate": 53.21
+      }
+    ]
+  },
+  "29812": {
+    "best_with": [
+      {
+        "b_monster_id": 21115,
+        "win_together_rate": 51.62
+      },
+      {
+        "b_monster_id": 28613,
+        "win_together_rate": 48.0
+      },
+      {
+        "b_monster_id": 24712,
+        "win_together_rate": 47.97
+      },
+      {
+        "b_monster_id": 16111,
+        "win_together_rate": 47.29
+      },
+      {
+        "b_monster_id": 16811,
+        "win_together_rate": 47.02
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 21115,
+        "win_against_rate": 33.82
+      },
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 37.28
+      },
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 38.95
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 40.0
+      },
+      {
+        "b_monster_id": 25313,
+        "win_against_rate": 41.69
+      }
+    ]
+  },
+  "29815": {
+    "best_with": [
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 56.19
+      },
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 53.39
+      },
+      {
+        "b_monster_id": 14615,
+        "win_together_rate": 50.0
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 49.45
+      },
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 52.12
+      },
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 52.89
+      },
+      {
+        "b_monster_id": 25313,
+        "win_against_rate": 53.01
+      }
+    ]
+  },
+  "30011": {
+    "best_with": [
+      {
+        "b_monster_id": 16815,
+        "win_together_rate": 53.83
+      },
+      {
+        "b_monster_id": 25313,
+        "win_together_rate": 52.16
+      },
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 52.11
+      },
+      {
+        "b_monster_id": 15713,
+        "win_together_rate": 50.54
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 23711,
+        "win_against_rate": 51.13
+      }
+    ]
+  },
+  "30012": {
+    "best_with": [
+      {
+        "b_monster_id": 26111,
+        "win_together_rate": 54.91
+      },
+      {
+        "b_monster_id": 17911,
+        "win_together_rate": 53.33
+      },
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 52.2
+      },
+      {
+        "b_monster_id": 28613,
+        "win_together_rate": 51.44
+      },
+      {
+        "b_monster_id": 25012,
+        "win_together_rate": 50.98
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 23711,
+        "win_against_rate": 38.31
+      },
+      {
+        "b_monster_id": 21115,
+        "win_against_rate": 42.5
+      },
+      {
+        "b_monster_id": 16111,
+        "win_against_rate": 45.06
+      },
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 45.19
+      },
+      {
+        "b_monster_id": 25313,
+        "win_against_rate": 46.76
+      }
+    ]
+  },
+  "30014": {
+    "best_with": [
+      {
+        "b_monster_id": 21115,
+        "win_together_rate": 57.14
+      },
+      {
+        "b_monster_id": 21512,
+        "win_together_rate": 55.29
+      },
+      {
+        "b_monster_id": 16114,
+        "win_together_rate": 54.82
+      },
+      {
+        "b_monster_id": 21214,
+        "win_together_rate": 54.55
+      },
+      {
+        "b_monster_id": 30314,
+        "win_together_rate": 54.01
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16613,
+        "win_against_rate": 38.9
+      },
+      {
+        "b_monster_id": 15712,
+        "win_against_rate": 41.97
+      },
+      {
+        "b_monster_id": 13812,
+        "win_against_rate": 44.59
+      },
+      {
+        "b_monster_id": 30512,
+        "win_against_rate": 44.74
+      },
+      {
+        "b_monster_id": 30314,
+        "win_against_rate": 44.99
+      }
+    ]
+  },
+  "30015": {
+    "best_with": [
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 61.52
+      },
+      {
+        "b_monster_id": 31213,
+        "win_together_rate": 61.44
+      },
+      {
+        "b_monster_id": 30613,
+        "win_together_rate": 59.59
+      },
+      {
+        "b_monster_id": 16811,
+        "win_together_rate": 59.33
+      },
+      {
+        "b_monster_id": 21811,
+        "win_together_rate": 59.0
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16114,
+        "win_against_rate": 49.52
+      },
+      {
+        "b_monster_id": 25313,
+        "win_against_rate": 49.73
+      },
+      {
+        "b_monster_id": 23712,
+        "win_against_rate": 50.3
+      },
+      {
+        "b_monster_id": 28611,
+        "win_against_rate": 50.43
+      },
+      {
+        "b_monster_id": 15715,
+        "win_against_rate": 51.8
+      }
+    ]
+  },
+  "30311": {
+    "best_with": [
+      {
+        "b_monster_id": 20415,
+        "win_together_rate": 54.97
+      },
+      {
+        "b_monster_id": 19712,
+        "win_together_rate": 53.11
+      },
+      {
+        "b_monster_id": 16813,
+        "win_together_rate": 52.29
+      },
+      {
+        "b_monster_id": 15712,
+        "win_together_rate": 51.79
+      },
+      {
+        "b_monster_id": 16111,
+        "win_together_rate": 50.81
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 21214,
+        "win_against_rate": 36.48
+      },
+      {
+        "b_monster_id": 16114,
+        "win_against_rate": 40.31
+      },
+      {
+        "b_monster_id": 16111,
+        "win_against_rate": 43.69
+      },
+      {
+        "b_monster_id": 21811,
+        "win_against_rate": 43.79
+      },
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 44.06
+      }
+    ]
+  },
+  "30313": {
+    "best_with": [
+      {
+        "b_monster_id": 14034,
+        "win_together_rate": 57.49
+      },
+      {
+        "b_monster_id": 32114,
+        "win_together_rate": 57.31
+      },
+      {
+        "b_monster_id": 26113,
+        "win_together_rate": 54.95
+      },
+      {
+        "b_monster_id": 31112,
+        "win_together_rate": 54.11
+      },
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 53.89
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 21214,
+        "win_against_rate": 45.36
+      },
+      {
+        "b_monster_id": 19215,
+        "win_against_rate": 45.76
+      },
+      {
+        "b_monster_id": 21115,
+        "win_against_rate": 47.58
+      },
+      {
+        "b_monster_id": 16111,
+        "win_against_rate": 48.14
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 48.26
+      }
+    ]
+  },
+  "30314": {
+    "best_with": [
+      {
+        "b_monster_id": 32114,
+        "win_together_rate": 59.12
+      },
+      {
+        "b_monster_id": 14411,
+        "win_together_rate": 58.13
+      },
+      {
+        "b_monster_id": 30613,
+        "win_together_rate": 57.53
+      },
+      {
+        "b_monster_id": 21513,
+        "win_together_rate": 55.81
+      },
+      {
+        "b_monster_id": 16115,
+        "win_together_rate": 55.32
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16615,
+        "win_against_rate": 42.21
+      },
+      {
+        "b_monster_id": 25613,
+        "win_against_rate": 42.86
+      },
+      {
+        "b_monster_id": 16613,
+        "win_against_rate": 44.97
+      },
+      {
+        "b_monster_id": 31315,
+        "win_against_rate": 46.21
+      },
+      {
+        "b_monster_id": 18611,
+        "win_against_rate": 46.53
+      }
+    ]
+  },
+  "30315": {
+    "best_with": [
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 49.67
+      },
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 47.45
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 26813,
+        "win_against_rate": 49.07
+      }
+    ]
+  },
+  "30415": {
+    "best_with": [],
+    "bad_against": [
+      {
+        "b_monster_id": 16613,
+        "win_against_rate": 57.49
+      }
+    ]
+  },
+  "30512": {
+    "best_with": [
+      {
+        "b_monster_id": 26812,
+        "win_together_rate": 53.52
+      },
+      {
+        "b_monster_id": 30015,
+        "win_together_rate": 53.08
+      },
+      {
+        "b_monster_id": 19215,
+        "win_together_rate": 53.04
+      },
+      {
+        "b_monster_id": 21514,
+        "win_together_rate": 53.02
+      },
+      {
+        "b_monster_id": 21513,
+        "win_together_rate": 52.81
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 33214,
+        "win_against_rate": 39.25
+      },
+      {
+        "b_monster_id": 20714,
+        "win_against_rate": 41.26
+      },
+      {
+        "b_monster_id": 16615,
+        "win_against_rate": 41.83
+      },
+      {
+        "b_monster_id": 30015,
+        "win_against_rate": 42.51
+      },
+      {
+        "b_monster_id": 21214,
+        "win_against_rate": 42.53
+      }
+    ]
+  },
+  "30513": {
+    "best_with": [
+      {
+        "b_monster_id": 23114,
+        "win_together_rate": 51.06
+      }
+    ],
+    "bad_against": []
+  },
+  "30515": {
+    "best_with": [
+      {
+        "b_monster_id": 23712,
+        "win_together_rate": 54.23
+      },
+      {
+        "b_monster_id": 31315,
+        "win_together_rate": 52.12
+      },
+      {
+        "b_monster_id": 16815,
+        "win_together_rate": 51.76
+      },
+      {
+        "b_monster_id": 25414,
+        "win_together_rate": 51.29
+      },
+      {
+        "b_monster_id": 31112,
+        "win_together_rate": 50.83
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 31112,
+        "win_against_rate": 41.86
+      },
+      {
+        "b_monster_id": 26113,
+        "win_against_rate": 43.56
+      },
+      {
+        "b_monster_id": 16613,
+        "win_against_rate": 44.07
+      },
+      {
+        "b_monster_id": 30512,
+        "win_against_rate": 44.7
+      },
+      {
+        "b_monster_id": 16615,
+        "win_against_rate": 44.7
+      }
+    ]
+  },
+  "30613": {
+    "best_with": [
+      {
+        "b_monster_id": 30015,
+        "win_together_rate": 59.59
+      },
+      {
+        "b_monster_id": 30314,
+        "win_together_rate": 57.53
+      },
+      {
+        "b_monster_id": 31314,
+        "win_together_rate": 56.8
+      },
+      {
+        "b_monster_id": 20415,
+        "win_together_rate": 56.7
+      },
+      {
+        "b_monster_id": 25014,
+        "win_together_rate": 55.54
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 25715,
+        "win_against_rate": 43.37
+      },
+      {
+        "b_monster_id": 23712,
+        "win_against_rate": 44.15
+      },
+      {
+        "b_monster_id": 27214,
+        "win_against_rate": 44.36
+      },
+      {
+        "b_monster_id": 23115,
+        "win_against_rate": 45.63
+      },
+      {
+        "b_monster_id": 30314,
+        "win_against_rate": 45.87
+      }
+    ]
+  },
+  "30711": {
+    "best_with": [
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 44.41
+      }
+    ],
+    "bad_against": []
+  },
+  "30715": {
+    "best_with": [
+      {
+        "b_monster_id": 18914,
+        "win_together_rate": 59.9
+      },
+      {
+        "b_monster_id": 18314,
+        "win_together_rate": 59.39
+      },
+      {
+        "b_monster_id": 19714,
+        "win_together_rate": 57.11
+      },
+      {
+        "b_monster_id": 28115,
+        "win_together_rate": 55.69
+      },
+      {
+        "b_monster_id": 21415,
+        "win_together_rate": 53.33
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 25313,
+        "win_against_rate": 49.87
+      },
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 50.66
+      }
+    ]
+  },
+  "30911": {
+    "best_with": [
+      {
+        "b_monster_id": 15712,
+        "win_together_rate": 51.87
+      },
+      {
+        "b_monster_id": 21115,
+        "win_together_rate": 51.25
+      },
+      {
+        "b_monster_id": 25313,
+        "win_together_rate": 49.3
+      },
+      {
+        "b_monster_id": 24712,
+        "win_together_rate": 47.89
+      },
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 47.63
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 40.65
+      },
+      {
+        "b_monster_id": 21811,
+        "win_against_rate": 41.14
+      },
+      {
+        "b_monster_id": 16111,
+        "win_against_rate": 41.53
+      },
+      {
+        "b_monster_id": 15715,
+        "win_against_rate": 41.97
+      },
+      {
+        "b_monster_id": 28613,
+        "win_against_rate": 42.21
+      }
+    ]
+  },
+  "30913": {
+    "best_with": [
+      {
+        "b_monster_id": 24511,
+        "win_together_rate": 57.14
+      },
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 56.02
+      },
+      {
+        "b_monster_id": 20614,
+        "win_together_rate": 54.05
+      },
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 50.0
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 53.06
+      },
+      {
+        "b_monster_id": 25313,
+        "win_against_rate": 54.11
+      },
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 54.22
+      },
+      {
+        "b_monster_id": 23711,
+        "win_against_rate": 60.45
+      }
+    ]
+  },
+  "30914": {
+    "best_with": [
+      {
+        "b_monster_id": 21314,
+        "win_together_rate": 58.38
+      },
+      {
+        "b_monster_id": 15712,
+        "win_together_rate": 57.78
+      },
+      {
+        "b_monster_id": 21514,
+        "win_together_rate": 57.33
+      },
+      {
+        "b_monster_id": 25115,
+        "win_together_rate": 56.89
+      },
+      {
+        "b_monster_id": 16615,
+        "win_together_rate": 54.57
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16615,
+        "win_against_rate": 43.4
+      },
+      {
+        "b_monster_id": 31315,
+        "win_against_rate": 43.55
+      },
+      {
+        "b_monster_id": 22913,
+        "win_against_rate": 45.18
+      },
+      {
+        "b_monster_id": 33214,
+        "win_against_rate": 45.26
+      },
+      {
+        "b_monster_id": 21513,
+        "win_against_rate": 45.56
+      }
+    ]
+  },
+  "30915": {
+    "best_with": [
+      {
+        "b_monster_id": 21115,
+        "win_together_rate": 47.54
+      },
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 47.48
+      },
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 46.82
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 15712,
+        "win_against_rate": 50.0
+      }
+    ]
+  },
+  "31015": {
+    "best_with": [
+      {
+        "b_monster_id": 25011,
+        "win_together_rate": 55.69
+      }
+    ],
+    "bad_against": []
+  },
+  "31112": {
+    "best_with": [
+      {
+        "b_monster_id": 22211,
+        "win_together_rate": 54.91
+      },
+      {
+        "b_monster_id": 30313,
+        "win_together_rate": 54.11
+      },
+      {
+        "b_monster_id": 28311,
+        "win_together_rate": 53.83
+      },
+      {
+        "b_monster_id": 19215,
+        "win_together_rate": 53.58
+      },
+      {
+        "b_monster_id": 21513,
+        "win_together_rate": 53.17
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 33214,
+        "win_against_rate": 40.81
+      },
+      {
+        "b_monster_id": 21514,
+        "win_against_rate": 41.4
+      },
+      {
+        "b_monster_id": 21214,
+        "win_against_rate": 42.15
+      },
+      {
+        "b_monster_id": 20714,
+        "win_against_rate": 42.28
+      },
+      {
+        "b_monster_id": 31213,
+        "win_against_rate": 42.68
+      }
+    ]
+  },
+  "31115": {
+    "best_with": [
+      {
+        "b_monster_id": 28311,
+        "win_together_rate": 58.12
+      },
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 56.71
+      },
+      {
+        "b_monster_id": 21115,
+        "win_together_rate": 55.8
+      },
+      {
+        "b_monster_id": 24712,
+        "win_together_rate": 53.09
+      },
+      {
+        "b_monster_id": 30314,
+        "win_together_rate": 52.28
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16615,
+        "win_against_rate": 44.72
+      },
+      {
+        "b_monster_id": 26113,
+        "win_against_rate": 46.92
+      },
+      {
+        "b_monster_id": 23711,
+        "win_against_rate": 47.3
+      },
+      {
+        "b_monster_id": 25313,
+        "win_against_rate": 47.87
+      },
+      {
+        "b_monster_id": 17411,
+        "win_against_rate": 47.91
+      }
+    ]
+  },
+  "31213": {
+    "best_with": [
+      {
+        "b_monster_id": 30015,
+        "win_together_rate": 61.44
+      },
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 54.92
+      },
+      {
+        "b_monster_id": 33214,
+        "win_together_rate": 54.85
+      },
+      {
+        "b_monster_id": 20714,
+        "win_together_rate": 54.84
+      },
+      {
+        "b_monster_id": 13814,
+        "win_together_rate": 54.57
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 26813,
+        "win_against_rate": 42.38
+      },
+      {
+        "b_monster_id": 21415,
+        "win_against_rate": 42.71
+      },
+      {
+        "b_monster_id": 30914,
+        "win_against_rate": 45.77
+      },
+      {
+        "b_monster_id": 23712,
+        "win_against_rate": 45.78
+      },
+      {
+        "b_monster_id": 26114,
+        "win_against_rate": 46.36
+      }
+    ]
+  },
+  "31311": {
+    "best_with": [
+      {
+        "b_monster_id": 25715,
+        "win_together_rate": 59.9
+      },
+      {
+        "b_monster_id": 17913,
+        "win_together_rate": 54.4
+      },
+      {
+        "b_monster_id": 23713,
+        "win_together_rate": 54.3
+      },
+      {
+        "b_monster_id": 24714,
+        "win_together_rate": 54.24
+      },
+      {
+        "b_monster_id": 30314,
+        "win_together_rate": 53.98
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 21513,
+        "win_against_rate": 42.31
+      },
+      {
+        "b_monster_id": 26114,
+        "win_against_rate": 42.52
+      },
+      {
+        "b_monster_id": 18611,
+        "win_against_rate": 42.72
+      },
+      {
+        "b_monster_id": 22211,
+        "win_against_rate": 44.65
+      },
+      {
+        "b_monster_id": 28311,
+        "win_against_rate": 45.04
+      }
+    ]
+  },
+  "31313": {
+    "best_with": [
+      {
+        "b_monster_id": 24712,
+        "win_together_rate": 56.81
+      }
+    ],
+    "bad_against": []
+  },
+  "31314": {
+    "best_with": [
+      {
+        "b_monster_id": 15712,
+        "win_together_rate": 57.97
+      },
+      {
+        "b_monster_id": 20415,
+        "win_together_rate": 56.85
+      },
+      {
+        "b_monster_id": 19215,
+        "win_together_rate": 56.83
+      },
+      {
+        "b_monster_id": 30613,
+        "win_together_rate": 56.8
+      },
+      {
+        "b_monster_id": 21811,
+        "win_together_rate": 55.31
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 15715,
+        "win_against_rate": 47.54
+      },
+      {
+        "b_monster_id": 23712,
+        "win_against_rate": 49.2
+      },
+      {
+        "b_monster_id": 23711,
+        "win_against_rate": 50.0
+      },
+      {
+        "b_monster_id": 16815,
+        "win_against_rate": 50.85
+      },
+      {
+        "b_monster_id": 16111,
+        "win_against_rate": 51.21
+      }
+    ]
+  },
+  "31315": {
+    "best_with": [
+      {
+        "b_monster_id": 25115,
+        "win_together_rate": 58.62
+      },
+      {
+        "b_monster_id": 26811,
+        "win_together_rate": 55.73
+      },
+      {
+        "b_monster_id": 23115,
+        "win_together_rate": 54.15
+      },
+      {
+        "b_monster_id": 18612,
+        "win_together_rate": 54.11
+      },
+      {
+        "b_monster_id": 27214,
+        "win_together_rate": 54.09
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 32311,
+        "win_against_rate": 34.52
+      },
+      {
+        "b_monster_id": 21211,
+        "win_against_rate": 40.73
+      },
+      {
+        "b_monster_id": 28915,
+        "win_against_rate": 40.78
+      },
+      {
+        "b_monster_id": 28913,
+        "win_against_rate": 41.5
+      },
+      {
+        "b_monster_id": 18611,
+        "win_against_rate": 42.02
+      }
+    ]
+  },
+  "31814": {
+    "best_with": [
+      {
+        "b_monster_id": 18315,
+        "win_together_rate": 58.81
+      },
+      {
+        "b_monster_id": 14034,
+        "win_together_rate": 56.42
+      },
+      {
+        "b_monster_id": 15715,
+        "win_together_rate": 54.57
+      },
+      {
+        "b_monster_id": 27214,
+        "win_together_rate": 52.91
+      },
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 52.86
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 49.06
+      },
+      {
+        "b_monster_id": 25313,
+        "win_against_rate": 51.04
+      },
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 54.69
+      },
+      {
+        "b_monster_id": 23711,
+        "win_against_rate": 56.98
+      }
+    ]
+  },
+  "31915": {
+    "best_with": [
+      {
+        "b_monster_id": 32215,
+        "win_together_rate": 57.46
+      },
+      {
+        "b_monster_id": 13515,
+        "win_together_rate": 56.81
+      },
+      {
+        "b_monster_id": 15715,
+        "win_together_rate": 56.15
+      },
+      {
+        "b_monster_id": 21214,
+        "win_together_rate": 55.32
+      },
+      {
+        "b_monster_id": 23115,
+        "win_together_rate": 54.86
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 21214,
+        "win_against_rate": 44.21
+      },
+      {
+        "b_monster_id": 26113,
+        "win_against_rate": 47.04
+      },
+      {
+        "b_monster_id": 26813,
+        "win_against_rate": 47.8
+      },
+      {
+        "b_monster_id": 16815,
+        "win_against_rate": 48.07
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 49.01
+      }
+    ]
+  },
+  "32111": {
+    "best_with": [
+      {
+        "b_monster_id": 22215,
+        "win_together_rate": 56.18
+      },
+      {
+        "b_monster_id": 15712,
+        "win_together_rate": 55.21
+      },
+      {
+        "b_monster_id": 32114,
+        "win_together_rate": 54.27
+      },
+      {
+        "b_monster_id": 20714,
+        "win_together_rate": 54.24
+      },
+      {
+        "b_monster_id": 30613,
+        "win_together_rate": 53.54
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 42.7
+      },
+      {
+        "b_monster_id": 21811,
+        "win_against_rate": 42.77
+      },
+      {
+        "b_monster_id": 33214,
+        "win_against_rate": 43.01
+      },
+      {
+        "b_monster_id": 19215,
+        "win_against_rate": 43.34
+      },
+      {
+        "b_monster_id": 31311,
+        "win_against_rate": 43.65
+      }
+    ]
+  },
+  "32114": {
+    "best_with": [
+      {
+        "b_monster_id": 20614,
+        "win_together_rate": 59.64
+      },
+      {
+        "b_monster_id": 30314,
+        "win_together_rate": 59.12
+      },
+      {
+        "b_monster_id": 23712,
+        "win_together_rate": 57.53
+      },
+      {
+        "b_monster_id": 30313,
+        "win_together_rate": 57.31
+      },
+      {
+        "b_monster_id": 32111,
+        "win_together_rate": 54.27
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 46.96
+      },
+      {
+        "b_monster_id": 30512,
+        "win_against_rate": 47.06
+      },
+      {
+        "b_monster_id": 25313,
+        "win_against_rate": 49.73
+      },
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 50.0
+      },
+      {
+        "b_monster_id": 16613,
+        "win_against_rate": 51.36
+      }
+    ]
+  },
+  "32215": {
+    "best_with": [
+      {
+        "b_monster_id": 28613,
+        "win_together_rate": 58.26
+      },
+      {
+        "b_monster_id": 31915,
+        "win_together_rate": 57.46
+      },
+      {
+        "b_monster_id": 16811,
+        "win_together_rate": 56.37
+      },
+      {
+        "b_monster_id": 25011,
+        "win_together_rate": 54.76
+      },
+      {
+        "b_monster_id": 17913,
+        "win_together_rate": 54.31
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 26113,
+        "win_against_rate": 46.85
+      },
+      {
+        "b_monster_id": 24712,
+        "win_against_rate": 49.19
+      },
+      {
+        "b_monster_id": 17411,
+        "win_against_rate": 49.69
+      },
+      {
+        "b_monster_id": 23712,
+        "win_against_rate": 50.23
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 50.43
+      }
+    ]
+  },
+  "32311": {
+    "best_with": [
+      {
+        "b_monster_id": 26913,
+        "win_together_rate": 59.7
+      },
+      {
+        "b_monster_id": 17012,
+        "win_together_rate": 58.71
+      },
+      {
+        "b_monster_id": 22211,
+        "win_together_rate": 58.12
+      },
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 56.74
+      },
+      {
+        "b_monster_id": 26813,
+        "win_together_rate": 56.27
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 42.28
+      },
+      {
+        "b_monster_id": 23712,
+        "win_against_rate": 43.3
+      },
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 43.54
+      },
+      {
+        "b_monster_id": 26113,
+        "win_against_rate": 49.31
+      },
+      {
+        "b_monster_id": 15715,
+        "win_against_rate": 49.39
+      }
+    ]
+  },
+  "32314": {
+    "best_with": [
+      {
+        "b_monster_id": 13814,
+        "win_together_rate": 55.26
+      },
+      {
+        "b_monster_id": 28914,
+        "win_together_rate": 52.69
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 51.7
+      }
+    ]
+  },
+  "32315": {
+    "best_with": [
+      {
+        "b_monster_id": 15715,
+        "win_together_rate": 54.44
+      },
+      {
+        "b_monster_id": 20614,
+        "win_together_rate": 52.7
+      },
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 50.8
+      }
+    ],
+    "bad_against": []
+  },
+  "32811": {
+    "best_with": [
+      {
+        "b_monster_id": 23115,
+        "win_together_rate": 56.31
+      },
+      {
+        "b_monster_id": 16613,
+        "win_together_rate": 55.69
+      },
+      {
+        "b_monster_id": 28315,
+        "win_together_rate": 53.91
+      },
+      {
+        "b_monster_id": 21415,
+        "win_together_rate": 52.41
+      },
+      {
+        "b_monster_id": 28613,
+        "win_together_rate": 51.98
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 17411,
+        "win_against_rate": 42.42
+      },
+      {
+        "b_monster_id": 28613,
+        "win_against_rate": 46.67
+      },
+      {
+        "b_monster_id": 21115,
+        "win_against_rate": 47.31
+      },
+      {
+        "b_monster_id": 30512,
+        "win_against_rate": 47.36
+      },
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 48.2
+      }
+    ]
+  },
+  "32915": {
+    "best_with": [
+      {
+        "b_monster_id": 28215,
+        "win_together_rate": 53.72
+      },
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 52.23
+      },
+      {
+        "b_monster_id": 30512,
+        "win_together_rate": 51.18
+      },
+      {
+        "b_monster_id": 16811,
+        "win_together_rate": 49.79
+      },
+      {
+        "b_monster_id": 13812,
+        "win_together_rate": 48.38
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 28312,
+        "win_against_rate": 48.4
+      },
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 50.0
+      },
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 50.13
+      },
+      {
+        "b_monster_id": 25313,
+        "win_against_rate": 51.43
+      },
+      {
+        "b_monster_id": 23711,
+        "win_against_rate": 53.19
+      }
+    ]
+  },
+  "33112": {
+    "best_with": [
+      {
+        "b_monster_id": 28312,
+        "win_together_rate": 55.59
+      },
+      {
+        "b_monster_id": 30512,
+        "win_together_rate": 51.23
+      },
+      {
+        "b_monster_id": 28613,
+        "win_together_rate": 49.54
+      },
+      {
+        "b_monster_id": 23711,
+        "win_together_rate": 47.83
+      },
+      {
+        "b_monster_id": 24511,
+        "win_together_rate": 47.09
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16815,
+        "win_against_rate": 44.26
+      },
+      {
+        "b_monster_id": 18615,
+        "win_against_rate": 44.41
+      },
+      {
+        "b_monster_id": 15715,
+        "win_against_rate": 44.57
+      },
+      {
+        "b_monster_id": 23712,
+        "win_against_rate": 45.77
+      },
+      {
+        "b_monster_id": 23711,
+        "win_against_rate": 45.85
+      }
+    ]
+  },
+  "33214": {
+    "best_with": [
+      {
+        "b_monster_id": 26812,
+        "win_together_rate": 59.09
+      },
+      {
+        "b_monster_id": 16815,
+        "win_together_rate": 58.88
+      },
+      {
+        "b_monster_id": 26113,
+        "win_together_rate": 58.61
+      },
+      {
+        "b_monster_id": 22611,
+        "win_together_rate": 57.48
+      },
+      {
+        "b_monster_id": 14034,
+        "win_together_rate": 56.77
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 26114,
+        "win_against_rate": 44.7
+      },
+      {
+        "b_monster_id": 28313,
+        "win_against_rate": 47.14
+      },
+      {
+        "b_monster_id": 15715,
+        "win_against_rate": 47.55
+      },
+      {
+        "b_monster_id": 28315,
+        "win_against_rate": 47.79
+      },
+      {
+        "b_monster_id": 31315,
+        "win_against_rate": 48.17
+      }
+    ]
+  },
+  "33311": {
+    "best_with": [
+      {
+        "b_monster_id": 19215,
+        "win_together_rate": 56.78
+      },
+      {
+        "b_monster_id": 33214,
+        "win_together_rate": 55.99
+      },
+      {
+        "b_monster_id": 21513,
+        "win_together_rate": 55.15
+      },
+      {
+        "b_monster_id": 21514,
+        "win_together_rate": 54.59
+      },
+      {
+        "b_monster_id": 21115,
+        "win_together_rate": 53.07
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 21811,
+        "win_against_rate": 39.49
+      },
+      {
+        "b_monster_id": 17411,
+        "win_against_rate": 41.11
+      },
+      {
+        "b_monster_id": 14615,
+        "win_against_rate": 43.44
+      },
+      {
+        "b_monster_id": 21415,
+        "win_against_rate": 43.95
+      },
+      {
+        "b_monster_id": 25011,
+        "win_against_rate": 44.44
+      }
+    ]
+  },
+  "33312": {
+    "best_with": [
+      {
+        "b_monster_id": 28915,
+        "win_together_rate": 56.75
+      },
+      {
+        "b_monster_id": 21211,
+        "win_together_rate": 56.48
+      },
+      {
+        "b_monster_id": 16813,
+        "win_together_rate": 56.36
+      },
+      {
+        "b_monster_id": 18611,
+        "win_together_rate": 54.7
+      },
+      {
+        "b_monster_id": 24511,
+        "win_together_rate": 48.71
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 21415,
+        "win_against_rate": 48.9
+      },
+      {
+        "b_monster_id": 15715,
+        "win_against_rate": 50.09
+      },
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 50.69
+      },
+      {
+        "b_monster_id": 14034,
+        "win_against_rate": 53.25
+      },
+      {
+        "b_monster_id": 15713,
+        "win_against_rate": 53.62
+      }
+    ]
+  },
+  "33414": {
+    "best_with": [
+      {
+        "b_monster_id": 19713,
+        "win_together_rate": 55.56
+      },
+      {
+        "b_monster_id": 16114,
+        "win_together_rate": 55.16
+      },
+      {
+        "b_monster_id": 15715,
+        "win_together_rate": 53.88
+      },
+      {
+        "b_monster_id": 26114,
+        "win_together_rate": 53.35
+      },
+      {
+        "b_monster_id": 24511,
+        "win_together_rate": 53.32
+      }
+    ],
+    "bad_against": [
+      {
+        "b_monster_id": 16613,
+        "win_against_rate": 40.63
+      },
+      {
+        "b_monster_id": 16615,
+        "win_against_rate": 43.77
+      },
+      {
+        "b_monster_id": 21415,
+        "win_against_rate": 45.97
+      },
+      {
+        "b_monster_id": 30512,
+        "win_against_rate": 46.67
+      },
+      {
+        "b_monster_id": 16811,
+        "win_against_rate": 47.41
+      }
+    ]
+  }
+}
