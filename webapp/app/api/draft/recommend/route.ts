@@ -92,8 +92,42 @@ export async function POST(request: NextRequest) {
 
     // Déterminer si c'est le tour du joueur A (celui qui utilise l'app)
     const totalPicks = playerAPicks.length + playerBPicks.length;
+    
+    // Calculer l'index du tour actuel (0-5) à partir du nombre total de picks
+    // getCurrentTurnInfo attend l'index du tour, pas le nombre total de picks
+    // L'index du tour correspond au nombre de tours complets effectués
+    let currentTurnIndex = 0;
+    let picksCounted = 0;
+    for (let i = 0; i < RTADraftRules.pickOrder.length; i++) {
+      const turn = RTADraftRules.pickOrder[i];
+      const picksBeforeThisTurn = picksCounted;
+      picksCounted += turn.picks;
+      
+      // Si le nombre total de picks est inférieur au nombre de picks après ce tour,
+      // on est dans ce tour
+      if (totalPicks < picksCounted) {
+        currentTurnIndex = i;
+        break;
+      }
+      // Si on a exactement atteint le nombre de picks de ce tour, on passe au tour suivant
+      // (sauf si c'est le dernier tour)
+      if (totalPicks === picksCounted && i < RTADraftRules.pickOrder.length - 1) {
+        currentTurnIndex = i + 1;
+        break;
+      }
+      // Si on a dépassé, continuer
+      if (totalPicks >= picksCounted) {
+        currentTurnIndex = i;
+      }
+    }
+    
+    // Limiter l'index au nombre maximum de tours
+    if (currentTurnIndex >= RTADraftRules.pickOrder.length) {
+      currentTurnIndex = RTADraftRules.pickOrder.length - 1;
+    }
+    
     const currentTurnInfo = RTADraftRules.getCurrentTurnInfo(
-      totalPicks,
+      currentTurnIndex,
       firstPlayer
     );
     
