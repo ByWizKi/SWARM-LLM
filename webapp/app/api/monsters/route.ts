@@ -59,7 +59,6 @@ export async function GET() {
       );
     }
 
-  try {
     const rawData = JSON.parse(fileContent);
 
     // Le fichier monsters_rta.json est un tableau direct de monstres
