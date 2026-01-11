@@ -96,14 +96,49 @@ export async function POST(request: NextRequest) {
       totalPicks,
       firstPlayer
     );
-    const isPlayerATurn =
-      (currentPhase === "picking" && currentTurnInfo?.currentPlayer === "A") ||
-      (currentPhase === "banning" && playerABans.length === 0);
+    
+    // Log pour déboguer
+    console.log("[DEBUG] État du draft:", {
+      totalPicks,
+      playerAPicks: playerAPicks.length,
+      playerBPicks: playerBPicks.length,
+      currentPhase,
+      currentTurn,
+      firstPlayer,
+      currentTurnInfo,
+      playerABans: playerABans.length,
+      playerBBans: playerBBans.length,
+    });
+
+    // Calculer si c'est le tour du joueur A
+    let isPlayerATurn = false;
+    
+    if (currentPhase === "picking") {
+      // En phase de picking, vérifier que c'est le tour du joueur A
+      isPlayerATurn = currentTurnInfo?.currentPlayer === "A";
+    } else if (currentPhase === "banning") {
+      // En phase de banning, le joueur A peut bannir si il n'a pas encore banni
+      isPlayerATurn = playerABans.length === 0;
+    }
+
+    // Log pour déboguer
+    console.log("[DEBUG] isPlayerATurn:", isPlayerATurn);
 
     // Vérifier que c'est bien le tour du joueur A
     if (!isPlayerATurn) {
+      console.log("[DEBUG] Rejeté: Ce n'est pas le tour du joueur A");
       return NextResponse.json(
-        { error: "Ce n'est pas votre tour" },
+        { 
+          error: "Ce n'est pas votre tour",
+          debug: {
+            currentPhase,
+            currentTurnInfo,
+            isPlayerATurn,
+            totalPicks,
+            playerAPicks: playerAPicks.length,
+            playerBPicks: playerBPicks.length,
+          }
+        },
         { status: 400 }
       );
     }
