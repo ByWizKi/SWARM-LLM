@@ -65,8 +65,8 @@ export default function DraftPage() {
   const checkUserBox = useCallback(async (forceRefresh = false) => {
     try {
       // Forcer le rechargement sans cache si demandé
-      const cacheOptions = forceRefresh
-        ? { cache: 'no-store', headers: { 'Cache-Control': 'no-cache' } }
+      const cacheOptions: RequestInit = forceRefresh
+        ? { cache: 'no-store' as RequestCache, headers: { 'Cache-Control': 'no-cache' } }
         : {};
 
       const response = await fetch("/api/user/box", cacheOptions);
@@ -1509,10 +1509,10 @@ export default function DraftPage() {
                 </div>
 
                 {/* Bouton de rafraîchissement (optionnel) */}
-                {"recommendations" && (/*recommendations */
+                {recommendations && (
                   <Button
                     onClick={fetchRecommendation}
-                    disabled={false}/* disabled={loadingRecommendation}*/
+                    disabled={loadingRecommendation}
                     variant="outline"
                     size="sm"
                     className="w-full"

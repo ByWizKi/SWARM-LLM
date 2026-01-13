@@ -19,8 +19,8 @@ export function BoxStatusCard({ initialHasBox }: BoxStatusCardProps) {
 
     setLoading(true);
     try {
-      const cacheOptions = forceRefresh
-        ? { cache: 'no-store', headers: { 'Cache-Control': 'no-cache' } }
+      const cacheOptions: RequestInit = forceRefresh
+        ? { cache: 'no-store' as RequestCache, headers: { 'Cache-Control': 'no-cache' } }
         : {};
 
       const response = await fetch("/api/user/box", cacheOptions);
