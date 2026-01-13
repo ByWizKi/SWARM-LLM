@@ -1,4 +1,4 @@
-# Dockerfile pour le développement
+# Dockerfile pour le développement - version ultra-optimisée
 FROM node:20-alpine
 
 WORKDIR /app
@@ -6,22 +6,22 @@ WORKDIR /app
 # Installer les dépendances système (OpenSSL pour Prisma)
 RUN apk add --no-cache libc6-compat openssl openssl-dev
 
-# Copier les fichiers de dépendances
-COPY package.json ./
+# Étape 1: Copier uniquement package.json et package-lock.json
+# Cela permet d'utiliser le cache Docker si les dépendances n'ont pas changé
+COPY package.json package-lock.json* ./
 
-# Installer les dépendances
-RUN npm install
+# Étape 2: Installer les dépendances (avec cache npm si disponible)
+# --prefer-offline utilise le cache local npm
+# --ignore-scripts évite postinstall (on le fera après)
+RUN npm ci --ignore-scripts --prefer-offline --no-audit || npm install --ignore-scripts --prefer-offline --no-audit
 
-# Copier le reste de l'application
-COPY . .
-
-# Générer Prisma Client
+# Étape 3: Copier le schema Prisma et générer le client
+COPY prisma ./prisma
 RUN npx prisma generate
 
-# Rendre le script d'initialisation exécutable
-RUN chmod +x scripts/init-db.js
+# Étape 4: Copier le reste (sera monté par volume en dev, mais nécessaire pour le build)
+COPY . .
 
 EXPOSE 3000
 
 CMD ["npm", "run", "dev"]
-
