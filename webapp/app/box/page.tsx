@@ -67,9 +67,14 @@ export default function BoxPage() {
     }
   };
 
-  const loadUserBox = async () => {
+  const loadUserBox = async (forceRefresh = false) => {
     try {
-      const response = await fetch("/api/user/box");
+      // Forcer le rechargement sans cache si demandé
+      const cacheOptions = forceRefresh
+        ? { cache: 'no-store', headers: { 'Cache-Control': 'no-cache' } }
+        : {};
+
+      const response = await fetch("/api/user/box", cacheOptions);
       const data = await response.json();
       setUserMonsters(Array.isArray(data.monsters) ? data.monsters : []);
     } catch (error) {
@@ -107,10 +112,12 @@ export default function BoxPage() {
       }
 
       console.log("[BOX] Sauvegarde réussie:", data);
+      // Recharger le box pour s'assurer qu'il est à jour (forcer le rechargement sans cache)
+      await loadUserBox(true);
+      // Afficher une notification au lieu d'un alert pour une meilleure UX
       alert("Box sauvegardé avec succès !");
-      // Recharger le box pour s'assurer qu'il est à jour
-      await loadUserBox();
-      router.push("/dashboard");
+      // Ne pas rediriger automatiquement, laisser l'utilisateur continuer à modifier
+      // router.push("/dashboard");
     } catch (error) {
       console.error("[BOX] Erreur:", error);
       const errorMessage = error instanceof Error ? error.message : "Erreur lors de la sauvegarde du box";

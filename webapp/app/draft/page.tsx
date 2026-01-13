@@ -62,30 +62,14 @@ export default function DraftPage() {
     }
   }, [status, router]);
 
-  useEffect(() => {
-    if (status === "authenticated") {
-      checkUserBox();
-      loadAllMonsters();
-    }
-  }, [status]);
-
-  const loadAllMonsters = async () => {
+  const checkUserBox = useCallback(async (forceRefresh = false) => {
     try {
-      const response = await fetch("/api/monsters");
-      const data = await response.json();
-      const monstersMap: Record<number, any> = {};
-      (data.monstres || []).forEach((monster: any) => {
-        monstersMap[monster.id] = monster;
-      });
-      setAllMonsters(monstersMap);
-    } catch (error) {
-      console.error("Erreur lors du chargement des monstres:", error);
-    }
-  };
+      // Forcer le rechargement sans cache si demandé
+      const cacheOptions = forceRefresh
+        ? { cache: 'no-store', headers: { 'Cache-Control': 'no-cache' } }
+        : {};
 
-  const checkUserBox = async () => {
-    try {
-      const response = await fetch("/api/user/box");
+      const response = await fetch("/api/user/box", cacheOptions);
       const data = await response.json();
       const monsters = Array.isArray(data.monsters) ? data.monsters : [];
       setUserMonsters(monsters);
@@ -98,6 +82,52 @@ export default function DraftPage() {
     } catch (error) {
       console.error("Erreur lors de la vérification du box:", error);
       setBoxChecked(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      checkUserBox();
+      loadAllMonsters();
+    }
+  }, [status, checkUserBox]);
+
+  // Recharger le box quand la page devient visible (après retour depuis une autre page)
+  useEffect(() => {
+    if (status === "authenticated") {
+      const handleVisibilityChange = () => {
+        if (document.visibilityState === "visible") {
+          // Forcer le rechargement sans cache quand la page redevient visible
+          checkUserBox(true);
+        }
+      };
+
+      const handleFocus = () => {
+        // Forcer le rechargement sans cache quand la fenêtre reprend le focus
+        checkUserBox(true);
+      };
+
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+      window.addEventListener("focus", handleFocus);
+
+      return () => {
+        document.removeEventListener("visibilitychange", handleVisibilityChange);
+        window.removeEventListener("focus", handleFocus);
+      };
+    }
+  }, [status, checkUserBox]);
+
+  const loadAllMonsters = async () => {
+    try {
+      const response = await fetch("/api/monsters");
+      const data = await response.json();
+      const monstersMap: Record<number, any> = {};
+      (data.monstres || []).forEach((monster: any) => {
+        monstersMap[monster.id] = monster;
+      });
+      setAllMonsters(monstersMap);
+    } catch (error) {
+      console.error("Erreur lors du chargement des monstres:", error);
     }
   };
 

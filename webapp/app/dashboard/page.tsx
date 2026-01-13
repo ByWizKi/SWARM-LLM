@@ -7,6 +7,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { prisma } from "@/lib/prisma";
 import { Sword, Box, BookOpen, Zap, TrendingUp, Users } from "lucide-react";
 import { SignOutButtonWrapper } from "@/components/sign-out-button-wrapper";
+import { BoxStats } from "@/components/box-stats";
+import { BoxStatusCard } from "@/components/box-status-card";
 
 // Cache pour les statistiques (5 minutes)
 const STATS_CACHE_TTL = 5 * 60 * 1000;
@@ -106,43 +108,9 @@ export default async function DashboardPage() {
 
         {/* Statistiques rapides */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Card className="border-2 hover:shadow-lg transition-shadow">
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
-                  Monstres dans le Box
-                </CardTitle>
-                <Box className="h-5 w-5 text-primary" />
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold">{stats.monsterCount}</div>
-              <p className="text-xs text-muted-foreground mt-1">
-                {stats.hasBox ? "Collection configurée" : "Aucun monstre configuré"}
-              </p>
-            </CardContent>
-          </Card>
+          <BoxStats initialStats={stats} />
 
-          <Card className="border-2 hover:shadow-lg transition-shadow">
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
-                  Statut du Box
-                </CardTitle>
-                <TrendingUp className="h-5 w-5 text-green-500" />
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold">
-                {stats.hasBox ? "Pret" : "Non configure"}
-              </div>
-              <p className="text-xs text-muted-foreground mt-1">
-                {stats.hasBox
-                  ? "Vous pouvez obtenir de l'aide pour votre draft"
-                  : "Configurez votre box pour commencer"}
-              </p>
-            </CardContent>
-          </Card>
+          <BoxStatusCard initialHasBox={stats.hasBox} />
 
           <Card className="border-2 hover:shadow-lg transition-shadow">
             <CardHeader className="pb-3">
