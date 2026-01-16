@@ -4,10 +4,13 @@ from pydantic import Field
 from typing import List
 from torch import load, nn, sigmoid, no_grad, tensor, zeros, cat
 from my_model import predict
+from lll_fine_tuned import predict_nexts_monsters
 from itertools import combinations
 import json
 import random
 from fastapi import Response
+from transformers import AutoTokenizer, AutoModelForCausalLM
+
 
 app = FastAPI(title="SWARM-LLM Python API")
 
@@ -47,7 +50,9 @@ def load_model():
     global model
     global model_infos
     global monsters
-    print("📦 Chargement du modèle PyTorch...")
+    global model_llm
+    global tokenizer_lmm
+    print("Chargement du modèle PyTorch...")
     model_infos = load("modele_predic.pt", map_location="cpu")
     input_dim,layers = model_infos["modele_name_and_param"]
     model = SimpleDraftModel_one_hot(input_dim,layers)
@@ -59,6 +64,12 @@ def load_model():
         liste_data_rta = json.load(f)
     monsters = {monster["id"]:monster for monster in liste_data_rta}
     print("Monstres chargés ")
+    print("Chargement du modèle LLM...")
+    model_llm = AutoModelForCausalLM.from_pretrained("/app/full_model_finetuned")
+    print(" Modèle LLM chargé")
+    print("Chargement du tokenizer...")
+    tokenizer_lmm = AutoTokenizer.from_pretrained("/app/full_model_finetuned")
+    print("Tokenizer chargé")
 
 
 @app.post("/neural-net")
@@ -82,6 +93,25 @@ async def get_neural_net_context(draft_state: DraftState):
     # construire la chaîne finale avec les scores affichés par ordre croissant
     lines = ["Info neural network sur le choix des monstres pour JA : "] 
     for a, b, sortie in scores:
+        print(a,b)
         lines.append(f'Si JA pick : {monsters[a]["name"]} et {monsters[b]["name"]}, proba win : {sortie:.4f} ')
     context_str = "\n".join(lines)
     return Response(content=context_str, media_type="text/plain")
+
+
+@app.post("/llm-predict")
+async def get_llm_recommendation(draft_state: DraftState) : 
+    ls_A = [str(m) for m in draft_state.playerAPicks]
+    ls_b = [str(m) for m in draft_state.playerBPicks]
+    ls_available = [str(m) for m in draft_state.playerAAvailableIds]
+    recommendated_monster = predict_nexts_monsters(model_llm,tokenizer_lmm,ls_A,ls_b,ls_available)
+    print(recommendated_monster)
+    int_recommendated_monster = [int(monster) for monster in recommendated_monster]
+    monster_name = []
+    for int_monster in int_recommendated_monster : 
+        if int_monster not in monsters.keys() : 
+            print(str(int_monster)+" n'est pas dans la liste ")
+        else : 
+            monster_name.append(monsters[int_monster]["name"])
+
+    return {"ids":int_recommendated_monster,"names":monster_name}

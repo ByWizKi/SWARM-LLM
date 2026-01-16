@@ -3,3 +3,4 @@ uvicorn
 pydantic
 typing
 torch==2.8.0
+transformers

@@ -55,6 +55,10 @@ export default function DraftPage() {
   const [filterElement, setFilterElement] = useState<string>("all");
   const [filterCategorie, setFilterCategorie] = useState<string>("all");
   const [allMonsters, setAllMonsters] = useState<Record<number, any>>({});
+  const [fastResponse, setFastResponse] = useState<boolean>(true);
+  useEffect(() => {
+    console.log("fastResponse changed:", fastResponse)
+  }, [fastResponse])
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -514,7 +518,8 @@ export default function DraftPage() {
           currentPhase: draftState.currentPhase,
           currentTurn: currentTurnInfo?.turn || 0,
           firstPlayer: draftState.firstPlayer,
-          playerAAvailableIds:getAvailableMonstersForPlayerA().map(m => m.id)//ajout des monstres possibles pour le llm
+          playerAAvailableIds:getAvailableMonstersForPlayerA().map(m => m.id),//ajout des monstres possibles pour le llm
+          fastResponse//on gère la réponse via le modèle interne
         }),
       });
 
@@ -563,7 +568,7 @@ export default function DraftPage() {
     } finally {
       setLoadingRecommendation(false);
     }
-  }, [draftState, currentTurnInfo, extractRecommendedMonsters]);
+  }, [draftState, currentTurnInfo, extractRecommendedMonsters,fastResponse]);
 
   // Générer automatiquement les recommandations quand le draft change
   // UNIQUEMENT pour le joueur A (quand c'est son tour ou en phase de ban)
@@ -1509,10 +1514,10 @@ export default function DraftPage() {
                 </div>
 
                 {/* Bouton de rafraîchissement (optionnel) */}
-                {recommendations && (
+                {true && (
                   <Button
                     onClick={fetchRecommendation}
-                    disabled={loadingRecommendation}
+                    disabled={false}/*loadingRecommendation*/
                     variant="outline"
                     size="sm"
                     className="w-full"
@@ -1520,6 +1525,28 @@ export default function DraftPage() {
                     {loadingRecommendation ? "Actualisation..." : "Actualiser les recommandations"}
                   </Button>
                 )}
+                {/* Bouton pour choisir si on fait la prédiciton avec le llm fine tuné ou le llm online */}
+                <div className="flex items-center justify-between mt-3 px-2">
+                  <span className="text-xs text-muted-foreground">
+                    Réponse rapide
+                  </span>
+
+                  <button
+                    type="button"
+                    role="switch"
+                    aria-checked={fastResponse}
+                    onClick={() => setFastResponse(prev => !prev)}
+                    className={`relative inline-flex h-6 w-10 items-center rounded-full transition-colors
+                      ${fastResponse ? "bg-primary" : "bg-muted"}`}
+                  >
+                    <span
+                      className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white transition-transform
+                        ${fastResponse ? "translate-x-5" : "translate-x-1"}`}
+                    />
+                  </button>
+                </div>
+
+
               </CardContent>
             </Card>
           </div>

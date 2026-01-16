@@ -630,6 +630,16 @@ export async function getNeuralNet_infos(draftState: any,playerBPossibleCounter:
   return data;
 }
 
+export async function getLLM_recommendation(draftState: any,playerBPossibleCounter:any) {
+  const res = await fetch(`${pythonApiUrl}/llm-predict`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({...draftState,playerBPossibleCounter})
+  });
+  const data = await res.json();  
+  return data;
+}
+
 // ============================================================================
 // MAIN FUNCTION - Generate recommendation with full pipeline
 // ============================================================================
@@ -649,8 +659,8 @@ export async function generateRecommendation(draftData: {
   currentPhase: "picking" | "banning" | "completed";
   currentTurn: number;
   firstPlayer: "A" | "B";
-  playerAAvailableIds:number[];
-}
+  playerAAvailableIds:number[];},
+  fastResponse?: boolean
 ): Promise<string> {
   try {
     // Étape 1: Load monsters to get names
@@ -728,7 +738,17 @@ export async function generateRecommendation(draftData: {
     
     console.log(nnContext)
     const llmStart = performance.now()
-    const recommendation = await callLLM(userPrompt);
+    console.log(`fastResponse ${fastResponse}`)
+    let recommendation :string;
+    if (fastResponse){
+      const llm_reco = await getLLM_recommendation(draftData,[0]);
+      console.log(llm_reco.names)
+      const response_string = ` Le LLM fine tune en réponse rapide recommande ${llm_reco.names.join(" et ")}`;
+      recommendation=response_string;
+    }
+    else{
+      recommendation = await callLLM(userPrompt);
+    }
     const llmTime = performance.now() - llmStart;
     console.log(
       `[PERF] Appel à l'API Gemini: ${llmTime.toFixed(2)}ms (${
@@ -749,7 +769,7 @@ export async function generateRecommendation(draftData: {
         2
       )}ms, LLM=${llmTime.toFixed(2)}ms`
     );
-
+    console.log(recommendation);
     return recommendation;
   } catch (error) {
     console.error("[LLM] Error generating recommendation:", error);
