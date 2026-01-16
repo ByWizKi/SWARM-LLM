@@ -1,7 +1,6 @@
 # SWARM-LLM - Assistant IA pour Draft RTA Summoners War
 
 Application web d'aide à la décision pour les drafts RTA (Real Time Arena) de Summoners War: Sky Arena. Utilise des LLMs (Google Gemini) pour analyser et recommander les meilleurs picks, bans et stratégies de draft.
-
 ## Démarrage Rapide
 
 Pour un guide détaillé, consultez [webapp/README-SETUP.md](./webapp/README-SETUP.md)
@@ -17,15 +16,22 @@ Pour un guide détaillé, consultez [webapp/README-SETUP.md](./webapp/README-SET
    cp .env.example .env
    # Éditer .env et ajouter votre GEMINI_API_KEY
    ```
+3. **Télécharger les poids du modèle LLM local**  
 
-3. Lancer avec Docker depuis la racine SWARM-LLM
+   - Lien de téléchargement : [Poids du modèle](https://filesender.renater.fr/?s=download&token=89d3de5b-08f9-45fb-8c34-52e752f2af72)  
+   - Ajouter le fichier téléchargé dans le dossier :
+
+   ```
+   backend/full_model_finetuned
+   ```
+4. Lancer avec Docker depuis la racine SWARM-LLM
    ```bash
    docker-compose -f docker-compose.dev.yml up --build
    ```
 
-4. Accéder à l'application : **http://localhost:3000**
+5. Accéder à l'application : **http://localhost:3000**
 
-5. Se connecter avec :
+6. Se connecter avec :
    - **Utilisateur** : `admin`
    - **Mot de passe** : `admin123`
 

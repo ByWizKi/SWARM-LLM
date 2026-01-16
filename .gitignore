@@ -47,5 +47,8 @@ webapp/.env.local
 
 # Python
 __pycache__/
+#Poids du modèle LLM
+backend/full_model_finetuned/*.safetensors
+
 # Fichiers temporaires
 
