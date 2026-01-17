@@ -505,23 +505,33 @@ export default function DraftPage() {
     try {
       // Timeout supprimé pour les tests - laisser l'API répondre naturellement
       const fetchStart = performance.now();
-      const response = await fetch("/api/draft/recommend", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          playerAPicks: draftState.playerAPicks,
-          playerBPicks: draftState.playerBPicks,
-          playerABans: draftState.playerABans,
-          playerBBans: draftState.playerBBans,
-          currentPhase: draftState.currentPhase,
-          currentTurn: currentTurnInfo?.turn || 0,
-          firstPlayer: draftState.firstPlayer,
-          playerAAvailableIds:getAvailableMonstersForPlayerA().map(m => m.id),//ajout des monstres possibles pour le llm
-          fastResponse//on gère la réponse via le modèle interne
-        }),
-      });
+      
+      let response;
+      try {
+        response = await fetch("/api/draft/recommend", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            playerAPicks: draftState.playerAPicks,
+            playerBPicks: draftState.playerBPicks,
+            playerABans: draftState.playerABans,
+            playerBBans: draftState.playerBBans,
+            currentPhase: draftState.currentPhase,
+            currentTurn: currentTurnInfo?.turn || 0,
+            firstPlayer: draftState.firstPlayer,
+            playerAAvailableIds:getAvailableMonstersForPlayerA().map(m => m.id),//ajout des monstres possibles pour le llm
+            fastResponse//on gère la réponse via le modèle interne
+          }),
+        });
+      } catch (fetchError: any) {
+        console.error("[DRAFT] Erreur de fetch:", fetchError);
+        if (fetchError.message?.includes("fetch failed") || fetchError.code === "ECONNREFUSED") {
+          throw new Error("Impossible de se connecter au serveur. Veuillez vérifier votre connexion et réessayer.");
+        }
+        throw fetchError;
+      }
 
       const fetchTime = performance.now() - fetchStart;
       console.log(`[PERF] Temps de fetch API: ${fetchTime.toFixed(2)}ms`);
@@ -554,16 +564,21 @@ export default function DraftPage() {
         `[PERF] Temps total côté client: ${totalClientTime.toFixed(2)}ms`
       );
     } catch (error) {
-      console.error("Erreur:", error);
-      if (error instanceof Error && error.name === "AbortError") {
-        setRecommendations(
-          "La requête a pris trop de temps. Veuillez réessayer."
-        );
-      } else {
-        setRecommendations(
-          "Erreur lors de la récupération des recommandations."
-        );
+      console.error("[DRAFT] Erreur lors de la génération de recommandation:", error);
+      
+      let errorMessage = "Erreur lors de la génération de recommandation";
+      
+      if (error instanceof Error) {
+        if (error.name === "AbortError") {
+          errorMessage = "La requête a pris trop de temps. Veuillez réessayer.";
+        } else if (error.message.includes("fetch failed") || error.message.includes("ECONNREFUSED")) {
+          errorMessage = "Impossible de se connecter au serveur. Vérifiez votre connexion.";
+        } else if (error.message) {
+          errorMessage = error.message;
+        }
       }
+      
+      setRecommendations(errorMessage + "\n\nVeuillez vérifier votre configuration et réessayer.");
       setRecommendedMonsterIds([]);
     } finally {
       setLoadingRecommendation(false);

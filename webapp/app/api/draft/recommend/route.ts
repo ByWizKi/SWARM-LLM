@@ -234,9 +234,35 @@ export async function POST(request: NextRequest) {
       timestamp: new Date().toISOString(),
     });
   } catch (error) {
-    console.error("Erreur lors de la génération de recommandation:", error);
+    console.error("[DRAFT_RECOMMEND] Erreur lors de la génération de recommandation:", error);
+    
+    let errorMessage = "Erreur lors de la génération de recommandation";
+    let details = "";
+    
+    if (error instanceof Error) {
+      errorMessage = error.message;
+      
+      // Identifier le type d'erreur
+      if (error.message.includes("fetch failed") || error.message.includes("ECONNREFUSED")) {
+        details = "Le backend Python n'est pas accessible. Les recommandations utilisent uniquement Gemini.";
+      } else if (error.message.includes("API key") || error.message.includes("GEMINI_API_KEY")) {
+        details = "Problème de configuration de la clé API Gemini.";
+      } else if (error.message.includes("quota") || error.message.includes("rate limit")) {
+        details = "Quota API dépassé ou limite de taux atteinte.";
+      }
+      
+      console.error("[DRAFT_RECOMMEND] Détails de l'erreur:", {
+        message: error.message,
+        stack: error.stack,
+        details
+      });
+    }
+    
     return NextResponse.json(
-      { error: "Erreur lors de la génération de recommandation" },
+      { 
+        error: errorMessage,
+        details: process.env.NODE_ENV === "development" ? details : undefined
+      },
       { status: 500 }
     );
   }

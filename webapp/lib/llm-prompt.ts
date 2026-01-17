@@ -667,23 +667,75 @@ export async function getRAGContext(draftState: {
 const pythonApiUrl = process.env.PYTHON_API_URL || "http://swarm-backend:8000";
 
 export async function getNeuralNet_infos(draftState: any,playerBPossibleCounter:any) {
-  const res = await fetch(`${pythonApiUrl}/neural-net`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({...draftState,playerBPossibleCounter})
-  });
-  const data = await res.text();
-  return data;
+  try {
+    console.log(`[NEURAL_NET] Tentative de connexion au backend Python: ${pythonApiUrl}`);
+    
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000); // Timeout de 5 secondes
+    
+    const res = await fetch(`${pythonApiUrl}/neural-net`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({...draftState,playerBPossibleCounter}),
+      signal: controller.signal,
+    });
+    
+    clearTimeout(timeoutId);
+    
+    if (!res.ok) {
+      throw new Error(`Backend Python retourné ${res.status}: ${res.statusText}`);
+    }
+    
+    const data = await res.text();
+    console.log(`[NEURAL_NET] Contexte récupéré avec succès (${data.length} caractères)`);
+    return data;
+  } catch (error: any) {
+    if (error.name === 'AbortError') {
+      console.warn("[NEURAL_NET] Timeout: Le backend Python n'a pas répondu dans les 5 secondes");
+    } else if (error.message?.includes('fetch failed') || error.code === 'ECONNREFUSED' || error.message?.includes('ECONNREFUSED')) {
+      console.warn(`[NEURAL_NET] Backend Python non accessible à ${pythonApiUrl} (probablement non déployé)`);
+    } else {
+      console.warn(`[NEURAL_NET] Erreur lors de la récupération des infos NN:`, error.message);
+    }
+    // Retourner une chaîne vide si le backend n'est pas disponible
+    return "";
+  }
 }
 
 export async function getLLM_recommendation(draftState: any,playerBPossibleCounter:any) {
-  const res = await fetch(`${pythonApiUrl}/llm-predict`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({...draftState,playerBPossibleCounter})
-  });
-  const data = await res.json();
-  return data;
+  try {
+    console.log(`[LLM_RECO] Tentative de connexion au backend Python: ${pythonApiUrl}`);
+    
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // Timeout de 10 secondes
+    
+    const res = await fetch(`${pythonApiUrl}/llm-predict`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({...draftState,playerBPossibleCounter}),
+      signal: controller.signal,
+    });
+    
+    clearTimeout(timeoutId);
+    
+    if (!res.ok) {
+      throw new Error(`Backend Python retourné ${res.status}: ${res.statusText}`);
+    }
+    
+    const data = await res.json();
+    console.log(`[LLM_RECO] Recommandation récupérée avec succès`);
+    return data;
+  } catch (error: any) {
+    if (error.name === 'AbortError') {
+      console.warn("[LLM_RECO] Timeout: Le backend Python n'a pas répondu dans les 10 secondes");
+    } else if (error.message?.includes('fetch failed') || error.code === 'ECONNREFUSED' || error.message?.includes('ECONNREFUSED')) {
+      console.warn(`[LLM_RECO] Backend Python non accessible à ${pythonApiUrl} (probablement non déployé)`);
+    } else {
+      console.warn(`[LLM_RECO] Erreur lors de la récupération de la recommandation LLM:`, error.message);
+    }
+    // Lancer une erreur pour que le code passe au mode Gemini
+    throw new Error("Backend Python non disponible");
+  }
 }
 
 // ============================================================================
@@ -763,8 +815,17 @@ export async function generateRecommendation(draftData: {
 
     ragContext = ragContext ? `Contexte additionnel (RAG):\n${ragContext}` : "";
     // Build the full prompt
-    // Obtenir le contexte depuis le NN
-    const nnContext = await getNeuralNet_infos(draftData,[0]);
+    // Obtenir le contexte depuis le NN (peut échouer si backend non disponible)
+    let nnContext = "";
+    try {
+      nnContext = await getNeuralNet_infos(draftData,[0]);
+      if (!nnContext) {
+        console.log("[LLM] Contexte NN vide, continuation sans contexte réseau de neurones");
+      }
+    } catch (error) {
+      console.warn("[LLM] Erreur lors de la récupération du contexte NN, continuation sans:", error instanceof Error ? error.message : error);
+      nnContext = "";
+    }
     const promptStart =  performance.now();
     const userPrompt = buildUserPrompt(
       draftContext,
@@ -785,13 +846,20 @@ export async function generateRecommendation(draftData: {
 
     console.log(nnContext)
     const llmStart = performance.now()
-    console.log(`fastResponse ${draftData.fastResponse}`)
+    console.log(`[LLM] fastResponse: ${draftData.fastResponse}`)
     let recommendation :string;
     if (draftData.fastResponse){
-      const llm_reco = await getLLM_recommendation(draftData,[0]);
-      console.log(llm_reco.names)
-      const response_string = ` Le LLM fine tune en réponse rapide recommande ${llm_reco.names.join(" et ")}`;
-      recommendation=response_string;
+      try {
+        const llm_reco = await getLLM_recommendation(draftData,[0]);
+        console.log("[LLM] Recommandation LLM reçue:", llm_reco.names)
+        const response_string = ` Le LLM fine tune en réponse rapide recommande ${llm_reco.names.join(" et ")}`;
+        recommendation=response_string;
+      } catch (error) {
+        console.warn("[LLM] Backend Python non disponible pour fastResponse, basculement vers Gemini");
+        console.warn("[LLM] Erreur:", error instanceof Error ? error.message : error);
+        // Fallback vers Gemini si le backend Python n'est pas disponible
+        recommendation = await callLLM(userPrompt, draftData.geminiApiKey);
+      }
     }
     else{
       recommendation = await callLLM(userPrompt, draftData.geminiApiKey);
