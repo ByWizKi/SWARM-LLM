@@ -638,7 +638,7 @@ export async function getLLM_recommendation(draftState: any,playerBPossibleCount
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({...draftState,playerBPossibleCounter})
   });
-  const data = await res.json();  
+  const data = await res.json();
   return data;
 }
 
@@ -712,7 +712,7 @@ export async function generateRecommendation(draftData: {
     const ragStart= performance.now();
     let ragContext = await getRAGContext(draftData);
     const ragTime = performance.now() - ragStart;
-    // 🔍 DEBUG : afficher le RAG dans la console
+    // DEBUG : afficher le RAG dans la console
     console.log("========== RAG CONTEXT ==========");
     console.log(ragContext || "(RAG vide)");
     console.log("=================================");
@@ -732,7 +732,7 @@ export async function generateRecommendation(draftData: {
     );
     const promptTime = performance.now() - promptStart;
 
-    // 🔍 DEBUG : afficher le Prompt dans la console
+    // DEBUG : afficher le Prompt dans la console
     console.log("========== Prompt ==========");
     console.log(userPrompt || "(Prompt vide)");
     console.log("=================================");

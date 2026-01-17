@@ -23,6 +23,7 @@ export async function POST(request: NextRequest) {
     console.log("[REGISTER] Vérification de l'existence du pseudo...");
     const existingUser = await prisma.user.findUnique({
       where: { name },
+      select: { id: true, name: true }, // Ne charger que les champs nécessaires pour éviter l'erreur si geminiApiKey n'existe pas encore
     });
 
     if (existingUser) {

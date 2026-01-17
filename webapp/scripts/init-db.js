@@ -26,18 +26,18 @@ async function initDatabase() {
           password: hashedPassword,
         }
       });
-      console.log('✓ Utilisateur par défaut créé:');
+      console.log('[INIT_DB] Utilisateur par défaut créé:');
       console.log('  Nom d\'utilisateur: admin');
       console.log('  Mot de passe: admin123');
       console.log('');
-      console.log('⚠️  IMPORTANT: Changez le mot de passe après la première connexion!');
+      console.log('[INIT_DB] IMPORTANT: Changez le mot de passe après la première connexion!');
     } else {
-      console.log('✓ Utilisateur admin existe déjà');
+      console.log('[INIT_DB] Utilisateur admin existe déjà');
     }
 
-    console.log('✓ Base de données initialisée avec succès');
+    console.log('[INIT_DB] Base de données initialisée avec succès');
   } catch (error) {
-    console.error('✗ Erreur lors de l\'initialisation:', error);
+    console.error('[INIT_DB] Erreur lors de l\'initialisation:', error);
     process.exit(1);
   } finally {
     await prisma.$disconnect();
