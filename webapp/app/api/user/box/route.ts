@@ -12,22 +12,13 @@ const updateBoxSchema = z.object({
   monsters: z.array(z.union([z.number(), z.string()])),
 });
 
-// Cache simple en mémoire (pour le développement)
-// En production, utiliser Redis ou un autre système de cache
-const boxCache = new Map<string, { data: any; timestamp: number }>();
-const CACHE_TTL = 30 * 1000; // 30 secondes
-
-// Fonction pour invalider le cache (utilisée localement)
-function invalidateBoxCache(userId: string) {
-  const cacheKey = `box-${userId}`;
-  boxCache.delete(cacheKey);
-}
-
 /**
  * GET - Récupérer le box de monstres de l'utilisateur
- * Optimisé avec cache pour améliorer les performances
+ * 
+ * IMPORTANT: Pas de cache côté serveur pour garantir la cohérence
+ * sur Vercel (instances serverless stateless)
  */
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
@@ -38,21 +29,6 @@ export async function GET() {
     }
 
     const userId = session.user.id;
-    const cacheKey = `box-${userId}`;
-    const cached = boxCache.get(cacheKey);
-
-    // Vérifier le cache
-    if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
-      return NextResponse.json(
-        { monsters: cached.data },
-        {
-          headers: {
-            "Cache-Control": "public, s-maxage=30, stale-while-revalidate=60",
-            "X-Cache": "HIT",
-          },
-        }
-      );
-    }
 
     // Récupérer depuis la base de données (lecture - peut utiliser Accelerate)
     const box = await prisma.monsterBox.findUnique({
@@ -62,30 +38,25 @@ export async function GET() {
 
     const monsters = box?.monsters || [];
 
-    // Mettre en cache
-    boxCache.set(cacheKey, {
-      data: monsters,
-      timestamp: Date.now(),
-    });
-
-    // Nettoyer le cache ancien (garder seulement les 100 dernières entrées)
-    if (boxCache.size > 100) {
-      const oldestKey = Array.from(boxCache.entries())
-        .sort((a, b) => a[1].timestamp - b[1].timestamp)[0]?.[0];
-      if (oldestKey) boxCache.delete(oldestKey);
-    }
+    // Vérifier si le client demande un rechargement forcé
+    const cacheHeader = request.headers.get("cache-control");
+    const forceNoCache = cacheHeader?.includes("no-cache") || cacheHeader?.includes("no-store");
 
     return NextResponse.json(
       { monsters },
       {
         headers: {
-          "Cache-Control": "public, s-maxage=30, stale-while-revalidate=60",
-          "X-Cache": "MISS",
+          // Désactiver le cache pour garantir des données à jour
+          "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+          "Pragma": "no-cache",
+          "Expires": "0",
+          // Permettre au client de forcer le rechargement
+          "X-Timestamp": Date.now().toString(),
         },
       }
     );
   } catch (error) {
-    console.error("Erreur lors de la récupération du box:", error);
+    console.error("[BOX] Erreur lors de la récupération du box:", error);
     return NextResponse.json(
       { error: "Erreur lors de la récupération du box" },
       { status: 500 }
@@ -141,13 +112,19 @@ export async function POST(request: NextRequest) {
 
     console.log("[BOX] Box mis à jour avec succès:", { boxId: box.id, monstersCount: Array.isArray(box.monsters) ? box.monsters.length : 0 });
 
-    // Invalider le cache
-    const cacheKey = `box-${userId}`;
-    boxCache.delete(cacheKey);
-
+    // Retourner les données à jour avec headers pour forcer le rechargement côté client
     return NextResponse.json({
       message: "Box mis à jour avec succès",
       box: { monsters: box.monsters },
+    }, {
+      headers: {
+        // Forcer le client à ignorer le cache pour la prochaine requête GET
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+        "Pragma": "no-cache",
+        "Expires": "0",
+        // Timestamp pour forcer le rechargement
+        "X-Timestamp": Date.now().toString(),
+      },
     });
   } catch (error) {
     if (error instanceof z.ZodError) {

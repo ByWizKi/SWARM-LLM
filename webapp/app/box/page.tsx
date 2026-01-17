@@ -71,14 +71,33 @@ export default function BoxPage() {
     try {
       // Forcer le rechargement sans cache si demandé
       const cacheOptions: RequestInit = forceRefresh
-        ? { cache: 'no-store' as RequestCache, headers: { 'Cache-Control': 'no-cache' } }
+        ? { 
+            cache: 'no-store' as RequestCache, 
+            headers: { 
+              'Cache-Control': 'no-cache, no-store, must-revalidate',
+              'Pragma': 'no-cache',
+            } 
+          }
         : {};
 
-      const response = await fetch("/api/user/box", cacheOptions);
+      // Ajouter un timestamp pour forcer le rechargement
+      const url = forceRefresh 
+        ? `/api/user/box?t=${Date.now()}` 
+        : "/api/user/box";
+
+      const response = await fetch(url, cacheOptions);
+      
+      if (!response.ok) {
+        console.error("[BOX] Erreur HTTP lors du chargement:", response.status, response.statusText);
+        return;
+      }
+      
       const data = await response.json();
-      setUserMonsters(Array.isArray(data.monsters) ? data.monsters : []);
+      const monsters = Array.isArray(data.monsters) ? data.monsters : [];
+      setUserMonsters(monsters);
+      console.log("[BOX] Box chargé:", monsters.length, "monstres");
     } catch (error) {
-      console.error("Erreur lors du chargement du box:", error);
+      console.error("[BOX] Erreur lors du chargement du box:", error);
     }
   };
 
@@ -112,8 +131,16 @@ export default function BoxPage() {
       }
 
       console.log("[BOX] Sauvegarde réussie:", data);
-      // Recharger le box pour s'assurer qu'il est à jour (forcer le rechargement sans cache)
+      
+      // Mettre à jour l'état immédiatement avec les données retournées par le serveur
+      if (data.box?.monsters) {
+        setUserMonsters(Array.isArray(data.box.monsters) ? data.box.monsters : []);
+        console.log("[BOX] État mis à jour avec", data.box.monsters.length, "monstres");
+      }
+      
+      // Recharger depuis le serveur pour garantir la cohérence (forcer le rechargement sans cache)
       await loadUserBox(true);
+      
       // Afficher une notification au lieu d'un alert pour une meilleure UX
       alert("Box sauvegardé avec succès !");
       // Ne pas rediriger automatiquement, laisser l'utilisateur continuer à modifier
