@@ -397,38 +397,52 @@ export async function getRAGContext(draftState: {
   const fs = await import("fs/promises");
   const path = await import("path");
 
-  // Charger le JSON brut
-  const filePath = path.join(process.cwd(), "monsters_rta.json");
-  const raw = await fs.readFile(filePath, "utf-8");
-  const monsters: any[] = JSON.parse(raw);
+  const cwd = process.cwd();
 
+  // Fonction helper pour charger un fichier JSON avec plusieurs chemins possibles
+  const loadJsonFile = async (filename: string): Promise<any> => {
+    const possiblePaths = [
+      path.join(cwd, filename), // Vercel: /var/task/webapp/filename
+      path.join(cwd, "..", filename), // En local depuis webapp/: ../filename
+    ];
+
+    for (const filePath of possiblePaths) {
+      try {
+        const content = await fs.readFile(filePath, "utf-8");
+        return JSON.parse(content);
+      } catch (error) {
+        // Continuer avec le chemin suivant
+        continue;
+      }
+    }
+
+    // Si aucun fichier n'est trouvé, retourner un objet vide et logger un warning
+    console.warn(`[RAG] Fichier ${filename} non trouvé dans les chemins:`, possiblePaths);
+    return {};
+  };
+
+  // Charger le JSON brut des monstres
+  let monsters: any[] = [];
+  try {
+    const monstersData = await loadJsonFile("monsters_rta.json");
+    monsters = Array.isArray(monstersData) ? monstersData : (monstersData.monstres || []);
+  } catch (error) {
+    console.error("[RAG] Erreur lors du chargement de monsters_rta.json:", error);
+    return ""; // Retourner une chaîne vide si les monstres ne peuvent pas être chargés
+  }
 
   // Créer un map id => nom pour lookup rapide
   const monsterIdToName: Record<number, string> = {};
   monsters.forEach(m => { monsterIdToName[m.id] = m.name; });
 
-  //charger le json des stats moyennes
-  const avgStatsPath = path.join(
-    process.cwd(),
-    "average_monster_stats_id.json"
-  );
-  const avgRaw = await fs.readFile(avgStatsPath, "utf-8");
-  const averageStatsById: Record<string, any> = JSON.parse(avgRaw);
+  // Charger le json des stats moyennes
+  const averageStatsById: Record<string, any> = await loadJsonFile("average_monster_stats_id.json");
 
+  // Charger les informations de pairs
+  const pairStatsById: Record<string, any> = await loadJsonFile("monsters_pairs_id.json");
 
-  //charger les informations de pairs
-  const pairStatsPath = path.join(process.cwd(), "monsters_pairs_id.json");
-  const pairStatsRaw = await fs.readFile(pairStatsPath, "utf-8");
-  const pairStatsById: Record<string, any> = JSON.parse(pairStatsRaw);
-
-
-  //on charge les infos de contexte courte
-  const smallInfoPath = path.join(
-  process.cwd(),
-  "monster_small_info.json"
-  );
-  const smallInfoRaw = await fs.readFile(smallInfoPath, "utf-8");
-  const monsterSmallInfo: Record<string, string> = JSON.parse(smallInfoRaw);
+  // Charger les infos de contexte courte
+  const monsterSmallInfo: Record<string, string> = await loadJsonFile("monster_small_info.json");
 
 
   // IDs pertinents (picks + bans)
