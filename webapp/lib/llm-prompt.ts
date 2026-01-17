@@ -467,7 +467,8 @@ export async function getRAGContext(draftState: {
 
   // Si aucun monstre n'est chargé, retourner une chaîne vide
   if (!monsters || monsters.length === 0) {
-    console.warn("[RAG] Aucun monstre chargé, retour d'un contexte RAG vide");
+    console.warn("[RAG] Aucun monstre chargé depuis monsters_rta.json, retour d'un contexte RAG vide");
+    console.warn("[RAG] Le RAG fonctionnera sans les données de monstres mais les recommandations seront limitées");
     return "";
   }
 
@@ -479,7 +480,22 @@ export async function getRAGContext(draftState: {
   );
 
   if (fullMonsters.length === 0) {
+    console.log("[RAG] Aucun monstre correspondant aux picks/bans, retour d'un contexte RAG vide");
     return "";
+  }
+
+  // Vérifier si les fichiers de stats sont vides (fichiers manquants)
+  const hasStats = Object.keys(averageStatsById).length > 0;
+  const hasPairs = Object.keys(pairStatsById).length > 0;
+  const hasSmallInfo = Object.keys(monsterSmallInfo).length > 0;
+
+  if (!hasStats && !hasPairs && !hasSmallInfo) {
+    console.warn("[RAG] ATTENTION: Tous les fichiers de stats RAG sont vides (fichiers JSON manquants)");
+    console.warn("[RAG] Les fichiers suivants n'ont pas pu être chargés:");
+    console.warn("[RAG] - average_monster_stats_id.json");
+    console.warn("[RAG] - monsters_pairs_id.json");
+    console.warn("[RAG] - monster_small_info.json");
+    console.warn("[RAG] Le RAG continuera mais avec des données limitées");
   }
 
   const lightRagBlocks = lightMonsters

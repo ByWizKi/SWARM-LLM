@@ -26,6 +26,7 @@ export default function BoxPage() {
   const [userMonsters, setUserMonsters] = useState<number[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0); // Pour forcer le re-render
   const [searchTerm, setSearchTerm] = useState("");
   const [filterElement, setFilterElement] = useState<string>("all");
   const [filterCategorie, setFilterCategorie] = useState<string>("all");
@@ -131,23 +132,33 @@ export default function BoxPage() {
       }
 
       console.log("[BOX] Sauvegarde réussie, réponse complète:", JSON.stringify(data, null, 2));
-      
-      // Mettre à jour l'état immédiatement avec les données retournées par le serveur
-      const savedMonsters = data.box?.monsters || data.monsters || [];
-      const monstersArray = Array.isArray(savedMonsters) ? savedMonsters : [];
-      
-      console.log("[BOX] Mise à jour de l'état avec", monstersArray.length, "monstres");
-      setUserMonsters(monstersArray);
-      
-      // Petite pause pour s'assurer que l'état est bien mis à jour
-      await new Promise(resolve => setTimeout(resolve, 100));
-      
-      // Recharger depuis le serveur pour garantir la cohérence (forcer le rechargement sans cache)
+
+      // Extraire les monstres de la réponse (plusieurs formats possibles)
+      let savedMonsters: number[] = [];
+      if (data.box?.monsters) {
+        savedMonsters = Array.isArray(data.box.monsters) ? data.box.monsters : [];
+      } else if (data.monsters) {
+        savedMonsters = Array.isArray(data.monsters) ? data.monsters : [];
+      }
+
+      console.log("[BOX] Monstres extraits de la réponse:", savedMonsters.length, savedMonsters);
+
+      // Mettre à jour l'état immédiatement
+      setUserMonsters(savedMonsters);
+      console.log("[BOX] État userMonsters mis à jour avec", savedMonsters.length, "monstres");
+
+      // Forcer un re-render
+      setRefreshKey(prev => prev + 1);
+
+      // Recharger depuis le serveur pour garantir la cohérence
       console.log("[BOX] Rechargement depuis le serveur...");
       await loadUserBox(true);
-      
-      // Afficher une notification au lieu d'un alert pour une meilleure UX
-      alert("Box sauvegardé avec succès !");
+
+      // Forcer un nouveau re-render après le rechargement
+      setRefreshKey(prev => prev + 1);
+
+      // Afficher une notification
+      alert(`Box sauvegardé avec succès ! (${savedMonsters.length} monstres)`);
       // Ne pas rediriger automatiquement, laisser l'utilisateur continuer à modifier
       // router.push("/dashboard");
     } catch (error) {
@@ -278,7 +289,7 @@ export default function BoxPage() {
         </Card>
 
         {/* Liste des monstres */}
-        <Card>
+        <Card key={refreshKey}>
           <CardHeader>
             <CardTitle>
               Monstres ({filteredMonsters.length}) - Sélectionnés: {userMonsters.length}
