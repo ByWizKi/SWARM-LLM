@@ -553,9 +553,11 @@ export default function DraftPage() {
           )}ms`
         );
       } else {
-        setRecommendations(
-          "Erreur lors de la récupération des recommandations."
-        );
+        // Gérer les erreurs de réponse
+        const errorMsg = data.error || "Erreur lors de la récupération des recommandations.";
+        const detailsMsg = data.details ? `\n\n${data.details}` : "";
+        console.error("[DRAFT] Erreur de réponse API:", response.status, data);
+        setRecommendations(errorMsg + detailsMsg);
         setRecommendedMonsterIds([]);
       }
 
