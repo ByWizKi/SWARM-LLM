@@ -669,23 +669,23 @@ const pythonApiUrl = process.env.PYTHON_API_URL || "http://swarm-backend:8000";
 export async function getNeuralNet_infos(draftState: any,playerBPossibleCounter:any) {
   try {
     console.log(`[NEURAL_NET] Tentative de connexion au backend Python: ${pythonApiUrl}`);
-    
+
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 5000); // Timeout de 5 secondes
-    
+
     const res = await fetch(`${pythonApiUrl}/neural-net`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({...draftState,playerBPossibleCounter}),
       signal: controller.signal,
     });
-    
+
     clearTimeout(timeoutId);
-    
+
     if (!res.ok) {
       throw new Error(`Backend Python retourné ${res.status}: ${res.statusText}`);
     }
-    
+
     const data = await res.text();
     console.log(`[NEURAL_NET] Contexte récupéré avec succès (${data.length} caractères)`);
     return data;
@@ -705,23 +705,23 @@ export async function getNeuralNet_infos(draftState: any,playerBPossibleCounter:
 export async function getLLM_recommendation(draftState: any,playerBPossibleCounter:any) {
   try {
     console.log(`[LLM_RECO] Tentative de connexion au backend Python: ${pythonApiUrl}`);
-    
+
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000); // Timeout de 10 secondes
-    
+
     const res = await fetch(`${pythonApiUrl}/llm-predict`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({...draftState,playerBPossibleCounter}),
       signal: controller.signal,
     });
-    
+
     clearTimeout(timeoutId);
-    
+
     if (!res.ok) {
       throw new Error(`Backend Python retourné ${res.status}: ${res.statusText}`);
     }
-    
+
     const data = await res.json();
     console.log(`[LLM_RECO] Recommandation récupérée avec succès`);
     return data;

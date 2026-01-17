@@ -505,7 +505,7 @@ export default function DraftPage() {
     try {
       // Timeout supprimé pour les tests - laisser l'API répondre naturellement
       const fetchStart = performance.now();
-      
+
       let response;
       try {
         response = await fetch("/api/draft/recommend", {
@@ -567,9 +567,9 @@ export default function DraftPage() {
       );
     } catch (error) {
       console.error("[DRAFT] Erreur lors de la génération de recommandation:", error);
-      
+
       let errorMessage = "Erreur lors de la génération de recommandation";
-      
+
       if (error instanceof Error) {
         if (error.name === "AbortError") {
           errorMessage = "La requête a pris trop de temps. Veuillez réessayer.";
@@ -579,7 +579,7 @@ export default function DraftPage() {
           errorMessage = error.message;
         }
       }
-      
+
       setRecommendations(errorMessage + "\n\nVeuillez vérifier votre configuration et réessayer.");
       setRecommendedMonsterIds([]);
     } finally {

@@ -18,20 +18,20 @@ export function BoxStatusText({ initialMonsterCount, initialHasBox }: BoxStatusT
 
     try {
       const cacheOptions: RequestInit = forceRefresh
-        ? { 
-            cache: 'no-store' as RequestCache, 
-            headers: { 'Cache-Control': 'no-cache, no-store, must-revalidate' } 
+        ? {
+            cache: 'no-store' as RequestCache,
+            headers: { 'Cache-Control': 'no-cache, no-store, must-revalidate' }
           }
         : {};
 
-      const url = forceRefresh 
-        ? `/api/user/box?t=${Date.now()}` 
+      const url = forceRefresh
+        ? `/api/user/box?t=${Date.now()}`
         : "/api/user/box";
 
       const response = await fetch(url, cacheOptions);
-      
+
       if (!response.ok) return;
-      
+
       const data = await response.json();
       const count = Array.isArray(data.monsters) ? data.monsters.length : 0;
 

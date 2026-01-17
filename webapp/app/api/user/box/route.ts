@@ -14,7 +14,7 @@ const updateBoxSchema = z.object({
 
 /**
  * GET - Récupérer le box de monstres de l'utilisateur
- * 
+ *
  * IMPORTANT: Pas de cache côté serveur pour garantir la cohérence
  * sur Vercel (instances serverless stateless)
  */

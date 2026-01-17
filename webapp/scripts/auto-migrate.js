@@ -1,9 +1,9 @@
 /**
  * Script de migration automatique pour Vercel
- * 
+ *
  * Ce script s'exécute pendant le build pour appliquer automatiquement
  * les migrations de base de données.
- * 
+ *
  * Il utilise prisma db push qui est idempotent et synchronise le schéma.
  */
 
@@ -25,7 +25,7 @@ try {
   // Utiliser prisma db push pour synchroniser le schéma
   // db push est idempotent et peut être exécuté plusieurs fois sans problème
   console.log("[AUTO_MIGRATE] Synchronisation du schéma Prisma avec la base de données...");
-  
+
   execSync("npx prisma db push --accept-data-loss --skip-generate", {
     stdio: "inherit",
     env: {
@@ -40,7 +40,7 @@ try {
   console.error("[AUTO_MIGRATE] Erreur lors de la migration automatique:", error.message);
   console.error("[AUTO_MIGRATE] Le build continue malgré l'erreur de migration");
   console.error("[AUTO_MIGRATE] Les migrations devront être appliquées manuellement");
-  
+
   // Ne pas faire échouer le build si la migration échoue
   // Cela permet au déploiement de continuer même si la DB n'est pas accessible
   process.exit(0);

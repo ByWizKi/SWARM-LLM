@@ -1,6 +1,6 @@
 /**
  * Script de migration automatique sécurisée pour Vercel
- * 
+ *
  * Version alternative qui utilise uniquement les migrations SQL spécifiques
  * au lieu de db push (plus sécurisée, ne modifie que ce qui est nécessaire)
  */
@@ -29,10 +29,10 @@ async function applyMigrations() {
 
     // Migration 1: geminiApiKey
     console.log("[AUTO_MIGRATE] Vérification de la colonne geminiApiKey...");
-    
+
     const checkColumn = await prisma.$queryRaw`
-      SELECT column_name 
-      FROM information_schema.columns 
+      SELECT column_name
+      FROM information_schema.columns
       WHERE table_name = 'users' AND column_name = 'geminiApiKey'
     `;
 

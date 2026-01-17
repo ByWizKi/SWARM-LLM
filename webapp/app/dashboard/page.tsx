@@ -171,9 +171,9 @@ export default async function DashboardPage() {
                       </CardTitle>
                       <CardDescription className="mt-2">
                         {action.description === "dynamic" ? (
-                          <BoxDescription 
-                            initialMonsterCount={stats.monsterCount} 
-                            initialHasBox={stats.hasBox} 
+                          <BoxDescription
+                            initialMonsterCount={stats.monsterCount}
+                            initialHasBox={stats.hasBox}
                           />
                         ) : (
                           action.description
@@ -218,9 +218,9 @@ export default async function DashboardPage() {
                 <div>
                   <p className="font-semibold">Configurez votre Box</p>
                   <p className="text-sm text-muted-foreground">
-                    <BoxStatusText 
-                      initialMonsterCount={stats.monsterCount} 
-                      initialHasBox={stats.hasBox} 
+                    <BoxStatusText
+                      initialMonsterCount={stats.monsterCount}
+                      initialHasBox={stats.hasBox}
                     />
                   </p>
                 </div>
