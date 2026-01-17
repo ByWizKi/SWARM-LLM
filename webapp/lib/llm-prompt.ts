@@ -398,6 +398,7 @@ export async function getRAGContext(draftState: {
   const path = await import("path");
 
   const cwd = process.cwd();
+  console.log(`[RAG] Working directory: ${cwd}`);
 
   // Fonction helper pour charger un fichier JSON avec plusieurs chemins possibles
   const loadJsonFile = async (filename: string): Promise<any> => {
@@ -406,11 +407,18 @@ export async function getRAGContext(draftState: {
       path.join(cwd, "..", filename), // En local depuis webapp/: ../filename
     ];
 
+    console.log(`[RAG] Tentative de chargement de ${filename} depuis:`, possiblePaths);
+
     for (const filePath of possiblePaths) {
       try {
         const content = await fs.readFile(filePath, "utf-8");
+        console.log(`[RAG] Fichier ${filename} trouvé à: ${filePath}`);
         return JSON.parse(content);
-      } catch (error) {
+      } catch (error: any) {
+        // Logger l'erreur pour le débogage
+        if (error.code !== "ENOENT") {
+          console.warn(`[RAG] Erreur lors de la lecture de ${filePath}:`, error.message);
+        }
         // Continuer avec le chemin suivant
         continue;
       }
@@ -456,6 +464,12 @@ export async function getRAGContext(draftState: {
   const lightInfoIds = new Set<number>(
     draftState.playerAAvailableIds || []
   );
+
+  // Si aucun monstre n'est chargé, retourner une chaîne vide
+  if (!monsters || monsters.length === 0) {
+    console.warn("[RAG] Aucun monstre chargé, retour d'un contexte RAG vide");
+    return "";
+  }
 
   const fullMonsters = monsters.filter(m =>
   fullInfoIds.has(m.id)

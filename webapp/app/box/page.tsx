@@ -71,27 +71,27 @@ export default function BoxPage() {
     try {
       // Forcer le rechargement sans cache si demandé
       const cacheOptions: RequestInit = forceRefresh
-        ? { 
-            cache: 'no-store' as RequestCache, 
-            headers: { 
+        ? {
+            cache: 'no-store' as RequestCache,
+            headers: {
               'Cache-Control': 'no-cache, no-store, must-revalidate',
               'Pragma': 'no-cache',
-            } 
+            }
           }
         : {};
 
       // Ajouter un timestamp pour forcer le rechargement
-      const url = forceRefresh 
-        ? `/api/user/box?t=${Date.now()}` 
+      const url = forceRefresh
+        ? `/api/user/box?t=${Date.now()}`
         : "/api/user/box";
 
       const response = await fetch(url, cacheOptions);
-      
+
       if (!response.ok) {
         console.error("[BOX] Erreur HTTP lors du chargement:", response.status, response.statusText);
         return;
       }
-      
+
       const data = await response.json();
       const monsters = Array.isArray(data.monsters) ? data.monsters : [];
       setUserMonsters(monsters);
@@ -130,15 +130,20 @@ export default function BoxPage() {
         throw new Error(data.error || "Erreur lors de la sauvegarde");
       }
 
-      console.log("[BOX] Sauvegarde réussie:", data);
+      console.log("[BOX] Sauvegarde réussie, réponse complète:", JSON.stringify(data, null, 2));
       
       // Mettre à jour l'état immédiatement avec les données retournées par le serveur
-      if (data.box?.monsters) {
-        setUserMonsters(Array.isArray(data.box.monsters) ? data.box.monsters : []);
-        console.log("[BOX] État mis à jour avec", data.box.monsters.length, "monstres");
-      }
+      const savedMonsters = data.box?.monsters || data.monsters || [];
+      const monstersArray = Array.isArray(savedMonsters) ? savedMonsters : [];
+      
+      console.log("[BOX] Mise à jour de l'état avec", monstersArray.length, "monstres");
+      setUserMonsters(monstersArray);
+      
+      // Petite pause pour s'assurer que l'état est bien mis à jour
+      await new Promise(resolve => setTimeout(resolve, 100));
       
       // Recharger depuis le serveur pour garantir la cohérence (forcer le rechargement sans cache)
+      console.log("[BOX] Rechargement depuis le serveur...");
       await loadUserBox(true);
       
       // Afficher une notification au lieu d'un alert pour une meilleure UX
