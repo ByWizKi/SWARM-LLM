@@ -9,6 +9,8 @@ import { Sword, Box, BookOpen, Zap, TrendingUp, Users } from "lucide-react";
 import { SignOutButtonWrapper } from "@/components/sign-out-button-wrapper";
 import { BoxStats } from "@/components/box-stats";
 import { BoxStatusCard } from "@/components/box-status-card";
+import { BoxDescription } from "@/components/box-description";
+import { BoxStatusText } from "@/components/box-status-text";
 
 // Cache pour les statistiques (5 minutes)
 const STATS_CACHE_TTL = 5 * 60 * 1000;
@@ -66,9 +68,7 @@ export default async function DashboardPage() {
     },
     {
       title: "Gérer mon Box",
-      description: stats.hasBox
-        ? `${stats.monsterCount} monstres dans votre collection`
-        : "Configurez votre collection de monstres",
+      description: "dynamic", // Sera remplacé par BoxDescription
       href: "/box",
       icon: Box,
       color: "from-purple-500 to-purple-600",
@@ -170,7 +170,14 @@ export default async function DashboardPage() {
                         {action.title}
                       </CardTitle>
                       <CardDescription className="mt-2">
-                        {action.description}
+                        {action.description === "dynamic" ? (
+                          <BoxDescription 
+                            initialMonsterCount={stats.monsterCount} 
+                            initialHasBox={stats.hasBox} 
+                          />
+                        ) : (
+                          action.description
+                        )}
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -211,9 +218,10 @@ export default async function DashboardPage() {
                 <div>
                   <p className="font-semibold">Configurez votre Box</p>
                   <p className="text-sm text-muted-foreground">
-                    {stats.hasBox
-                      ? "Votre box est configure avec " + stats.monsterCount + " monstres"
-                      : "Sélectionnez les monstres que vous possédez dans votre collection"}
+                    <BoxStatusText 
+                      initialMonsterCount={stats.monsterCount} 
+                      initialHasBox={stats.hasBox} 
+                    />
                   </p>
                 </div>
               </div>

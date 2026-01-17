@@ -157,6 +157,13 @@ export default function BoxPage() {
       // Forcer un nouveau re-render après le rechargement
       setRefreshKey(prev => prev + 1);
 
+      // Émettre un événement personnalisé pour notifier les autres composants
+      const boxSavedEvent = new CustomEvent("boxSaved", {
+        detail: { monsterCount: savedMonsters.length }
+      });
+      window.dispatchEvent(boxSavedEvent);
+      console.log("[BOX] Événement boxSaved émis avec", savedMonsters.length, "monstres");
+
       // Afficher une notification
       alert(`Box sauvegardé avec succès ! (${savedMonsters.length} monstres)`);
       // Ne pas rediriger automatiquement, laisser l'utilisateur continuer à modifier

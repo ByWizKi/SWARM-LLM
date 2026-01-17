@@ -35,27 +35,35 @@ export function BoxStatusCard({ initialHasBox }: BoxStatusCardProps) {
     }
   }, [status]);
 
-  // Recharger les stats quand la page devient visible
+  // Recharger les stats quand la page devient visible ou quand le box est sauvegardé
   useEffect(() => {
-    if (status === "authenticated") {
-      const handleVisibilityChange = () => {
-        if (document.visibilityState === "visible") {
-          loadStats(true);
-        }
-      };
+    if (status !== "authenticated") return;
 
-      const handleFocus = () => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
         loadStats(true);
-      };
+      }
+    };
 
-      document.addEventListener("visibilitychange", handleVisibilityChange);
-      window.addEventListener("focus", handleFocus);
+    const handleFocus = () => {
+      loadStats(true);
+    };
 
-      return () => {
-        document.removeEventListener("visibilitychange", handleVisibilityChange);
-        window.removeEventListener("focus", handleFocus);
-      };
-    }
+    // Écouter l'événement personnalisé quand le box est sauvegardé
+    const handleBoxSaved = () => {
+      console.log("[BOX_STATUS] Box sauvegardé détecté, rechargement des stats...");
+      loadStats(true);
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("focus", handleFocus);
+    window.addEventListener("boxSaved", handleBoxSaved);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("focus", handleFocus);
+      window.removeEventListener("boxSaved", handleBoxSaved);
+    };
   }, [status, loadStats]);
 
   return (
