@@ -6,6 +6,7 @@ import { z } from "zod";
 const registerSchema = z.object({
   name: z.string().min(3, "Le pseudo doit contenir au moins 3 caractères").max(20, "Le pseudo doit contenir au maximum 20 caractères"),
   password: z.string().min(6, "Le mot de passe doit contenir au moins 6 caractères"),
+  geminiApiKey: z.string().min(20, "La clé API Gemini est requise et doit être valide"),
 });
 
 // Force dynamic rendering
@@ -16,7 +17,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     console.log("[REGISTER] Tentative d'inscription pour:", body.name);
 
-    const { name, password } = registerSchema.parse(body);
+    const { name, password, geminiApiKey } = registerSchema.parse(body);
 
     // Vérifier si le pseudo existe déjà (lecture - peut utiliser Accelerate)
     console.log("[REGISTER] Vérification de l'existence du pseudo...");
@@ -42,6 +43,7 @@ export async function POST(request: NextRequest) {
       data: {
         name,
         password: hashedPassword,
+        geminiApiKey: geminiApiKey.trim(),
       },
       select: {
         id: true,

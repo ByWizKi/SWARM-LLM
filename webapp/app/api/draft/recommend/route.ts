@@ -39,10 +39,23 @@ export async function POST(request: NextRequest) {
     // Valider les données
     if (!Array.isArray(playerAPicks) || !Array.isArray(playerBPicks)) {
       return NextResponse.json(
-        { error: "Format de données invalide" },  
+        { error: "Format de données invalide" },
         { status: 400 }
       );
     }
+    // Vérifier que l'utilisateur a une clé API Gemini
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { geminiApiKey: true },
+    });
+
+    if (!user?.geminiApiKey) {
+      return NextResponse.json(
+        { error: "Clé API Gemini requise. Veuillez configurer votre clé API dans les paramètres." },
+        { status: 403 }
+      );
+    }
+
     const startTime = performance.now();//pour regarder le temps de la requete + rag
     // Générer la recommandation en utilisant le fichier centralisé
     const recommendation = await generateRecommendation({
@@ -53,10 +66,12 @@ export async function POST(request: NextRequest) {
       currentPhase,
       currentTurn,
       firstPlayer,
-      playerAAvailableIds},
-      fastResponse);//ajout des monstres possibles pour le llm
+      playerAAvailableIds,
+      geminiApiKey: user.geminiApiKey,
+      fastResponse,
+    });//ajout des monstres possibles pour le llm
 
-    // Sauvegarder le draft si terminé (pour analyse future)  
+    // Sauvegarder le draft si terminé (pour analyse future)
     if (currentPhase === "completed") {
       try {
         await saveDraft({
@@ -209,7 +224,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    
+
 
     const totalTime = performance.now() - startTime;
     console.log(`[PERF] Temps total de génération: ${totalTime.toFixed(2)}ms`);

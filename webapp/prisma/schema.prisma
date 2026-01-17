@@ -16,6 +16,7 @@ model User {
   name          String    @unique // Pseudo unique (requis, identifiant principal)
   password      String    // Mot de passe hashé (requis)
   image         String?
+  geminiApiKey  String?   // Clé API Gemini (requis pour utiliser l'application)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 

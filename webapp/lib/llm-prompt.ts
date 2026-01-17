@@ -190,7 +190,7 @@ export function buildUserPrompt(
     playerBBans?: string[];
     playerAAvailable:string[];
   },
-  
+
 ): string {
   // Context already has names if monsterNames was provided to buildDraftContext
   const context = draftContext;
@@ -233,8 +233,8 @@ Le draft est terminé. Fais une analyse complète pour le Joueur A :
 ${draftContext}
 
 ${rag}
-Voici ce que le réseau de neurone pense des picks possibles, tu peux t'aider pour réfléchir mais ne pas prendre 
-le résultat pour une vérité absolue : 
+Voici ce que le réseau de neurone pense des picks possibles, tu peux t'aider pour réfléchir mais ne pas prendre
+le résultat pour une vérité absolue :
 
 ${nn_contex}
 
@@ -292,9 +292,10 @@ export const LLM_CONFIG = {
  * This function handles model fallback and error handling
  *
  * @param prompt The full prompt to send to the LLM
+ * @param apiKey Optional API key (if not provided, uses environment variable)
  * @returns The LLM response text
  */
-export async function callLLM(prompt: string): Promise<string> {
+export async function callLLM(prompt: string, apiKey?: string): Promise<string> {
   let lastError: Error | null = null;
 
   // Timeout retiré - laisser l'API répondre naturellement
@@ -307,6 +308,7 @@ export async function callLLM(prompt: string): Promise<string> {
 
       const clientStart = performance.now();
       const client = new GeminiClient({
+        apiKey: apiKey, // Utiliser la clé API fournie ou celle de l'environnement
         temperature: LLM_CONFIG.temperature,
         maxOutputTokens: LLM_CONFIG.maxOutputTokens,
         model: modelName,
@@ -599,22 +601,22 @@ export async function getRAGContext(draftState: {
   Skills :
   ${skillsBlock}
 
-  Win-rates Infos : 
-  
+  Win-rates Infos :
+
   ${bestWithBlock}
 
   ${badAgainstBlock}
   `.trim();
     });
-  
-  
+
+
     return `
   === Contexte RAG : Monstres & Compétences ===
   ${ragBlocks.join("\n\n")}
   --- Monstres Disponibles (infos légères) ---
   ${lightRagBlocks.join("\n\n")}
   `.trim();
-  
+
 }
 
 
@@ -626,7 +628,7 @@ export async function getNeuralNet_infos(draftState: any,playerBPossibleCounter:
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({...draftState,playerBPossibleCounter})
   });
-  const data = await res.text();  
+  const data = await res.text();
   return data;
 }
 
@@ -659,9 +661,10 @@ export async function generateRecommendation(draftData: {
   currentPhase: "picking" | "banning" | "completed";
   currentTurn: number;
   firstPlayer: "A" | "B";
-  playerAAvailableIds:number[];},
-  fastResponse?: boolean
-): Promise<string> {
+  playerAAvailableIds:number[];
+  geminiApiKey: string;
+  fastResponse?: boolean;
+}): Promise<string> {
   try {
     // Étape 1: Load monsters to get names
     const loadStart = performance.now();
@@ -725,7 +728,7 @@ export async function generateRecommendation(draftData: {
       ragContext,
       nnContext,
       monsterNames
-      
+
     );
     const promptTime = performance.now() - promptStart;
 
@@ -735,19 +738,19 @@ export async function generateRecommendation(draftData: {
     console.log("=================================");
     // Call the LLM
     console.log(userPrompt.length)
-    
+
     console.log(nnContext)
     const llmStart = performance.now()
-    console.log(`fastResponse ${fastResponse}`)
+    console.log(`fastResponse ${draftData.fastResponse}`)
     let recommendation :string;
-    if (fastResponse){
+    if (draftData.fastResponse){
       const llm_reco = await getLLM_recommendation(draftData,[0]);
       console.log(llm_reco.names)
       const response_string = ` Le LLM fine tune en réponse rapide recommande ${llm_reco.names.join(" et ")}`;
       recommendation=response_string;
     }
     else{
-      recommendation = await callLLM(userPrompt);
+      recommendation = await callLLM(userPrompt, draftData.geminiApiKey);
     }
     const llmTime = performance.now() - llmStart;
     console.log(

@@ -13,6 +13,7 @@ export default function SignUpPage() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [geminiApiKey, setGeminiApiKey] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -40,6 +41,16 @@ export default function SignUpPage() {
       return;
     }
 
+    if (!geminiApiKey || geminiApiKey.trim().length === 0) {
+      setError("La clé API Gemini est requise pour utiliser l'application");
+      return;
+    }
+
+    if (geminiApiKey.length < 20) {
+      setError("La clé API Gemini semble invalide (trop courte)");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -48,7 +59,7 @@ export default function SignUpPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, password }),
+        body: JSON.stringify({ name, password, geminiApiKey: geminiApiKey.trim() }),
       });
 
       const data = await response.json();
@@ -130,6 +141,32 @@ export default function SignUpPage() {
                 minLength={6}
                 placeholder="••••••••"
               />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="geminiApiKey">
+                Clé API Gemini <span className="text-red-500">*</span>
+              </Label>
+              <Input
+                id="geminiApiKey"
+                type="password"
+                value={geminiApiKey}
+                onChange={(e) => setGeminiApiKey(e.target.value)}
+                required
+                minLength={20}
+                placeholder="Votre clé API Gemini"
+              />
+              <p className="text-xs text-muted-foreground">
+                Requis pour utiliser l&apos;application. Obtenez votre clé sur{" "}
+                <a
+                  href="https://makersuite.google.com/app/apikey"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline"
+                >
+                  Google AI Studio
+                </a>
+              </p>
             </div>
 
             <Button type="submit" className="w-full" disabled={loading}>
