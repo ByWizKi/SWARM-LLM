@@ -24,7 +24,19 @@ import { loadMonsters, findMonsterById } from "@/lib/monsters";
  */
 // Instructions système optimisées - version courte pour vitesse maximale
 export const SYSTEM_INSTRUCTIONS = `
-Expert Summoners War RTA. Règles draft : 5 picks/joueur, 1 ban/joueur, 4 monstres finaux.
+Tu es Expert Summoners War RTA, La RTA est une partie du jeux qui consiste a battre les monstres adverses tes monstres
+Un joueur peu faire plusieurs types d'équipes :
+- une équipe très tanky (bruiser) avec des monstres qui vont avoir beaucoup de points de vie et/ou de def pour survivre au premier tour, des dégâts sur les max hp ou la def et gagner car on a plus de heal que l'adversaire.
+- une équipe très rapide (cleave) avec des monstres avec beaucoup d'attaque et/ou de vitesse pour gagner rapidement le combat avec beaucoup de dégât le premier tour.
+- une équipe rapide qui va controller l'équipe adverse (cleave cc) avec de la réduction de l'atb et/ou du stun, grace a des monstres qui strip les effets bénéfiques avant.
+- une équipe tanky avec des monstres qui sont polyvalent (rebound) et peuvent faire beaucoup de dégâts une fois le premier tour encaissé. 
+
+Un monstre avec un set Will va avoir de l’minuté (1 tours) au début de combat et donc ne pourra pas avoir d'effets négatifs si l'adversaire ne strip pas cet effet.
+Le set Violent donne une chance de rejouer après un tour, le set désespoir donne 25% de chance de stun sur une attaque, le set vampire permet de se heal d'une partie des dégâts infligés.
+
+Beaucoup de joueurs ont une stratégie avec pour but de prendre le premier tour, c'est pour cela que le vitesse est très importante dans le jeu, soit il vaut essayer d'être plus rapide qu'eux, soit s'il n'y a pas assez de dégâts prendre des monstres tank pour punir le choix
+
+Règles draft : 5 picks/joueur, 1 ban/joueur, 4 monstres finaux.
 Recommandations : noms complets des monstres, synergies, contre-picks, win conditions.
 `;
 
@@ -140,8 +152,7 @@ Phase de bans en cours :
           : "Pas encore banni"
       }
 `
-    : ""
-}
+    : ""}
 ${
   currentPhase === "completed"
     ? `
@@ -167,8 +178,7 @@ Draft terminé - Analyse finale :
         })
         .join(", ")}
 `
-    : ""
-}
+    : ""}
 `;
 
   return context;
@@ -209,15 +219,16 @@ Tu es en phase de PICKING. Le joueur A doit faire son prochain pick.
 - Recommande 2-5 monstres spécifiques qui compléteraient bien l'équipe du Joueur A
 - IMPORTANT : Mentionne explicitement les noms complets des monstres que tu recommandes (ex: "Je recommande [Nom du Monstre (Élément, Catégorie)]")
 - Explique pourquoi ces monstres sont de bons choix (synergies, contre-picks, win conditions)
-- Anticipe ce que l'adversaire pourrait picker ensuite
+- N'invente aucun sort si tu ne les as pas eux explicitement en contexte
+- Anticipe ce que l'adversaire pourrait picker ensuite grace aux informations de win-rates
 - Sois précis avec les noms des monstres pour faciliter la sélection
 ${playerAAvailableText}
 `,
     banning: `
 Ban Joueur A. Bannir 1 monstre de l'équipe adverse.
-Identifie le monstre le plus dangereux ou qui casse les synergies.
+Identifie le monstre le plus dangereux ou qui casse les synergies en anticipant les bans potentiels de l'adversaire.
 Format: "Je recommande de bannir [Nom] car [raison]"
-Maximum 40 mots.
+Maximum 100 mots.
 `,
     completed: `
 Le draft est terminé. Fais une analyse complète pour le Joueur A :
@@ -233,8 +244,7 @@ Le draft est terminé. Fais une analyse complète pour le Joueur A :
 ${draftContext}
 
 ${rag}
-Voici ce que le réseau de neurone pense des picks possibles, tu peux t'aider pour réfléchir mais ne pas prendre
-le résultat pour une vérité absolue :
+Voici ce que le réseau de neurone pense des picks possibles, tu peux t'aider pour réfléchir mais ne pas prendre le résultat pour une vérité absolue :
 
 ${nn_contex}
 
@@ -243,9 +253,8 @@ Analyse stratégique demandée :
 ${phaseInstructions[currentPhase]}
 
 Format réponse :
-- Ultra-concis (50 mots max premier pick, 60 mots picks suivants, 40 mots banning)
+- Fournis une réponse concise avec les recommendations en premier et une courte explication par monstre (100 mots)
 - Noms des monstres EN PREMIER
-- Une phrase par monstre
 - Français, direct, focus Joueur A uniquement
 
 Réponds maintenant :`;
@@ -497,7 +506,10 @@ export async function getRAGContext(draftState: {
     console.warn("[RAG] - monster_small_info.json");
     console.warn("[RAG] Le RAG continuera mais avec des données limitées");
   }
-
+  function sumStats(statStr:string) {
+    const [a, b] = statStr.split('+').map(s => parseInt(s.trim()));
+    return a + b;
+  }
   const lightRagBlocks = lightMonsters
   .map(monster => {
     const description = monsterSmallInfo[String(monster.id)];
@@ -507,34 +519,34 @@ export async function getRAGContext(draftState: {
 
     const avgStatsBlock = avgStats
       ? `
-  Stats moyennes (RTA) :
-  - HP : ${avgStats.HP}
-  - ATK : ${avgStats.ATK}
-  - DEF : ${avgStats.DEF}
-  - SPD : ${avgStats.SPD}
-  - Taux crit : ${avgStats.CRate}
-  - Dégâts crit : ${avgStats.CDmg}
-  - Résistance : ${avgStats.RES}
-  - Précision : ${avgStats.ACC}
+  Stats :
+  - HP : ${sumStats(avgStats.HP)}
+  - ATK : ${sumStats(avgStats.ATK)}
+  - DEF : ${sumStats(avgStats.DEF)}
+  - SPD : ${sumStats(avgStats.SPD)}
   `.trim()
         : "Stats moyennes : Non disponibles";
 
      // Runages
       const runesBlock = avgStats
         ? `
-  Runages les plus joués :
+  Runage :
   - ${avgStats.Set1}
-  ${avgStats.Set2 ? `- ${avgStats.Set2}` : ""}
-  ${avgStats.Set3 ? `- ${avgStats.Set3}` : ""}
   `.trim()
         : "Runages : Non disponibles";
+
+      // Récupération du 3ème skill
+      const thirdSkill = monster.skills && monster.skills.length >= 3 ? monster.skills[2] : null;
+
+      const thirdSkillBlock = thirdSkill
+        ? `Skill n°3 : ${thirdSkill.name} : ${thirdSkill.description ?? "Description non disponible"}`
+        : "Skill n°3 non disponible";
 
 
       return `
    Monstre : ${monster.name} (${monster.element}, ${monster.archetype})
-
   Description courte :
-  ${description ?? "Description non disponible"}
+  ${description ?? thirdSkillBlock}
 
   ${avgStatsBlock}
   ${runesBlock}
@@ -545,28 +557,14 @@ export async function getRAGContext(draftState: {
 
   const ragBlocks = fullMonsters.map(monster => {
     const avgStats = averageStatsById[String(monster.id)];
-
-    // Stats de base
-    const statsBlock = `
-  Stats clés :
-  - Vitesse : ${monster.speed ?? "N/A"}
-  - HP (lvl max) : ${monster.max_lvl_hp ?? "N/A"}
-  - ATK (lvl max) : ${monster.max_lvl_attack ?? "N/A"}
-  - DEF (lvl max) : ${monster.max_lvl_defense ?? "N/A"}
-  `.trim();
-
       // Stats moyennes RTA
       const averageStatsBlock = avgStats
         ? `
-  Stats moyennes (RTA) :
-  - HP : ${avgStats.HP}
-  - ATK : ${avgStats.ATK}
-  - DEF : ${avgStats.DEF}
-  - SPD : ${avgStats.SPD}
-  - Taux crit : ${avgStats.CRate}
-  - Dégâts crit : ${avgStats.CDmg}
-  - Résistance : ${avgStats.RES}
-  - Précision : ${avgStats.ACC}
+  Stats :
+  - HP : ${sumStats(avgStats.HP)}
+  - ATK : ${sumStats(avgStats.ATK)}
+  - DEF : ${sumStats(avgStats.DEF)}
+  - SPD : ${sumStats(avgStats.SPD)}
   `.trim()
         : "Stats moyennes : Non disponibles";
 
@@ -588,23 +586,13 @@ export async function getRAGContext(draftState: {
       // Runages
       const runesBlock = avgStats
         ? `
-  Runages les plus joués :
+  Runages :
   - ${avgStats.Set1}
   ${avgStats.Set2 ? `- ${avgStats.Set2}` : ""}
   ${avgStats.Set3 ? `- ${avgStats.Set3}` : ""}
   `.trim()
         : "Runages : Non disponibles";
 
-      // Artifacts
-      const artifactsBlock = avgStats
-        ? `
-  Artifacts fréquents :
-  - Slot 1 :
-  ${(avgStats["Arti 1"] || []).map((a: string) => `  • ${a}`).join("\n")}
-  - Slot 2 :
-  ${(avgStats["Arti 2"] || []).map((a: string) => `  • ${a}`).join("\n")}
-  `.trim()
-        : "Artifacts : Non disponibles";
 
       // Leader skill
       let leaderSkillBlock = "Leader Skill : Aucun";
@@ -632,13 +620,9 @@ export async function getRAGContext(draftState: {
       return `
   Monstre : ${monster.name} (${monster.element}, ${monster.archetype})
 
-  ${statsBlock}
-
   ${averageStatsBlock}
 
   ${runesBlock}
-
-  ${artifactsBlock}
 
   ${leaderSkillBlock}
 
@@ -759,7 +743,7 @@ export async function generateRecommendation(draftData: {
   firstPlayer: "A" | "B";
   playerAAvailableIds:number[];
   geminiApiKey: string;
-  fastResponse?: boolean;
+  mode?: number;
 }): Promise<string> {
   try {
     // Étape 1: Load monsters to get names
@@ -846,12 +830,11 @@ export async function generateRecommendation(draftData: {
 
     console.log(nnContext)
     const llmStart = performance.now()
-    console.log(`[LLM] fastResponse: ${draftData.fastResponse}`)
+    console.log(`[LLM] Mode recommendation: ${draftData.mode}`)
     let recommendation :string;
-    if (draftData.fastResponse){
+    if (draftData.mode==2){//mode LLM fine tuné
       try {
         const llm_reco = await getLLM_recommendation(draftData,[0]);
-        console.log("[LLM] Recommandation LLM reçue:", llm_reco.names)
         const response_string = ` Le LLM fine tune en réponse rapide recommande ${llm_reco.names.join(" et ")}`;
         recommendation=response_string;
       } catch (error) {
@@ -861,7 +844,18 @@ export async function generateRecommendation(draftData: {
         recommendation = await callLLM(userPrompt, draftData.geminiApiKey);
       }
     }
-    else{
+    else if (draftData.mode==1)//mode Neural Network
+      try {
+        const neural_net_infos = await getNeuralNet_infos(draftData,[1]);
+        console.log("[LLM] Recommandation neural net reçu :", neural_net_infos)
+        recommendation=neural_net_infos;
+      } catch (error) {
+        console.warn("[LLM] Backend Python non disponible pour fastResponse, basculement vers Gemini");
+        console.warn("[LLM] Erreur:", error instanceof Error ? error.message : error);
+        // Fallback vers Gemini si le backend Python n'est pas disponible
+        recommendation = await callLLM(userPrompt, draftData.geminiApiKey);
+      }
+    else{//Mode LLM online
       recommendation = await callLLM(userPrompt, draftData.geminiApiKey);
     }
     const llmTime = performance.now() - llmStart;

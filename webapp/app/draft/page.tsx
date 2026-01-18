@@ -56,9 +56,11 @@ export default function DraftPage() {
   const [filterCategorie, setFilterCategorie] = useState<string>("all");
   const [allMonsters, setAllMonsters] = useState<Record<number, any>>({});
   const [fastResponse, setFastResponse] = useState<boolean>(true);
+  const [mode, setMode] = useState(0);
+
   useEffect(() => {
-    console.log("fastResponse changed:", fastResponse)
-  }, [fastResponse])
+    console.log("Mode changed:", mode)
+  }, [mode])
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -522,7 +524,7 @@ export default function DraftPage() {
             currentTurn: currentTurnInfo?.turn || 0,
             firstPlayer: draftState.firstPlayer,
             playerAAvailableIds:getAvailableMonstersForPlayerA().map(m => m.id),//ajout des monstres possibles pour le llm
-            fastResponse//on gère la réponse via le modèle interne
+            mode//on gère la réponse via le modèle interne
           }),
         });
       } catch (fetchError: any) {
@@ -585,7 +587,7 @@ export default function DraftPage() {
     } finally {
       setLoadingRecommendation(false);
     }
-  }, [draftState, currentTurnInfo, extractRecommendedMonsters,fastResponse]);
+  }, [draftState, currentTurnInfo, extractRecommendedMonsters,mode]);
 
   // Générer automatiquement les recommandations quand le draft change
   // UNIQUEMENT pour le joueur A (quand c'est son tour ou en phase de ban)
@@ -1542,26 +1544,36 @@ export default function DraftPage() {
                     {loadingRecommendation ? "Actualisation..." : "Actualiser les recommandations"}
                   </Button>
                 )}
-                {/* Bouton pour choisir si on fait la prédiciton avec le llm fine tuné ou le llm online */}
-                <div className="flex items-center justify-between mt-3 px-2">
-                  <span className="text-xs text-muted-foreground">
-                    Réponse rapide
+                {/* Toggle 3 positions pour choisir le mode LLM */}
+                <div className="flex flex-col mt-3 px-2 w-full">
+                  <span className="text-xs text-muted-foreground mb-1">
+                    Mode de réponse
                   </span>
 
-                  <button
-                    type="button"
-                    role="switch"
-                    aria-checked={fastResponse}
-                    onClick={() => setFastResponse(prev => !prev)}
-                    className={`relative inline-flex h-6 w-10 items-center rounded-full transition-colors
-                      ${fastResponse ? "bg-primary" : "bg-muted"}`}
-                  >
+                  <div className="relative w-full h-full bg-muted rounded-full flex items-center px-1">
+                    {/* Curseur qui glisse selon la position */}
                     <span
-                      className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white transition-transform
-                        ${fastResponse ? "translate-x-5" : "translate-x-1"}`}
+                      className="absolute inset-y-1 w-10 bg-white rounded-full transition-transform"
+                      style={{ transform: `translateX(${(mode) * 100}%)`, width: "32.5%" }}
                     />
-                  </button>
+
+                    {/* Labels cliquables */}
+                    <div
+                      className="flex flex-1 justify-between items-center z-10 text-xs font-medium cursor-pointer select-none"
+                    >
+                      {["Gemini online", "Fast Neural Network", "Fast LLM fine tuned"].map((label, index) => (
+                        <div
+                          key={index}
+                          className="flex-1 text-center"
+                          onClick={() => setMode(index)}
+                        >
+                          {label}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
+
 
 
               </CardContent>

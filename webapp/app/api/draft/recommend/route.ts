@@ -22,7 +22,7 @@ interface DraftRecommendationRequest {
   currentTurn: number;
   firstPlayer: "A" | "B";
   playerAAvailableIds:number[];//Liste des monstres possibles pour le joueur A
-  fastResponse?: boolean;
+  mode?: number;
 }
 
 export async function POST(request: NextRequest) {
@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body: DraftRecommendationRequest = await request.json();
-    const { playerAPicks, playerBPicks, playerABans = [], playerBBans = [], currentPhase, currentTurn, firstPlayer,playerAAvailableIds=[],fastResponse=false } = body;
+    const { playerAPicks, playerBPicks, playerABans = [], playerBBans = [], currentPhase, currentTurn, firstPlayer,playerAAvailableIds=[],mode=0 } = body;
 
     // Valider les données
     if (!Array.isArray(playerAPicks) || !Array.isArray(playerBPicks)) {
@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
       firstPlayer,
       playerAAvailableIds,
       geminiApiKey: user.geminiApiKey,
-      fastResponse,
+      mode,
     });//ajout des monstres possibles pour le llm
 
     // Sauvegarder le draft si terminé (pour analyse future)

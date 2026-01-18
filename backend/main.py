@@ -81,22 +81,36 @@ async def get_neural_net_context(draft_state: DraftState):
     print(context)
     #on utilise le model : 
     all_pairs = list(combinations(draft_state.playerAAvailableIds, 2))
-    num_to_take = len(draft_state.playerAAvailableIds)
-    # calculer les scores
-    scores = []
-    for a, b in random.sample(all_pairs, min(num_to_take, len(all_pairs))):
-        sortie = predict(model,model_infos,draft_state.playerAPicks+[a,b],draft_state.playerBPicks)
-        scores.append((a, b, sortie))
+    print(draft_state.playerBPossibleCounter)
+    if (1 in draft_state.playerBPossibleCounter): 
+        #on utilse le nn pour avoir les prochains picks
+        scores = []
+        for a, b in all_pairs:
+            sortie = predict(model,model_infos,draft_state.playerAPicks+[a,b],draft_state.playerBPicks)
+            scores.append((a, b, sortie))
+        best_score_a,best_score_b,best_score = max(scores, key=lambda x: x[2])
+        string_response = f"Le réseau de Neurone recommande le monstre {monsters[best_score_a]['name']} et {monsters[best_score_b]['name']} pour une propabilité de victoire de {best_score:.4f}%"
+        return Response(content=string_response, media_type="text/plain")
+    else : 
+        #mode conseil pour le llm online
+        num_to_take = len(draft_state.playerAAvailableIds)*3
+        num_returned = 5
+        # calculer les scores
+        scores = []
+        for a, b in random.sample(all_pairs, min(num_to_take, len(all_pairs))):
+            sortie = predict(model,model_infos,draft_state.playerAPicks+[a,b],draft_state.playerBPicks)
+            scores.append((a, b, sortie))
 
-    # trier par score croissant
-    scores.sort(key=lambda x: x[2])
-    # construire la chaîne finale avec les scores affichés par ordre croissant
-    lines = ["Info neural network sur le choix des monstres pour JA : "] 
-    for a, b, sortie in scores:
-        print(a,b)
-        lines.append(f'Si JA pick : {monsters[a]["name"]} et {monsters[b]["name"]}, proba win : {sortie:.4f} ')
-    context_str = "\n".join(lines)
-    return Response(content=context_str, media_type="text/plain")
+        # trier par score croissant
+        scores.sort(key=lambda x: x[2])
+        scores = scores[-num_returned:]#on garde les num_returned meilleurs pour le llm
+        # construire la chaîne finale avec les scores affichés par ordre croissant
+        lines = ["Info neural network sur le choix des monstres pour JA : "] 
+        for a, b, sortie in scores:
+            print(a,b)
+            lines.append(f'Si JA pick : {monsters[a]["name"]} et {monsters[b]["name"]}, proba win : {sortie:.4f} ')
+        context_str = "\n".join(lines)
+        return Response(content=context_str, media_type="text/plain")
 
 
 @app.post("/llm-predict")
