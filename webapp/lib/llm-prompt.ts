@@ -648,7 +648,7 @@ export async function getRAGContext(draftState: {
 }
 
 
-const pythonApiUrl = process.env.PYTHON_API_URL || "http://swarm-backend:8000";
+const pythonApiUrl = process.env.PYTHON_API_URL || "https://swarm-llm-backend-latest.onrender.com";
 
 export async function getNeuralNet_infos(draftState: any,playerBPossibleCounter:any) {
   try {

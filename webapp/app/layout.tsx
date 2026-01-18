@@ -11,11 +11,23 @@ export const metadata: Metadata = {
   description: "Assistant intelligent utilisant des LLMs pour vous aider à faire les meilleurs choix lors des drafts RTA dans Summoners War: Sky Arena",
 };
 
-export default function RootLayout({
+// helper fire-and-forget côté serveur
+async function wakeUpBackend() {
+  const BACKEND_URL =
+    process.env.NEXT_PUBLIC_PYTHON_API_URL || "https://swarm-llm-backend-latest.onrender.com";
+  fetch(`${BACKEND_URL}/health`)
+    .then(() => console.log("Backend wake-up request sent"))
+    .catch(() => console.log("Backend wake-up request failed"));
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Lance le wake-up côté serveur mais ne bloque pas le rendu
+  wakeUpBackend();
+
   return (
     <html lang="fr" suppressHydrationWarning>
       <body className={inter.className}>
@@ -26,4 +38,3 @@ export default function RootLayout({
     </html>
   );
 }
-
