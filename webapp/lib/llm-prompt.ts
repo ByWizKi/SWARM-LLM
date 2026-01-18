@@ -682,7 +682,8 @@ export async function getNeuralNet_infos(draftState: any,playerBPossibleCounter:
       console.warn(`[NEURAL_NET] Erreur lors de la récupération des infos NN:`, error.message);
     }
     // Retourner une chaîne vide si le backend n'est pas disponible
-    return "";
+    throw new Error("Backend Python non disponible");
+
   }
 }
 
