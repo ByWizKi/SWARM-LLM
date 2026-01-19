@@ -169,6 +169,70 @@ async function applyMigrations() {
       console.log("[AUTO_MIGRATE] Table recommendation_ratings existe déjà");
     }
 
+    // Migration 5: Migration de rating vers textRating et monsterRecommendationRating
+    console.log("[AUTO_MIGRATE] Vérification de la migration rating -> textRating/monsterRecommendationRating...");
+
+    // Vérifier si la colonne rating existe
+    const checkRatingColumn = await prisma.$queryRaw`
+      SELECT column_name
+      FROM information_schema.columns
+      WHERE table_name = 'recommendation_ratings' AND column_name = 'rating'
+    `;
+
+    // Vérifier si les nouvelles colonnes existent
+    const checkTextRatingColumn = await prisma.$queryRaw`
+      SELECT column_name
+      FROM information_schema.columns
+      WHERE table_name = 'recommendation_ratings' AND column_name = 'textRating'
+    `;
+
+    const checkMonsterRatingColumn = await prisma.$queryRaw`
+      SELECT column_name
+      FROM information_schema.columns
+      WHERE table_name = 'recommendation_ratings' AND column_name = 'monsterRecommendationRating'
+    `;
+
+    const hasOldRating = checkRatingColumn && Array.isArray(checkRatingColumn) && checkRatingColumn.length > 0;
+    const hasTextRating = checkTextRatingColumn && Array.isArray(checkTextRatingColumn) && checkTextRatingColumn.length > 0;
+    const hasMonsterRating = checkMonsterRatingColumn && Array.isArray(checkMonsterRatingColumn) && checkMonsterRatingColumn.length > 0;
+
+    if (hasOldRating && (!hasTextRating || !hasMonsterRating)) {
+      console.log("[AUTO_MIGRATE] Migration de rating vers textRating et monsterRecommendationRating...");
+
+      // Ajouter les nouvelles colonnes si elles n'existent pas
+      if (!hasTextRating) {
+        await prisma.$executeRaw`
+          ALTER TABLE "recommendation_ratings"
+          ADD COLUMN IF NOT EXISTS "textRating" INTEGER
+        `;
+        console.log("[AUTO_MIGRATE] Colonne textRating ajoutée");
+      }
+
+      if (!hasMonsterRating) {
+        await prisma.$executeRaw`
+          ALTER TABLE "recommendation_ratings"
+          ADD COLUMN IF NOT EXISTS "monsterRecommendationRating" INTEGER
+        `;
+        console.log("[AUTO_MIGRATE] Colonne monsterRecommendationRating ajoutée");
+      }
+
+      // Migrer les données existantes : copier rating vers textRating
+      await prisma.$executeRaw`
+        UPDATE "recommendation_ratings"
+        SET "textRating" = "rating"
+        WHERE "textRating" IS NULL AND "rating" IS NOT NULL
+      `;
+      console.log("[AUTO_MIGRATE] Données migrées de rating vers textRating");
+
+      // Supprimer l'ancienne colonne rating (optionnel, on peut la garder pour compatibilité)
+      // await prisma.$executeRaw`
+      //   ALTER TABLE "recommendation_ratings" DROP COLUMN IF EXISTS "rating"
+      // `;
+      // console.log("[AUTO_MIGRATE] Ancienne colonne rating supprimée");
+    } else if (hasTextRating && hasMonsterRating) {
+      console.log("[AUTO_MIGRATE] Colonnes textRating et monsterRecommendationRating existent déjà");
+    }
+
     console.log("[AUTO_MIGRATE] Toutes les migrations appliquées avec succès");
   } catch (error) {
     // Si la colonne existe déjà (erreur différente selon le SGBD)

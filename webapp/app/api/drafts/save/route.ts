@@ -16,7 +16,8 @@ const saveDraftSchema = z.object({
     proposedMonsterIds: z.array(z.number()).optional(),
     phase: z.string(),
     turn: z.number().optional(),
-    rating: z.number().optional(),
+    textRating: z.number().int().min(0).max(5).nullable().optional(),
+    monsterRecommendationRating: z.number().int().min(0).max(5).nullable().optional(),
     timestamp: z.string(),
   })),
   banRecommendations: z.array(z.object({
