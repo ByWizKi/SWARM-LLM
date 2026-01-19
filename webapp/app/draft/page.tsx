@@ -701,6 +701,53 @@ export default function DraftPage() {
     }
   };
 
+
+  const fetchLongRecommendation = async (messageId: string,monster_recommended:any) => {
+    try {
+      console.log("DraftState:", draftState);
+      console.log("recommended_monster:", monster_recommended);
+      const fetchexplicationoStart = performance.now();
+      const longResponse = await fetch("/api/draft/recommend", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          playerAPicks: [...draftState.playerAPicks,...monster_recommended],//On ajoute les choix du neural net pour que l'explication soit juste
+          playerBPicks: draftState.playerBPicks,
+          playerABans: draftState.playerABans,
+          playerBBans: draftState.playerBBans,
+          currentPhase: "advice",
+          currentTurn: currentTurnInfo?.turn || 0,
+          firstPlayer: draftState.firstPlayer,
+          playerAAvailableIds: getAvailableMonstersForPlayerA().map(m => m.id).filter(
+  (id) => !monster_recommended.includes(id)),
+          mode:3,//On met 3 pour le mode pour dire que c'est juste une explication par le llm
+        }),
+      });//Ici on récupère la réponse du llm 
+
+      const longData = await longResponse.json();
+      const fetchTime = performance.now() - fetchexplicationoStart;
+      console.log(`[PERF] Temps de fetch API pour l'explication : ${fetchTime.toFixed(2)}ms`);
+      // Mettre à jour le message existant avec le texte long
+      setChatHistory((prev) =>
+        prev.map((msg) =>
+          msg.id === messageId
+            ? {
+                ...msg,
+                recommendationText: msg.recommendationText.slice(0,-32) + "\n\n" + longData.recommendation
+              }
+            : msg
+        )
+      );
+      
+
+    } catch (error) {
+      console.error("[DRAFT] Erreur fetch long recommendation:", error);
+    }
+  };
+
+
+
+
   const fetchRecommendation = useCallback(async () => {
     // Ne pas faire de recommandation si on n'est pas en phase de picking ou banning
     if (draftState.currentPhase === "completed") return;
@@ -786,6 +833,9 @@ export default function DraftPage() {
             rating: 3, // Note par défaut à 3
           },
         ]);
+        if (mode==1){
+          fetchLongRecommendation(messageId,extractedIds)
+        }
 
         // Charger la note existante si elle existe (peu probable pour un nouveau message, mais pour la cohérence)
         try {
@@ -2114,15 +2164,15 @@ export default function DraftPage() {
                   <div className="relative w-full h-full bg-muted rounded-full flex items-center px-1">
                     {/* Curseur qui glisse selon la position */}
                     <span
-                      className="absolute inset-y-1 w-10 bg-white rounded-full transition-transform"
-                      style={{ transform: `translateX(${(mode) * 100}%)`, width: "32.5%" }}
+                      className="absolute inset-y-1 w-10 bg-green-200 rounded-full transition-transform"
+                      style={{ transform: `translateX(${(mode) * 100}%)`, width: "49%" }}
                     />
 
                     {/* Labels cliquables */}
                     <div
                       className="flex flex-1 justify-between items-center z-10 text-xs font-medium cursor-pointer select-none"
                     >
-                      {["Gemini online", "Fast Neural Network", "Fast LLM fine tuned"].map((label, index) => (
+                      {["Gemini seulement", "Neural Network et Gemini"].map((label, index) => (
                         <div
                           key={index}
                           className="flex-1 text-center"
