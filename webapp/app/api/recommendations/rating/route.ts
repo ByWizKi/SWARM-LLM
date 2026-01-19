@@ -6,7 +6,8 @@ import { z } from "zod";
 
 const ratingSchema = z.object({
   messageId: z.string().min(1, "L'ID du message est requis"),
-  rating: z.number().min(1).max(5, "La note doit être entre 1 et 5"),
+  textRating: z.number().int().min(0).max(5, "La note du texte doit être entre 0 et 5").optional().nullable(),
+  monsterRecommendationRating: z.number().int().min(0).max(5, "La note des monstres doit être entre 0 et 5").optional().nullable(),
   recommendationText: z.string().optional(),
   phase: z.string().optional(),
   turn: z.number().optional(),
@@ -25,7 +26,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { messageId, rating, recommendationText, phase, turn } = ratingSchema.parse(body);
+    const { messageId, textRating, monsterRecommendationRating, recommendationText, phase, turn } = ratingSchema.parse(body);
 
     // Créer ou mettre à jour la note
     const ratingRecord = await prismaWrite.recommendationRating.upsert({
@@ -36,7 +37,8 @@ export async function POST(request: NextRequest) {
         },
       },
       update: {
-        rating,
+        textRating: textRating ?? null,
+        monsterRecommendationRating: monsterRecommendationRating ?? null,
         recommendationText,
         phase,
         turn,
@@ -44,7 +46,8 @@ export async function POST(request: NextRequest) {
       create: {
         userId: session.user.id,
         messageId,
-        rating,
+        textRating: textRating ?? null,
+        monsterRecommendationRating: monsterRecommendationRating ?? null,
         recommendationText,
         phase,
         turn,
@@ -99,12 +102,14 @@ export async function GET(request: NextRequest) {
         },
       },
       select: {
-        rating: true,
+        textRating: true,
+        monsterRecommendationRating: true,
       },
     });
 
     return NextResponse.json({
-      rating: rating?.rating || null,
+      textRating: rating?.textRating ?? null,
+      monsterRecommendationRating: rating?.monsterRecommendationRating ?? null,
     });
   } catch (error) {
     console.error("Erreur lors de la récupération de la note:", error);

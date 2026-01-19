@@ -17,7 +17,7 @@ import { Label } from "@/components/ui/label";
 import { RTADraftRules } from "@/lib/rta-rules";
 import { MonsterCard } from "@/components/monster-card";
 import { MarkdownRenderer } from "@/components/markdown-renderer";
-import { Slider } from "@/components/ui/slider";
+import { StarRating } from "@/components/ui/star-rating";
 import {
   Lightbulb,
   Target,
@@ -50,7 +50,8 @@ interface ChatMessage {
   selectedMonsterIds?: number[];
   phase: "picking" | "banning" | "completed";
   turn?: number;
-  rating?: number; // Note entre 1 et 5
+  textRating?: number; // Note du texte entre 0 et 5 (étoiles)
+  monsterRecommendationRating?: number; // Note des monstres entre 0 et 5 (étoiles)
   player?: "A" | "B"; // Joueur qui a fait le choix
 }
 
@@ -641,7 +642,8 @@ export default function DraftPage() {
           proposedMonsterIds: msg.proposedMonsterIds || [],
           phase: msg.phase,
           turn: msg.turn,
-          rating: msg.rating || null,
+          textRating: msg.textRating ?? null,
+          monsterRecommendationRating: msg.monsterRecommendationRating ?? null,
           timestamp: msg.timestamp.toISOString(),
         }));
 
@@ -830,23 +832,28 @@ export default function DraftPage() {
             proposedMonsterIds: extractedIds.length > 0 ? extractedIds : undefined,
             phase: draftState.currentPhase,
             turn: currentTurnInfo?.turn,
-            rating: 3, // Note par défaut à 3
+            textRating: undefined,
+            monsterRecommendationRating: undefined,
           },
         ]);
         if (mode==1){
           fetchLongRecommendation(messageId,extractedIds)
         }
 
-        // Charger la note existante si elle existe (peu probable pour un nouveau message, mais pour la cohérence)
+        // Charger les notes existantes si elles existent (peu probable pour un nouveau message, mais pour la cohérence)
         try {
           const ratingResponse = await fetch(`/api/recommendations/rating?messageId=${messageId}`);
           if (ratingResponse.ok) {
             const ratingData = await ratingResponse.json();
-            if (ratingData.rating) {
+            if (ratingData.textRating !== null || ratingData.monsterRecommendationRating !== null) {
               setChatHistory((prev) =>
                 prev.map((msg) =>
                   msg.id === messageId
-                    ? { ...msg, rating: ratingData.rating }
+                    ? {
+                        ...msg,
+                        textRating: ratingData.textRating ?? undefined,
+                        monsterRecommendationRating: ratingData.monsterRecommendationRating ?? undefined,
+                      }
                     : msg
                 )
               );
@@ -1974,27 +1981,66 @@ export default function DraftPage() {
                                   Tour {message.turn || "?"} - {message.phase === "picking" ? "Picking" : "Banning"}
                                 </span>
                               </div>
-                              {/* Système de notation */}
-                              <div className="mt-2 pt-2 border-t border-border/50">
+                              {/* Système de notation par étoiles */}
+                              <div className="mt-2 pt-2 border-t border-border/50 space-y-2">
+                                {/* Notation du texte */}
                                 <div className="flex items-center gap-2">
-                                  <div className="flex items-center gap-1" title="Notez la qualité de cette recommandation pour aider l'IA à s'améliorer">
+                                  <div className="flex items-center gap-1.5 min-w-0 flex-shrink-0">
                                     <span className="text-[10px] font-semibold text-muted-foreground whitespace-nowrap">
-                                      Qualité:
+                                      Texte:
                                     </span>
                                   </div>
-                                  <div className="flex-1 flex items-center gap-1.5 min-w-0">
-                                    <div className="flex-1 min-w-0">
-                                      <Slider
-                                        min={1}
-                                        max={5}
-                                        step={1}
-                                        value={message.rating || 3}
-                                        onValueChange={async (newRating) => {
+                                  <StarRating
+                                    value={message.textRating ?? 0}
+                                    onValueChange={async (newRating) => {
+                                      // Mettre à jour l'état local immédiatement
+                                      setChatHistory((prev) =>
+                                        prev.map((msg) =>
+                                          msg.id === message.id
+                                            ? { ...msg, textRating: newRating }
+                                            : msg
+                                        )
+                                      );
+
+                                      // Sauvegarder sur le serveur
+                                      try {
+                                        await fetch("/api/recommendations/rating", {
+                                          method: "POST",
+                                          headers: {
+                                            "Content-Type": "application/json",
+                                          },
+                                          body: JSON.stringify({
+                                            messageId: message.id,
+                                            textRating: newRating > 0 ? newRating : null,
+                                            monsterRecommendationRating: message.monsterRecommendationRating ?? null,
+                                            recommendationText: message.recommendationText,
+                                            phase: message.phase,
+                                            turn: message.turn,
+                                          }),
+                                        });
+                                      } catch (error) {
+                                        console.error("Erreur lors de l'enregistrement de la note:", error);
+                                      }
+                                    }}
+                                    size="sm"
+                                  />
+                                </div>
+                                {/* Notation des recommandations de monstres */}
+                                {message.proposedMonsterIds && message.proposedMonsterIds.length > 0 && (
+                                  <div className="flex items-center gap-2">
+                                    <div className="flex items-center gap-1.5 min-w-0 flex-shrink-0">
+                                      <span className="text-[10px] font-semibold text-muted-foreground whitespace-nowrap">
+                                        Monstres:
+                                      </span>
+                                    </div>
+                                    <StarRating
+                                      value={message.monsterRecommendationRating ?? 0}
+                                      onValueChange={async (newRating) => {
                                         // Mettre à jour l'état local immédiatement
                                         setChatHistory((prev) =>
                                           prev.map((msg) =>
                                             msg.id === message.id
-                                              ? { ...msg, rating: newRating }
+                                              ? { ...msg, monsterRecommendationRating: newRating }
                                               : msg
                                           )
                                         );
@@ -2008,7 +2054,8 @@ export default function DraftPage() {
                                             },
                                             body: JSON.stringify({
                                               messageId: message.id,
-                                              rating: newRating,
+                                              textRating: message.textRating ?? null,
+                                              monsterRecommendationRating: newRating > 0 ? newRating : null,
                                               recommendationText: message.recommendationText,
                                               phase: message.phase,
                                               turn: message.turn,
@@ -2018,13 +2065,10 @@ export default function DraftPage() {
                                           console.error("Erreur lors de l'enregistrement de la note:", error);
                                         }
                                       }}
-                                      />
-                                    </div>
-                                    <span className="text-[10px] font-bold text-primary min-w-[1.5rem] text-center flex-shrink-0">
-                                      {message.rating || 3}/5
-                                    </span>
+                                      size="sm"
+                                    />
                                   </div>
-                                </div>
+                                )}
                               </div>
                             </div>
                           </div>

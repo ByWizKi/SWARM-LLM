@@ -22,12 +22,19 @@ function hashUserId(userId: string): string {
  */
 function calculateStatistics(drafts: any[]) {
   const draftsWithWinner = drafts.filter(d => d.winner !== null).length;
-  const allRatings = drafts.flatMap(draft => {
+  const allTextRatings = drafts.flatMap(draft => {
     const recs = Array.isArray(draft.recommendations) ? draft.recommendations : [];
-    return recs.map((rec: any) => rec.rating).filter((r: any) => r !== null && r !== undefined);
+    return recs.map((rec: any) => rec.textRating).filter((r: any) => r !== null && r !== undefined);
   });
-  const averageRating = allRatings.length > 0
-    ? allRatings.reduce((sum: number, r: number) => sum + r, 0) / allRatings.length
+  const allMonsterRatings = drafts.flatMap(draft => {
+    const recs = Array.isArray(draft.recommendations) ? draft.recommendations : [];
+    return recs.map((rec: any) => rec.monsterRecommendationRating).filter((r: any) => r !== null && r !== undefined);
+  });
+  const averageTextRating = allTextRatings.length > 0
+    ? allTextRatings.reduce((sum: number, r: number) => sum + r, 0) / allTextRatings.length
+    : 0;
+  const averageMonsterRating = allMonsterRatings.length > 0
+    ? allMonsterRatings.reduce((sum: number, r: number) => sum + r, 0) / allMonsterRatings.length
     : 0;
 
   const durations = drafts
@@ -49,7 +56,8 @@ function calculateStatistics(drafts: any[]) {
   return {
     totalDrafts: drafts.length,
     draftsWithWinner,
-    averageRating: Math.round(averageRating * 100) / 100,
+    averageTextRating: Math.round(averageTextRating * 100) / 100,
+    averageMonsterRating: Math.round(averageMonsterRating * 100) / 100,
     averageDuration: Math.round(averageDuration * 100) / 100,
     rankDistribution,
   };
@@ -95,7 +103,8 @@ export async function GET(request: NextRequest) {
             proposedMonsterIds: rec.proposedMonsterIds || [],
             phase: rec.phase || "picking",
             turn: rec.turn || null,
-            rating: rec.rating || null,
+            textRating: rec.textRating ?? null,
+            monsterRecommendationRating: rec.monsterRecommendationRating ?? null,
             timestamp: rec.timestamp || draft.createdAt.toISOString(),
           }))
         : [];
@@ -112,12 +121,20 @@ export async function GET(request: NextRequest) {
         : null;
 
       // Calculer les métadonnées
-      const validRatings = recommendations
-        .map((r: any) => r.rating)
+      const validTextRatings = recommendations
+        .map((r: any) => r.textRating)
         .filter((r: any) => r !== null && r !== undefined && typeof r === 'number') as number[];
 
-      const averageRating = validRatings.length > 0
-        ? Math.round((validRatings.reduce((sum, r) => sum + r, 0) / validRatings.length) * 100) / 100
+      const validMonsterRatings = recommendations
+        .map((r: any) => r.monsterRecommendationRating)
+        .filter((r: any) => r !== null && r !== undefined && typeof r === 'number') as number[];
+
+      const averageTextRating = validTextRatings.length > 0
+        ? Math.round((validTextRatings.reduce((sum, r) => sum + r, 0) / validTextRatings.length) * 100) / 100
+        : null;
+
+      const averageMonsterRating = validMonsterRatings.length > 0
+        ? Math.round((validMonsterRatings.reduce((sum, r) => sum + r, 0) / validMonsterRatings.length) * 100) / 100
         : null;
 
       const metadataObj = draft.metadata && typeof draft.metadata === 'object' && !Array.isArray(draft.metadata)
@@ -128,7 +145,8 @@ export async function GET(request: NextRequest) {
         duration: metadataObj.duration || null,
         llmModel: metadataObj.llmModel || "gemini-pro",
         totalRecommendations: recommendations.length,
-        averageRating,
+        averageTextRating,
+        averageMonsterRating,
         picksCount: Array.isArray(draft.playerAPicks) ? draft.playerAPicks.length : 0,
         bansCount: Array.isArray(draft.playerABans) ? draft.playerABans.length : 0,
         ...metadataObj,

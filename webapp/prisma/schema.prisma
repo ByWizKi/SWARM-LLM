@@ -111,16 +111,17 @@ model DraftState {
 
 // Notes de qualité pour les recommandations LLM
 model RecommendationRating {
-    id                 String   @id @default(cuid())
-    userId             String
-    user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    messageId          String // ID du message de recommandation dans le chat
-    rating             Int // Note entre 1 et 5
-    recommendationText String? // Texte de la recommandation (pour référence)
-    phase              String? // Phase du draft (picking, banning)
-    turn               Int? // Tour du draft
-    createdAt          DateTime @default(now())
-    updatedAt          DateTime @updatedAt
+    id                         String   @id @default(cuid())
+    userId                     String
+    user                       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    messageId                  String // ID du message de recommandation dans le chat
+    textRating                 Int? // Note du texte du LLM entre 1 et 5 (étoiles)
+    monsterRecommendationRating Int? // Note des recommandations de monstres entre 1 et 5 (étoiles)
+    recommendationText         String? // Texte de la recommandation (pour référence)
+    phase                      String? // Phase du draft (picking, banning)
+    turn                       Int? // Tour du draft
+    createdAt                  DateTime @default(now())
+    updatedAt                  DateTime @updatedAt
 
     @@unique([userId, messageId])
     @@map("recommendation_ratings")
