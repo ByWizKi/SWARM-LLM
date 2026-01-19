@@ -16,6 +16,18 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RTADraftRules } from "@/lib/rta-rules";
 import { MonsterCard } from "@/components/monster-card";
+import { MarkdownRenderer } from "@/components/markdown-renderer";
+import { Slider } from "@/components/ui/slider";
+import {
+  Lightbulb,
+  Target,
+  Ban,
+  Clock,
+  Check,
+  RefreshCw,
+  HelpCircle,
+  Loader2
+} from "lucide-react";
 
 type Player = "A" | "B";
 
@@ -27,6 +39,19 @@ interface DraftState {
   currentPhase: "picking" | "banning" | "completed";
   currentTurn: number;
   firstPlayer: Player;
+}
+
+interface ChatMessage {
+  id: string;
+  type: "recommendation" | "choice_selected" | "choice_proposed" | "opponent_selected" | "ban_selected";
+  timestamp: Date;
+  recommendationText?: string;
+  proposedMonsterIds?: number[];
+  selectedMonsterIds?: number[];
+  phase: "picking" | "banning" | "completed";
+  turn?: number;
+  rating?: number; // Note entre 1 et 5
+  player?: "A" | "B"; // Joueur qui a fait le choix
 }
 
 export default function DraftPage() {
@@ -48,6 +73,7 @@ export default function DraftPage() {
   const [recommendedMonsterIds, setRecommendedMonsterIds] = useState<number[]>(
     []
   );
+  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [userMonsters, setUserMonsters] = useState<number[]>([]);
   const [boxChecked, setBoxChecked] = useState(false);
   const [firstPlayerSelected, setFirstPlayerSelected] = useState(false);
@@ -57,6 +83,9 @@ export default function DraftPage() {
   const [allMonsters, setAllMonsters] = useState<Record<number, any>>({});
   const [fastResponse, setFastResponse] = useState<boolean>(true);
   const [mode, setMode] = useState(0);
+  const [winner, setWinner] = useState<"A" | "B" | null>(null);
+  const [savingDraft, setSavingDraft] = useState(false);
+  const [draftSaved, setDraftSaved] = useState(false);
 
   useEffect(() => {
     console.log("Mode changed:", mode)
@@ -230,6 +259,9 @@ export default function DraftPage() {
       return;
     }
 
+    // Vérifier si le monstre était recommandé (pour le joueur A uniquement)
+    const wasRecommended = player === "A" && recommendedMonsterIds.includes(monsterId);
+
     setDraftState((prev) => {
       const newState = { ...prev };
 
@@ -250,6 +282,34 @@ export default function DraftPage() {
           `${allMonsters[monsterId]?.nom || "Monstre"} ajouté à votre équipe !`,
           "success"
         );
+
+        // Ajouter à l'historique du chat (toujours pour le joueur A)
+        // Vérifier qu'on n'ajoute pas un doublon
+        setChatHistory((prev) => {
+          const messageId = `choice-A-${monsterId}-${draftState.currentPhase}-${currentTurnInfo?.turn || '0'}`;
+          // Vérifier si ce message existe déjà
+          const exists = prev.some(msg =>
+            msg.type === "choice_selected" &&
+            msg.player === "A" &&
+            msg.selectedMonsterIds?.includes(monsterId) &&
+            msg.phase === draftState.currentPhase &&
+            msg.turn === currentTurnInfo?.turn
+          );
+          if (exists) return prev;
+
+          return [
+            ...prev,
+            {
+              id: messageId,
+              type: "choice_selected",
+              timestamp: new Date(),
+              selectedMonsterIds: [monsterId],
+              phase: draftState.currentPhase,
+              turn: currentTurnInfo?.turn,
+              player: "A",
+            },
+          ];
+        });
       } else {
         if (newState.playerBPicks.length >= 5) return prev;
         newState.playerBPicks = [...newState.playerBPicks, monsterId];
@@ -259,6 +319,34 @@ export default function DraftPage() {
           } ajouté à l'équipe adverse`,
           "info"
         );
+
+        // Ajouter le choix du joueur B à l'historique du chat
+        // Vérifier qu'on n'ajoute pas un doublon
+        setChatHistory((prev) => {
+          const messageId = `choice-B-${monsterId}-${draftState.currentPhase}-${currentTurnInfo?.turn || '0'}`;
+          // Vérifier si ce message existe déjà
+          const exists = prev.some(msg =>
+            msg.type === "choice_selected" &&
+            msg.player === "B" &&
+            msg.selectedMonsterIds?.includes(monsterId) &&
+            msg.phase === draftState.currentPhase &&
+            msg.turn === currentTurnInfo?.turn
+          );
+          if (exists) return prev;
+
+          return [
+            ...prev,
+            {
+              id: messageId,
+              type: "choice_selected",
+              timestamp: new Date(),
+              selectedMonsterIds: [monsterId],
+              phase: draftState.currentPhase,
+              turn: currentTurnInfo?.turn,
+              player: "B",
+            },
+          ];
+        });
       }
 
       // Vérifier si on passe à la phase de bans
@@ -348,7 +436,7 @@ export default function DraftPage() {
 
   // Extraire les IDs de monstres recommandés depuis le texte de Gemini
   const extractRecommendedMonsters = useCallback(
-    (text: string) => {
+    (text: string): number[] => {
       const monsterMatches: Array<{ id: number; score: number }> = [];
       const textLower = text.toLowerCase();
 
@@ -420,6 +508,7 @@ export default function DraftPage() {
         .map((m) => m.id);
 
       setRecommendedMonsterIds(sorted);
+      return sorted;
     },
     [
       allMonsters,
@@ -454,6 +543,33 @@ export default function DraftPage() {
           `${allMonsters[monsterId]?.nom || "Monstre"} banni !`,
           "success"
         );
+
+        // Ajouter le ban du joueur A à l'historique du chat
+        // Vérifier qu'on n'ajoute pas un doublon
+        setChatHistory((prev) => {
+          const messageId = `ban-A-${monsterId}`;
+          // Vérifier si ce message existe déjà
+          const exists = prev.some(msg =>
+            msg.type === "choice_selected" &&
+            msg.player === "A" &&
+            msg.phase === "banning" &&
+            msg.selectedMonsterIds?.includes(monsterId)
+          );
+          if (exists) return prev;
+
+          return [
+            ...prev,
+            {
+              id: messageId,
+              type: "choice_selected",
+              timestamp: new Date(),
+              selectedMonsterIds: [monsterId],
+              phase: "banning",
+              turn: undefined,
+              player: "A",
+            },
+          ];
+        });
       } else {
         if (newState.playerBBans.length >= 1) {
           return prev;
@@ -466,6 +582,33 @@ export default function DraftPage() {
           `${allMonsters[monsterId]?.nom || "Monstre"} banni par l'adversaire`,
           "info"
         );
+
+        // Ajouter le ban du joueur B à l'historique du chat
+        // Vérifier qu'on n'ajoute pas un doublon
+        setChatHistory((prev) => {
+          const messageId = `ban-B-${monsterId}`;
+          // Vérifier si ce message existe déjà
+          const exists = prev.some(msg =>
+            msg.type === "choice_selected" &&
+            msg.player === "B" &&
+            msg.phase === "banning" &&
+            msg.selectedMonsterIds?.includes(monsterId)
+          );
+          if (exists) return prev;
+
+          return [
+            ...prev,
+            {
+              id: messageId,
+              type: "choice_selected",
+              timestamp: new Date(),
+              selectedMonsterIds: [monsterId],
+              phase: "banning",
+              turn: undefined,
+              player: "B",
+            },
+          ];
+        });
       }
 
       // Vérifier si on passe à la phase complétée
@@ -474,11 +617,88 @@ export default function DraftPage() {
         newState.playerBBans.length === 1
       ) {
         newState.currentPhase = "completed";
-        showNotification("Draft terminé !", "success");
+        showNotification("Draft terminé ! Vous pouvez maintenant enregistrer le draft et indiquer le gagnant.", "success");
       }
 
       return newState;
     });
+  };
+
+  const handleSaveDraft = async () => {
+    if (!winner) {
+      showNotification("Veuillez sélectionner le gagnant avant d'enregistrer", "error");
+      return;
+    }
+
+    setSavingDraft(true);
+    try {
+      // Préparer les données de recommandations (phase picking)
+      const pickingRecommendations = chatHistory
+        .filter((msg) => msg.type === "recommendation" && msg.phase === "picking")
+        .map((msg) => ({
+          messageId: msg.id,
+          text: msg.recommendationText || "",
+          proposedMonsterIds: msg.proposedMonsterIds || [],
+          phase: msg.phase,
+          turn: msg.turn,
+          rating: msg.rating || null,
+          timestamp: msg.timestamp.toISOString(),
+        }));
+
+      // Préparer les données de recommandations de ban (phase banning)
+      const banRecommendations = chatHistory
+        .filter((msg) => msg.type === "recommendation" && msg.phase === "banning")
+        .map((msg) => ({
+          messageId: msg.id,
+          text: msg.recommendationText || "",
+          proposedMonsterIds: msg.proposedMonsterIds || [],
+          phase: msg.phase,
+          timestamp: msg.timestamp.toISOString(),
+        }));
+
+      // Calculer la durée du draft
+      const draftStartTime = chatHistory.length > 0
+        ? chatHistory[0].timestamp
+        : new Date();
+      const draftDuration = Math.round((Date.now() - draftStartTime.getTime()) / 1000 / 60); // en minutes
+
+      const response = await fetch("/api/drafts/save", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstPlayer: draftState.firstPlayer,
+          winner: winner,
+          playerAPicks: draftState.playerAPicks,
+          playerBPicks: draftState.playerBPicks,
+          playerABans: draftState.playerABans,
+          playerBBans: draftState.playerBBans,
+          recommendations: pickingRecommendations,
+          banRecommendations: banRecommendations.length > 0 ? banRecommendations : undefined,
+          metadata: {
+            duration: draftDuration, // en minutes
+            mode: mode, // Mode LLM utilisé (0: Gemini, 1: Neural Network, 2: LLM fine-tuned)
+            totalRecommendations: chatHistory.filter((msg) => msg.type === "recommendation").length,
+          },
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        showNotification(data.error || "Erreur lors de l'enregistrement du draft", "error");
+        return;
+      }
+
+      setDraftSaved(true);
+      showNotification("Draft enregistré avec succès !", "success");
+    } catch (error) {
+      console.error("Erreur lors de la sauvegarde du draft:", error);
+      showNotification("Erreur lors de l'enregistrement du draft", "error");
+    } finally {
+      setSavingDraft(false);
+    }
   };
 
   const fetchRecommendation = useCallback(async () => {
@@ -511,22 +731,22 @@ export default function DraftPage() {
       let response;
       try {
         response = await fetch("/api/draft/recommend", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            playerAPicks: draftState.playerAPicks,
-            playerBPicks: draftState.playerBPicks,
-            playerABans: draftState.playerABans,
-            playerBBans: draftState.playerBBans,
-            currentPhase: draftState.currentPhase,
-            currentTurn: currentTurnInfo?.turn || 0,
-            firstPlayer: draftState.firstPlayer,
-            playerAAvailableIds:getAvailableMonstersForPlayerA().map(m => m.id),//ajout des monstres possibles pour le llm
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          playerAPicks: draftState.playerAPicks,
+          playerBPicks: draftState.playerBPicks,
+          playerABans: draftState.playerABans,
+          playerBBans: draftState.playerBBans,
+          currentPhase: draftState.currentPhase,
+          currentTurn: currentTurnInfo?.turn || 0,
+          firstPlayer: draftState.firstPlayer,
+          playerAAvailableIds:getAvailableMonstersForPlayerA().map(m => m.id),//ajout des monstres possibles pour le llm
             mode//on gère la réponse via le modèle interne
-          }),
-        });
+        }),
+      });
       } catch (fetchError: any) {
         console.error("[DRAFT] Erreur de fetch:", fetchError);
         if (fetchError.message?.includes("fetch failed") || fetchError.code === "ECONNREFUSED") {
@@ -547,7 +767,45 @@ export default function DraftPage() {
         const extractStart = performance.now();
         setRecommendations(data.recommendation);
         // Extraire les IDs de monstres recommandés depuis la réponse
-        extractRecommendedMonsters(data.recommendation);
+        const extractedIds = extractRecommendedMonsters(data.recommendation);
+
+        // Créer un ID unique pour le message
+        const messageId = `rec-${Date.now()}-${Math.random()}`;
+
+        // Ajouter la recommandation à l'historique du chat avec une note par défaut
+        setChatHistory((prev) => [
+          ...prev,
+          {
+            id: messageId,
+            type: "recommendation",
+            timestamp: new Date(),
+            recommendationText: data.recommendation,
+            proposedMonsterIds: extractedIds.length > 0 ? extractedIds : undefined,
+            phase: draftState.currentPhase,
+            turn: currentTurnInfo?.turn,
+            rating: 3, // Note par défaut à 3
+          },
+        ]);
+
+        // Charger la note existante si elle existe (peu probable pour un nouveau message, mais pour la cohérence)
+        try {
+          const ratingResponse = await fetch(`/api/recommendations/rating?messageId=${messageId}`);
+          if (ratingResponse.ok) {
+            const ratingData = await ratingResponse.json();
+            if (ratingData.rating) {
+              setChatHistory((prev) =>
+                prev.map((msg) =>
+                  msg.id === messageId
+                    ? { ...msg, rating: ratingData.rating }
+                    : msg
+                )
+              );
+            }
+          }
+        } catch (error) {
+          // Ignorer l'erreur si le message n'a pas encore de note (cas normal pour un nouveau message)
+        }
+
         const extractTime = performance.now() - extractStart;
         console.log(
           `[PERF] Extraction des monstres recommandés: ${extractTime.toFixed(
@@ -796,6 +1054,9 @@ export default function DraftPage() {
                 setFilterCategorie("all");
                 setRecommendations("");
                 setRecommendedMonsterIds([]);
+                setChatHistory([]);
+                setWinner(null);
+                setDraftSaved(false);
                 showNotification("Nouvelle draft demarree", "info");
               }}
             >
@@ -1264,6 +1525,90 @@ export default function DraftPage() {
               </CardContent>
             </Card>
 
+            {/* Section Sauvegarde du draft - Afficher quand la draft est terminée */}
+            {draftState.currentPhase === "completed" && (
+              <Card className="bg-gradient-to-br from-green-50 to-green-100/50 dark:from-green-900/30 dark:to-green-900/20 border-2 border-green-300 dark:border-green-700">
+                <CardHeader>
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <span className="text-green-700 dark:text-green-300">Draft Terminée</span>
+                    {draftSaved && (
+                      <span className="text-xs px-2 py-1 bg-green-500 text-white rounded-full">
+                        Enregistrée
+                      </span>
+                    )}
+                  </CardTitle>
+                  <CardDescription>
+                    Enregistrez cette draft avec le gagnant pour l&apos;analyser plus tard
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div>
+                    <Label className="text-sm font-semibold mb-2 block">
+                      Qui a gagné cette draft ?
+                    </Label>
+                    <div className="grid grid-cols-2 gap-3">
+                      <Button
+                        variant={winner === "A" ? "default" : "outline"}
+                        onClick={() => setWinner("A")}
+                        className={`h-16 ${
+                          winner === "A"
+                            ? "bg-primary text-primary-foreground"
+                            : ""
+                        }`}
+                        disabled={draftSaved}
+                      >
+                        <div className="text-center">
+                          <div className="font-bold">Joueur A</div>
+                          <div className="text-xs opacity-80">(Vous)</div>
+                        </div>
+                      </Button>
+                      <Button
+                        variant={winner === "B" ? "default" : "outline"}
+                        onClick={() => setWinner("B")}
+                        className={`h-16 ${
+                          winner === "B"
+                            ? "bg-orange-500 text-white"
+                            : ""
+                        }`}
+                        disabled={draftSaved}
+                      >
+                        <div className="text-center">
+                          <div className="font-bold">Joueur B</div>
+                          <div className="text-xs opacity-80">(Adversaire)</div>
+                        </div>
+                      </Button>
+                    </div>
+                  </div>
+                  <Button
+                    onClick={handleSaveDraft}
+                    disabled={!winner || savingDraft || draftSaved}
+                    className="w-full"
+                    size="lg"
+                  >
+                    {savingDraft ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                        Enregistrement en cours...
+                      </>
+                    ) : draftSaved ? (
+                      <>
+                        ✓ Draft enregistrée
+                      </>
+                    ) : (
+                      <>
+                        Enregistrer le draft avec le gagnant
+                      </>
+                    )}
+                  </Button>
+                  {draftSaved && (
+                    <p className="text-xs text-center text-muted-foreground">
+                      Cette draft a été enregistrée dans votre historique pour analyse
+                    </p>
+                  )}
+                </CardContent>
+              </Card>
+            )}
+
             {/* État du draft */}
             <Card className="bg-muted/30">
               <CardHeader>
@@ -1364,171 +1709,362 @@ export default function DraftPage() {
                     </span>
                   )}
                 </CardTitle>
-                <CardDescription className="mt-2">
+                <CardDescription className="mt-2 flex items-center gap-2">
                   {draftState.currentPhase === "picking" &&
-                  currentTurnInfo?.currentPlayer === "A"
-                    ? "Recommandations pour votre prochain pick"
-                    : draftState.currentPhase === "banning" &&
-                      draftState.playerABans.length === 0
-                    ? "Recommandations pour votre ban"
-                    : "En attente de votre tour"}
+                  currentTurnInfo?.currentPlayer === "A" ? (
+                    <>
+                      <Lightbulb className="w-3 h-3" />
+                      Recommandations pour votre prochain pick
+                    </>
+                  ) : draftState.currentPhase === "banning" &&
+                    draftState.playerABans.length === 0 ? (
+                    <>
+                      <Ban className="w-3 h-3" />
+                      Recommandations pour votre ban
+                    </>
+                  ) : draftState.currentPhase === "picking" ? (
+                    <>
+                      <Clock className="w-3 h-3" />
+                      En attente de votre tour...
+                    </>
+                  ) : (
+                    <>
+                      <Check className="w-3 h-3" />
+                      Draft terminé
+                    </>
+                  )}
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex-1 flex flex-col overflow-hidden p-4">
-                <div className="flex-1 overflow-y-auto space-y-4 mb-4">
-                  {/* Monstres recommandés (cliquables) - Phase picking */}
-                  {recommendedMonsterIds.length > 0 &&
-                    draftState.currentPhase === "picking" &&
-                    currentTurnInfo?.currentPlayer === "A" && (
-                      <div className="space-y-3 mb-4 p-4 bg-gradient-to-br from-primary/10 to-primary/5 dark:from-primary/20 dark:to-primary/10 rounded-lg border-2 border-primary/30 shadow-md animate-in fade-in slide-in-from-right-5">
-                        <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
-                          <p className="text-sm font-bold text-primary">
-                            Monstres recommandés
-                          </p>
+                <div className="flex-1 overflow-y-auto overflow-x-hidden space-y-4 mb-4">
+                  {/* Historique du chat */}
+                  <div className="space-y-4">
+                    {chatHistory.length === 0 && !loadingRecommendation && (
+                      <div className="space-y-3">
+                        {/* Message de bienvenue pour les novices */}
+                        <div className="bg-gradient-to-br from-primary/10 to-primary/5 dark:from-primary/20 dark:to-primary/10 p-4 rounded-lg border-2 border-primary/30 shadow-sm">
+                          <div className="flex items-start gap-3">
+                            <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                              <HelpCircle className="w-4 h-4 text-primary" />
+                            </div>
+                            <div className="flex-1 space-y-2">
+                              <h4 className="text-sm font-bold text-primary">Bienvenue dans l&apos;Assistant IA !</h4>
+                              <div className="text-xs text-muted-foreground space-y-1.5">
+                                <p className="flex items-center gap-1">
+                                  <strong>Comment ça marche ?</strong>
+                                </p>
+                                <ul className="list-disc list-inside space-y-1 ml-2">
+                                  <li>L&apos;IA analyse automatiquement votre draft et vous propose des recommandations</li>
+                                  <li>Cliquez sur les <strong className="text-primary">monstres proposés</strong> pour les sélectionner rapidement</li>
+                                  <li>Évaluez la qualité des recommandations avec le curseur (1-5 étoiles)</li>
+                                  <li>L&apos;historique complet de vos choix et ceux de l&apos;adversaire s&apos;affiche ici</li>
+                                </ul>
+                                <p className="mt-2 pt-2 border-t border-primary/20 flex items-center gap-1">
+                                  <Lightbulb className="w-3 h-3 flex-shrink-0" />
+                                  <strong>Astuce :</strong> Les recommandations s&apos;améliorent avec vos retours !
+                                </p>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                        <p className="text-xs text-muted-foreground mb-2">
-                          Cliquez sur un monstre pour le sélectionner rapidement
-                        </p>
-                        <div className="grid grid-cols-2 gap-3">
-                          {recommendedMonsterIds.map((monsterId, index) => {
-                            const monster = allMonsters[monsterId];
-                            if (!monster) return null;
 
-                            return (
-                              <div
-                                key={monsterId}
-                                onClick={() => {
-                                  handleAddPick("A", monsterId);
-                                }}
-                                className="cursor-pointer group animate-in fade-in slide-in-from-bottom-2"
-                                style={{ animationDelay: `${index * 100}ms` }}
-                                title={`Sélectionner ${monster.nom}`}
-                              >
-                                <div className="relative">
-                                  <MonsterCard
-                                    monster={monster}
-                                    monsterId={monsterId}
-                                    size="sm"
-                                    showDetails={false}
-                                    className="border-2 border-primary/50 group-hover:border-primary group-hover:shadow-lg transition-all duration-200"
+                        {/* Message contextuel selon la situation */}
+                        <div className="text-sm text-muted-foreground italic p-3 bg-muted/30 rounded-lg border border-dashed flex items-start gap-2">
+                          {draftState.currentPhase === "picking" &&
+                          currentTurnInfo?.currentPlayer !== "A" ? (
+                            <>
+                              <Clock className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                              <span>En attente de votre tour... L&apos;IA vous proposera des recommandations dès que ce sera votre tour.</span>
+                            </>
+                          ) : draftState.currentPhase === "banning" &&
+                            draftState.playerABans.length > 0 ? (
+                            <>
+                              <Check className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                              <span>Ban effectué. En attente de la fin du draft...</span>
+                            </>
+                          ) : draftState.currentPhase === "picking" ? (
+                            <>
+                              <Target className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                              <span>Sélectionnez un monstre ci-dessus pour recevoir votre première recommandation IA !</span>
+                            </>
+                          ) : (
+                            <span>Commencez par sélectionner qui joue en premier (A ou B)</span>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {chatHistory.map((message) => (
+                      <div key={message.id} className="space-y-2 animate-in fade-in slide-in-from-bottom-2 overflow-hidden">
+                        {/* Message de recommandation */}
+                        {message.type === "recommendation" && (
+                          <div className="flex items-start gap-3">
+                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center flex-shrink-0 shadow-sm border border-primary/20">
+                              <span className="text-xs font-bold text-primary">IA</span>
+                      </div>
+                            <div className="flex-1 min-w-0 space-y-2 overflow-hidden">
+                              {message.recommendationText && (
+                                <div className="text-xs bg-gradient-to-br from-muted/80 to-muted/40 p-3 rounded-lg border border-border/50 shadow-sm break-words overflow-wrap-anywhere">
+                                  <MarkdownRenderer
+                                    content={message.recommendationText}
+                                    className="text-foreground break-words"
                                   />
-                                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-primary rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <span className="text-[8px] text-primary-foreground">
-                                      +
+                    </div>
+                              )}
+                              {message.proposedMonsterIds && message.proposedMonsterIds.length > 0 && (
+                                <div className="space-y-2 mt-3">
+                                  <div className="flex items-center gap-2 mb-2">
+                                    <div className="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+                                    <span className="text-xs font-semibold text-primary">
+                                      {message.phase === "picking" ? "Monstres recommandés" : "Monstres recommandés à bannir"}
+                                    </span>
+                                  </div>
+                                  <div className="flex items-center gap-2 mb-2">
+                                    {message.phase === "picking" ? (
+                                      <Lightbulb className="w-3 h-3 text-primary flex-shrink-0" />
+                                    ) : (
+                                      <Ban className="w-3 h-3 text-orange-600 dark:text-orange-400 flex-shrink-0" />
+                                    )}
+                                    <span className="text-xs text-muted-foreground">
+                                      Cliquez sur un monstre pour {message.phase === "picking" ? "le sélectionner" : "le bannir"} rapidement
+                                    </span>
+                                  </div>
+                                  <div className="grid grid-cols-3 gap-1.5">
+                                    {message.proposedMonsterIds.map((monsterId) => {
+                                      const monster = allMonsters[monsterId];
+                                      if (!monster) return null;
+
+                                      // Vérifier si le monstre peut encore être sélectionné
+                                      const isAlreadyPicked = draftState.playerAPicks.includes(monsterId) ||
+                                                             draftState.playerBPicks.includes(monsterId);
+                                      const isInUserBox = userMonsters.includes(monsterId);
+                                      const canSelect = message.phase === "picking"
+                                        ? isInUserBox && !isAlreadyPicked && currentTurnInfo?.currentPlayer === "A"
+                                        : message.phase === "banning"
+                                          ? draftState.playerBPicks.includes(monsterId) && draftState.playerABans.length === 0
+                                          : false;
+
+                                      // Déterminer le message d'aide
+                                      let tooltipText = monster.nom;
+                                      if (!canSelect) {
+                                        if (isAlreadyPicked) {
+                                          tooltipText = `${monster.nom} - Déjà sélectionné`;
+                                        } else if (message.phase === "picking" && !isInUserBox) {
+                                          tooltipText = `${monster.nom} - Pas dans votre box`;
+                                        } else if (message.phase === "picking" && currentTurnInfo?.currentPlayer !== "A") {
+                                          tooltipText = `${monster.nom} - Attendez votre tour`;
+                                        } else if (message.phase === "banning" && !draftState.playerBPicks.includes(monsterId)) {
+                                          tooltipText = `${monster.nom} - Doit être dans l'équipe adverse`;
+                                        } else if (message.phase === "banning" && draftState.playerABans.length > 0) {
+                                          tooltipText = `${monster.nom} - Ban déjà effectué`;
+                                        }
+                                      } else {
+                                        tooltipText = `Cliquez pour ${message.phase === "picking" ? "sélectionner" : "bannir"} ${monster.nom}`;
+                                      }
+
+                                      return (
+                                        <div
+                                          key={monsterId}
+                                          onClick={() => {
+                                            if (canSelect) {
+                                              if (message.phase === "picking") {
+                                                handleAddPick("A", monsterId);
+                                              } else if (message.phase === "banning") {
+                                                handleAddBan("A", monsterId);
+                                              }
+                                            }
+                                          }}
+                                          className={`cursor-pointer group animate-in fade-in slide-in-from-bottom-2 ${
+                                            canSelect ? "" : "opacity-50 cursor-not-allowed"
+                                          }`}
+                                          title={tooltipText}
+                                        >
+                                          <div className="relative scale-90 origin-center">
+                                            <MonsterCard
+                                              monster={monster}
+                                              monsterId={monsterId}
+                                              size="sm"
+                                              showDetails={false}
+                                              className={`border-2 transition-all duration-200 ${
+                                                message.phase === "picking"
+                                                  ? canSelect
+                                                    ? "border-primary/50 group-hover:border-primary group-hover:shadow-lg"
+                                                    : "border-muted/30"
+                                                  : canSelect
+                                                    ? "border-orange-400/50 group-hover:border-orange-500 group-hover:shadow-lg"
+                                                    : "border-muted/30"
+                                              }`}
+                                            />
+                                            {canSelect && (
+                                              <div className={`absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity ${
+                                                message.phase === "picking" ? "bg-primary" : "bg-orange-500"
+                                              }`}>
+                                                <span className={`text-[6px] ${
+                                                  message.phase === "picking" ? "text-primary-foreground" : "text-white"
+                                                }`}>
+                                                  {message.phase === "picking" ? "+" : "×"}
+                                                </span>
+                                              </div>
+                                            )}
+                                            {isAlreadyPicked && (
+                                              <div className="absolute -top-0.5 -left-0.5 w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
+                                                <Check className="w-2.5 h-2.5 text-white" />
+                                              </div>
+                                            )}
+                                          </div>
+                                        </div>
+                                      );
+                                    })}
+                                  </div>
+                                </div>
+                              )}
+                              <div className="flex items-center gap-1 mt-1">
+                                <Clock className="w-2.5 h-2.5 text-muted-foreground/70 flex-shrink-0" />
+                                <span className="text-[9px] text-muted-foreground/70">
+                                  Tour {message.turn || "?"} - {message.phase === "picking" ? "Picking" : "Banning"}
+                                </span>
+                              </div>
+                              {/* Système de notation */}
+                              <div className="mt-2 pt-2 border-t border-border/50">
+                                <div className="flex items-center gap-2">
+                                  <div className="flex items-center gap-1" title="Notez la qualité de cette recommandation pour aider l'IA à s'améliorer">
+                                    <span className="text-[10px] font-semibold text-muted-foreground whitespace-nowrap">
+                                      Qualité:
+                                    </span>
+                                  </div>
+                                  <div className="flex-1 flex items-center gap-1.5 min-w-0">
+                                    <div className="flex-1 min-w-0">
+                                      <Slider
+                                        min={1}
+                                        max={5}
+                                        step={1}
+                                        value={message.rating || 3}
+                                        onValueChange={async (newRating) => {
+                                        // Mettre à jour l'état local immédiatement
+                                        setChatHistory((prev) =>
+                                          prev.map((msg) =>
+                                            msg.id === message.id
+                                              ? { ...msg, rating: newRating }
+                                              : msg
+                                          )
+                                        );
+
+                                        // Sauvegarder sur le serveur
+                                        try {
+                                          await fetch("/api/recommendations/rating", {
+                                            method: "POST",
+                                            headers: {
+                                              "Content-Type": "application/json",
+                                            },
+                                            body: JSON.stringify({
+                                              messageId: message.id,
+                                              rating: newRating,
+                                              recommendationText: message.recommendationText,
+                                              phase: message.phase,
+                                              turn: message.turn,
+                                            }),
+                                          });
+                                        } catch (error) {
+                                          console.error("Erreur lors de l'enregistrement de la note:", error);
+                                        }
+                                      }}
+                                      />
+                                    </div>
+                                    <span className="text-[10px] font-bold text-primary min-w-[1.5rem] text-center flex-shrink-0">
+                                      {message.rating || 3}/5
                                     </span>
                                   </div>
                                 </div>
                               </div>
-                            );
-                          })}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Message de choix sélectionné */}
+                        {message.type === "choice_selected" && message.selectedMonsterIds && (
+                          <div className="flex items-start gap-3">
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm border ${
+                              message.player === "A"
+                                ? "bg-gradient-to-br from-green-500/20 to-green-500/10 border-green-500/20"
+                                : "bg-gradient-to-br from-orange-500/20 to-orange-500/10 border-orange-500/20"
+                            }`} title={message.player === "A" ? "Votre choix" : "Choix de l'adversaire"}>
+                              <span className={`text-xs font-bold ${
+                                message.player === "A" ? "text-green-600" : "text-orange-600"
+                              }`}>
+                                {message.player === "A" ? "✓" : "B"}
+                              </span>
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className={`text-xs p-2 rounded-lg border ${
+                                message.player === "A"
+                                  ? "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800"
+                                  : "bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-800"
+                              }`}>
+                                <span className={`font-semibold flex items-center gap-1 ${
+                                  message.player === "A"
+                                    ? "text-green-700 dark:text-green-300"
+                                    : "text-orange-700 dark:text-orange-300"
+                                }`}>
+                                  {message.player === "A" ? (
+                                    <>
+                                      <Check className="w-3 h-3" />
+                                      Vous avez sélectionné
+                                    </>
+                                  ) : (
+                                    <>
+                                      Adversaire a sélectionné
+                                    </>
+                                  )}
+                                  {message.phase === "banning" && (
+                                    <>
+                                      <Ban className="w-3 h-3" />
+                                      (ban)
+                                    </>
+                                  )}
+                                </span>
+                                <div className="flex flex-wrap gap-2 mt-1">
+                                  {message.selectedMonsterIds.map((monsterId) => {
+                                    const monster = allMonsters[monsterId];
+                                    if (!monster) return null;
+                                    return (
+                                      <span key={monsterId} className={`text-xs px-2 py-1 rounded-full border ${
+                                        message.player === "A"
+                                          ? "bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 border-green-300 dark:border-green-700"
+                                          : "bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300 border-orange-300 dark:border-orange-700"
+                                      }`}>
+                                        {monster.nom}
+                                      </span>
+                                    );
+                                  })}
+                                </div>
+                                {message.turn && (
+                                  <div className="flex items-center gap-1 text-[9px] text-muted-foreground/70 mt-1">
+                                    <Clock className="w-2.5 h-2.5 flex-shrink-0" />
+                                    <span>Tour {message.turn} - {message.phase === "picking" ? "Picking" : "Banning"}</span>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+
+                    {/* Indicateur de chargement */}
+                    {loadingRecommendation && (
+                      <div className="flex items-start gap-3 animate-in fade-in">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center flex-shrink-0 shadow-sm border border-primary/20">
+                          <span className="text-xs font-bold text-primary">IA</span>
+                        </div>
+                        <div className="flex-1 space-y-2">
+                          <div className="space-y-2">
+                            <div className="h-2 bg-gradient-to-r from-muted via-muted/50 to-muted rounded-full animate-pulse"></div>
+                            <div className="h-2 bg-gradient-to-r from-muted via-muted/50 to-muted rounded-full animate-pulse w-4/5"></div>
+                            <div className="h-2 bg-gradient-to-r from-muted via-muted/50 to-muted rounded-full animate-pulse w-3/5"></div>
+                          </div>
                         </div>
                       </div>
                     )}
-
-                  {/* Suggestions de ban - Phase banning */}
-                  {draftState.currentPhase === "banning" &&
-                    draftState.playerABans.length === 0 &&
-                    currentTurnInfo?.currentPlayer === "A" && (
-                      <>
-                        {recommendedMonsterIds.length > 0 && (
-                          <div className="space-y-3 mb-4 p-4 bg-gradient-to-br from-orange-50 to-orange-100/50 dark:from-orange-900/30 dark:to-orange-900/20 rounded-lg border-2 border-orange-300 dark:border-orange-700 shadow-md animate-in fade-in slide-in-from-right-5">
-                            <div className="flex items-center gap-2">
-                              <p className="text-sm font-bold text-orange-700 dark:text-orange-300">
-                                Monstres recommandés à bannir
-                              </p>
-                            </div>
-                            <p className="text-xs text-orange-600 dark:text-orange-400 mb-3">
-                              Cliquez sur un monstre pour le bannir rapidement
-                            </p>
-                            <div className="grid grid-cols-2 gap-3">
-                              {recommendedMonsterIds.map((monsterId, index) => {
-                                const monster = allMonsters[monsterId];
-                                if (!monster) return null;
-
-                                return (
-                                  <div
-                                    key={monsterId}
-                                    onClick={() => {
-                                      handleAddBan("A", monsterId);
-                                    }}
-                                    className="cursor-pointer group animate-in fade-in slide-in-from-bottom-2"
-                                    style={{
-                                      animationDelay: `${index * 100}ms`,
-                                    }}
-                                    title={`Bannir ${monster.nom}`}
-                                  >
-                                    <div className="relative">
-                                      <MonsterCard
-                                        monster={monster}
-                                        monsterId={monsterId}
-                                        size="sm"
-                                        showDetails={false}
-                                        className="border-2 border-orange-400/50 group-hover:border-orange-500 group-hover:shadow-lg transition-all duration-200"
-                                      />
-                                      <div className="absolute -top-1 -right-1 w-4 h-4 bg-orange-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <span className="text-[8px] text-white">
-                                          ×
-                                        </span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          </div>
-                        )}
-                        {recommendations && (
-                          <div className="space-y-2 mb-4 p-4 bg-gradient-to-br from-orange-50 to-orange-100/50 dark:from-orange-900/30 dark:to-orange-900/20 rounded-lg border-2 border-orange-300 dark:border-orange-700 shadow-sm">
-                            <p className="text-xs font-bold text-orange-700 dark:text-orange-300 mb-2">
-                              Analyse de ban :
-                            </p>
-                            <p className="text-xs text-orange-800 dark:text-orange-200 leading-relaxed">
-                              {recommendations}
-                            </p>
-                          </div>
-                        )}
-                      </>
-                    )}
-
-                  {/* Message de l'IA */}
-                  <div className="space-y-2">
-                    <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center flex-shrink-0 shadow-sm border border-primary/20">
-                        <span className="text-sm font-bold text-primary">
-                          IA
-                        </span>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        {loadingRecommendation ? (
-                          <div className="space-y-3 animate-in fade-in">
-                            <div className="h-3 bg-gradient-to-r from-muted via-muted/50 to-muted rounded-full animate-pulse"></div>
-                            <div className="h-3 bg-gradient-to-r from-muted via-muted/50 to-muted rounded-full animate-pulse w-4/5"></div>
-                            <div className="h-3 bg-gradient-to-r from-muted via-muted/50 to-muted rounded-full animate-pulse w-3/5"></div>
-                          </div>
-                        ) : recommendations &&
-                          ((draftState.currentPhase === "picking" &&
-                            currentTurnInfo?.currentPlayer === "A") ||
-                            (draftState.currentPhase === "banning" &&
-                              draftState.playerABans.length === 0)) ? (
-                          <div className="whitespace-pre-wrap text-sm bg-gradient-to-br from-muted/80 to-muted/40 p-4 rounded-lg border border-border/50 shadow-sm animate-in fade-in slide-in-from-bottom-2">
-                            <div className="prose prose-sm dark:prose-invert max-w-none">
-                              {recommendations}
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="text-sm text-muted-foreground italic p-3 bg-muted/30 rounded-lg border border-dashed">
-                            {draftState.currentPhase === "picking" &&
-                            currentTurnInfo?.currentPlayer !== "A"
-                              ? "En attente de votre tour pour les recommandations..."
-                              : draftState.currentPhase === "banning" &&
-                                draftState.playerABans.length > 0
-                              ? "Ban effectue. En attente de la fin du draft..."
-                              : "Selectionnez des monstres pour recevoir des recommandations automatiques..."}
-                          </div>
-                        )}
-                      </div>
-                    </div>
                   </div>
                 </div>
 
@@ -1536,19 +2072,44 @@ export default function DraftPage() {
                 {true && (
                   <Button
                     onClick={fetchRecommendation}
-                    disabled={false}/*loadingRecommendation*/
+                    disabled={loadingRecommendation ||
+                      (draftState.currentPhase === "picking" && currentTurnInfo?.currentPlayer !== "A") ||
+                      (draftState.currentPhase === "banning" && draftState.playerABans.length > 0) ||
+                      draftState.currentPhase === "completed"}
                     variant="outline"
                     size="sm"
                     className="w-full"
+                    title={loadingRecommendation
+                      ? "Analyse en cours..."
+                      : (draftState.currentPhase === "picking" && currentTurnInfo?.currentPlayer !== "A")
+                        ? "Attendez votre tour pour obtenir des recommandations"
+                        : draftState.currentPhase === "completed"
+                          ? "Le draft est terminé"
+                          : "Obtenir une nouvelle recommandation IA"}
                   >
-                    {loadingRecommendation ? "Actualisation..." : "Actualiser les recommandations"}
+                    {loadingRecommendation ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        Analyse en cours...
+                      </>
+                    ) : (
+                      <>
+                        <RefreshCw className="w-4 h-4 mr-2" />
+                        Actualiser les recommandations
+                      </>
+                    )}
                   </Button>
                 )}
                 {/* Toggle 3 positions pour choisir le mode LLM */}
                 <div className="flex flex-col mt-3 px-2 w-full">
-                  <span className="text-xs text-muted-foreground mb-1">
-                    Mode de réponse
-                  </span>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-xs text-muted-foreground">
+                      Mode de réponse
+                    </span>
+                    <div title="Choisissez le type de recommandation : Gemini (explicatif), Réseau neuronal (rapide), ou LLM fine-tuned (optimisé)">
+                      <HelpCircle className="w-3 h-3 text-muted-foreground/60 cursor-help" />
+                    </div>
+                  </div>
 
                   <div className="relative w-full h-full bg-muted rounded-full flex items-center px-1">
                     {/* Curseur qui glisse selon la position */}

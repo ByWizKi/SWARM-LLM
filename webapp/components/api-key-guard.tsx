@@ -14,12 +14,14 @@ export function ApiKeyGuard({ children }: ApiKeyGuardProps) {
   const pathname = usePathname();
   const [checking, setChecking] = useState(true);
   const [hasApiKey, setHasApiKey] = useState(false);
+  const [hasRank, setHasRank] = useState(false);
 
-  // Pages qui ne nécessitent pas de clé API
+  // Pages qui ne nécessitent pas de clé API ni de rank
   const publicPages = [
     "/auth/signin",
     "/auth/signup",
     "/api-key-required",
+    "/rank-required",
   ];
 
   useEffect(() => {
@@ -35,12 +37,12 @@ export function ApiKeyGuard({ children }: ApiKeyGuardProps) {
     }
 
     if (status === "authenticated") {
-      checkApiKey();
+      checkRequirements();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status, pathname]);
 
-  const checkApiKey = async () => {
+  const checkRequirements = async () => {
     // Ne pas vérifier sur les pages publiques
     if (publicPages.includes(pathname)) {
       setChecking(false);
@@ -48,10 +50,26 @@ export function ApiKeyGuard({ children }: ApiKeyGuardProps) {
     }
 
     try {
-      const response = await fetch("/api/user/api-key");
-      const data = await response.json();
+      // Vérifier d'abord le rank (prioritaire)
+      const rankResponse = await fetch("/api/user/rank");
+      const rankData = await rankResponse.json();
 
-      if (!data.hasApiKey) {
+      if (!rankData.hasRank) {
+        // Pas de rank, rediriger vers la page de configuration du rank
+        if (pathname !== "/rank-required") {
+          router.push("/rank-required");
+        }
+        setHasRank(false);
+        setChecking(false);
+        return;
+      }
+      setHasRank(true);
+
+      // Ensuite vérifier la clé API
+      const apiKeyResponse = await fetch("/api/user/api-key");
+      const apiKeyData = await apiKeyResponse.json();
+
+      if (!apiKeyData.hasApiKey) {
         // Pas de clé API, rediriger vers la page de configuration
         if (pathname !== "/api-key-required") {
           router.push("/api-key-required");
@@ -61,8 +79,9 @@ export function ApiKeyGuard({ children }: ApiKeyGuardProps) {
         setHasApiKey(true);
       }
     } catch (error) {
-      console.error("Erreur lors de la vérification de la clé API:", error);
+      console.error("Erreur lors de la vérification des prérequis:", error);
       // En cas d'erreur, permettre l'accès (pour éviter de bloquer l'app)
+      setHasRank(true);
       setHasApiKey(true);
     } finally {
       setChecking(false);
@@ -83,6 +102,11 @@ export function ApiKeyGuard({ children }: ApiKeyGuardProps) {
   // Si on est sur une page publique, afficher le contenu
   if (publicPages.includes(pathname)) {
     return <>{children}</>;
+  }
+
+  // Si l'utilisateur n'a pas de rank, ne rien afficher (redirection en cours)
+  if (!hasRank) {
+    return null;
   }
 
   // Si l'utilisateur n'a pas de clé API, ne rien afficher (redirection en cours)

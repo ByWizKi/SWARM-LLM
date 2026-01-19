@@ -1,108 +1,155 @@
 // Schéma Prisma pour la base de données
 
 generator client {
-  provider = "prisma-client-js"
-  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+    provider      = "prisma-client-js"
+    binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 // Modèle utilisateur
 model User {
-  id            String    @id @default(cuid())
-  name          String    @unique // Pseudo unique (requis, identifiant principal)
-  password      String    // Mot de passe hashé (requis)
-  image         String?
-  geminiApiKey  String?   // Clé API Gemini (requis pour utiliser l'application)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+    id            String   @id @default(cuid())
+    name          String   @unique // Pseudo unique (requis, identifiant principal)
+    password      String // Mot de passe hashé (requis)
+    image         String?
+    geminiApiKey  String? // Clé API Gemini (requis pour utiliser l'application)
+    victoryPoints Int? // Victory Points du joueur (utilisé pour calculer le rank)
+    createdAt     DateTime @default(now())
+    updatedAt     DateTime @updatedAt
 
-  // Relations
-  box           MonsterBox?
-  rooms         RoomPlayer[]
-  createdRooms  Room[]     @relation("RoomCreator")
+    // Relations
+    box          MonsterBox?
+    rooms        RoomPlayer[]
+    createdRooms Room[]                 @relation("RoomCreator")
+    ratings      RecommendationRating[]
+    drafts       DraftSession[]
 
-  @@map("users")
+    @@map("users")
 }
 
 // Modèle pour les monstres du jeu (données de référence)
 model Monster {
-  id        String   @id @default(cuid())
-  nom       String
-  element   String   // Vent, Feu, Eau, Lumière, Ténèbres
-  etoiles   Int
-  categorie String   // Nat3, Nat4, Nat5, etc.
-  imageUrl  String?  // URL de l'image (SWARFARM ou placeholder)
+    id        String  @id @default(cuid())
+    nom       String
+    element   String // Vent, Feu, Eau, Lumière, Ténèbres
+    etoiles   Int
+    categorie String // Nat3, Nat4, Nat5, etc.
+    imageUrl  String? // URL de l'image (SWARFARM ou placeholder)
 
-  @@unique([nom, element])
-  @@map("monsters")
+    @@unique([nom, element])
+    @@map("monsters")
 }
 
 // Box de monstres d'un utilisateur (liste des monstres qu'il possède)
 model MonsterBox {
-  id        String   @id @default(cuid())
-  userId    String   @unique
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  monsters  Json     // Array de IDs de monstres ou objets complets
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    id        String   @id @default(cuid())
+    userId    String   @unique
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    monsters  Json // Array de IDs de monstres ou objets complets
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  @@map("monster_boxes")
+    @@map("monster_boxes")
 }
 
 // Session de draft pour l'assistant IA
 // L'utilisateur entre les picks/bans de l'adversaire et reçoit des recommandations
 model Room {
-  id          String   @id @default(cuid())
-  code        String   @unique // Code pour partager la session
-  status      String   @default("waiting") // waiting, drafting, picking_leader, completed
-  creatorId   String
-  creator     User     @relation("RoomCreator", fields: [creatorId], references: [id], onDelete: Cascade)
-  firstPick   String?  // userId du joueur qui commence (si draft simulée)
-  settings    Json?    // Settings optionnels (timer, LLM model, etc.)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+    id        String   @id @default(cuid())
+    code      String   @unique // Code pour partager la session
+    status    String   @default("waiting") // waiting, drafting, picking_leader, completed
+    creatorId String
+    creator   User     @relation("RoomCreator", fields: [creatorId], references: [id], onDelete: Cascade)
+    firstPick String? // userId du joueur qui commence (si draft simulée)
+    settings  Json? // Settings optionnels (timer, LLM model, etc.)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  players     RoomPlayer[]
-  draftState  DraftState?
+    players    RoomPlayer[]
+    draftState DraftState?
 
-  @@map("rooms")
+    @@map("rooms")
 }
 
 // Relation entre Room et User (joueurs dans une room)
 model RoomPlayer {
-  id          String   @id @default(cuid())
-  roomId      String
-  room        Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  position    Int      // 0 ou 1 (joueur A ou B)
-  isReady     Boolean  @default(false)
-  joinedAt    DateTime @default(now())
+    id       String   @id @default(cuid())
+    roomId   String
+    room     Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
+    userId   String
+    user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    position Int // 0 ou 1 (joueur A ou B)
+    isReady  Boolean  @default(false)
+    joinedAt DateTime @default(now())
 
-  @@unique([roomId, userId])
-  @@map("room_players")
+    @@unique([roomId, userId])
+    @@map("room_players")
 }
 
 // État de la draft en cours pour analyse et recommandations IA
 model DraftState {
-  id              String   @id @default(cuid())
-  roomId          String   @unique
-  room            Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
-  currentPhase    String   @default("picking") // picking, banning, leader_selection, completed
-  currentTurn     Int      @default(0) // Numéro du tour actuel
-  currentPlayer   String?  // userId du joueur dont c'est le tour
-  picks           Json     // Structure: { playerA: [monsterIds], playerB: [monsterIds] }
-  bans            Json?    // Structure: { playerA: [monsterId], playerB: [monsterId] }
-  leaders         Json?    // Structure: { playerA: monsterId, playerB: monsterId }
-  recommendations Json?    // Recommandations de l'IA: { recommendedPicks: [], reasoning: "", metaAnalysis: {} }
-  timers          Json?    // Timers pour chaque action
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+    id              String   @id @default(cuid())
+    roomId          String   @unique
+    room            Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
+    currentPhase    String   @default("picking") // picking, banning, leader_selection, completed
+    currentTurn     Int      @default(0) // Numéro du tour actuel
+    currentPlayer   String? // userId du joueur dont c'est le tour
+    picks           Json // Structure: { playerA: [monsterIds], playerB: [monsterIds] }
+    bans            Json? // Structure: { playerA: [monsterId], playerB: [monsterId] }
+    leaders         Json? // Structure: { playerA: monsterId, playerB: monsterId }
+    recommendations Json? // Recommandations de l'IA: { recommendedPicks: [], reasoning: "", metaAnalysis: {} }
+    timers          Json? // Timers pour chaque action
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
 
-  @@map("draft_states")
+    @@map("draft_states")
 }
 
+// Notes de qualité pour les recommandations LLM
+model RecommendationRating {
+    id                 String   @id @default(cuid())
+    userId             String
+    user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    messageId          String // ID du message de recommandation dans le chat
+    rating             Int // Note entre 1 et 5
+    recommendationText String? // Texte de la recommandation (pour référence)
+    phase              String? // Phase du draft (picking, banning)
+    turn               Int? // Tour du draft
+    createdAt          DateTime @default(now())
+    updatedAt          DateTime @updatedAt
+
+    @@unique([userId, messageId])
+    @@map("recommendation_ratings")
+}
+
+// Session de draft complète enregistrée
+// Stocke toutes les informations d'une draft pour analyse future
+model DraftSession {
+    id                 String   @id @default(cuid())
+    userId             String
+    user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    // Configuration de la draft
+    firstPlayer        String // "A" ou "B"
+    winner             String? // "A", "B", ou null si non renseigné
+    // État complet de la draft
+    playerAPicks       Json // Array de IDs de monstres
+    playerBPicks       Json // Array de IDs de monstres
+    playerABans        Json // Array de IDs de monstres
+    playerBBans        Json // Array de IDs de monstres
+    // Recommandations LLM avec historique complet
+    recommendations    Json // Array de { messageId, text, proposedMonsterIds, phase, turn, rating, timestamp }
+    // Recommandations de ban avec explications
+    banRecommendations Json? // Array de { messageId, text, proposedMonsterIds, phase, timestamp }
+    // Métadonnées
+    metadata           Json? // Informations supplémentaires (durée, modèle LLM utilisé, etc.)
+    createdAt          DateTime @default(now())
+    updatedAt          DateTime @updatedAt
+
+    @@index([userId])
+    @@index([createdAt])
+    @@map("draft_sessions")
+}

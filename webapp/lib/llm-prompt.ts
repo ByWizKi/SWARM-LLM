@@ -29,7 +29,7 @@ Un joueur peu faire plusieurs types d'équipes :
 - une équipe très tanky (bruiser) avec des monstres qui vont avoir beaucoup de points de vie et/ou de def pour survivre au premier tour, des dégâts sur les max hp ou la def et gagner car on a plus de heal que l'adversaire.
 - une équipe très rapide (cleave) avec des monstres avec beaucoup d'attaque et/ou de vitesse pour gagner rapidement le combat avec beaucoup de dégât le premier tour.
 - une équipe rapide qui va controller l'équipe adverse (cleave cc) avec de la réduction de l'atb et/ou du stun, grace a des monstres qui strip les effets bénéfiques avant.
-- une équipe tanky avec des monstres qui sont polyvalent (rebound) et peuvent faire beaucoup de dégâts une fois le premier tour encaissé. 
+- une équipe tanky avec des monstres qui sont polyvalent (rebound) et peuvent faire beaucoup de dégâts une fois le premier tour encaissé.
 
 Un monstre avec un set Will va avoir de l’minuté (1 tours) au début de combat et donc ne pourra pas avoir d'effets négatifs si l'adversaire ne strip pas cet effet.
 Le set Violent donne une chance de rejouer après un tour, le set désespoir donne 25% de chance de stun sur une attaque, le set vampire permet de se heal d'une partie des dégâts infligés.
@@ -274,7 +274,7 @@ export const LLM_CONFIG = {
   // Models to try in order (fallback if first fails)
   // Utiliser uniquement gemini-2.5-flash (le plus rapide)
   models: [
-    "gemini-2.5-flash", // Le plus rapide - disponible avec v1beta
+    "gemini-3-flash-preview", // Le plus rapide - disponible avec v1beta
   ],
 
   // Temperature: 0.0 (deterministic) to 1.0 (creative)

@@ -5,7 +5,7 @@ import { authOptions } from "@/lib/auth-config";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { prisma } from "@/lib/prisma";
-import { Sword, Box, BookOpen, Zap, TrendingUp, Users } from "lucide-react";
+import { Sword, Box, BookOpen, Zap, TrendingUp, Users, User } from "lucide-react";
 import { SignOutButtonWrapper } from "@/components/sign-out-button-wrapper";
 import { BoxStats } from "@/components/box-stats";
 import { BoxStatusCard } from "@/components/box-status-card";
@@ -103,7 +103,15 @@ export default async function DashboardPage() {
               Bienvenue, <span className="font-semibold text-foreground">{session.user?.name}</span> ! Votre assistant IA pour les drafts RTA est prêt.
             </p>
           </div>
-          <SignOutButtonWrapper />
+          <div className="flex items-center gap-2">
+            <Button variant="outline" asChild>
+              <Link href="/profile">
+                <User className="h-4 w-4 mr-2" />
+                <span className="hidden sm:inline">Profil</span>
+              </Link>
+            </Button>
+            <SignOutButtonWrapper />
+          </div>
         </div>
 
         {/* Statistiques rapides */}

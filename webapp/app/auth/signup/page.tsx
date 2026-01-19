@@ -14,6 +14,7 @@ export default function SignUpPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [geminiApiKey, setGeminiApiKey] = useState("");
+  const [victoryPoints, setVictoryPoints] = useState<string>("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -59,7 +60,12 @@ export default function SignUpPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, password, geminiApiKey: geminiApiKey.trim() }),
+        body: JSON.stringify({
+          name,
+          password,
+          geminiApiKey: geminiApiKey.trim(),
+          victoryPoints: victoryPoints ? parseInt(victoryPoints, 10) : undefined,
+        }),
       });
 
       const data = await response.json();
@@ -141,6 +147,22 @@ export default function SignUpPage() {
                 minLength={6}
                 placeholder="••••••••"
               />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="victoryPoints">Victory Points (optionnel)</Label>
+              <Input
+                id="victoryPoints"
+                type="number"
+                value={victoryPoints}
+                onChange={(e) => setVictoryPoints(e.target.value)}
+                placeholder="Ex: 1500, 2000, 2800..."
+                min="0"
+                max="5000"
+              />
+              <p className="text-xs text-muted-foreground">
+                Vos Victory Points actuels dans Summoners War RTA (peut être renseigné plus tard). Le rank sera calculé automatiquement.
+              </p>
             </div>
 
             <div className="space-y-2">

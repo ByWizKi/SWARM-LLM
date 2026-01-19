@@ -46,9 +46,128 @@ async function applyMigrations() {
       console.log("[AUTO_MIGRATE] Colonne geminiApiKey existe déjà");
     }
 
-    // Ajouter ici d'autres migrations futures au besoin
-    // Exemple :
-    // await prisma.$executeRaw`ALTER TABLE "users" ADD COLUMN IF NOT EXISTS "nouvelle_colonne" TEXT`;
+    // Migration 2: victoryPoints (remplace rank)
+    console.log("[AUTO_MIGRATE] Vérification de la colonne victoryPoints...");
+    const checkVictoryPoints = await prisma.$queryRaw`
+      SELECT column_name
+      FROM information_schema.columns
+      WHERE table_name = 'users' AND column_name = 'victoryPoints'
+    `;
+
+    if (!checkVictoryPoints || (Array.isArray(checkVictoryPoints) && checkVictoryPoints.length === 0)) {
+      console.log("[AUTO_MIGRATE] Ajout de la colonne victoryPoints...");
+      await prisma.$executeRaw`
+        ALTER TABLE "users" ADD COLUMN IF NOT EXISTS "victoryPoints" INTEGER
+      `;
+      console.log("[AUTO_MIGRATE] Colonne victoryPoints ajoutée avec succès");
+    } else {
+      console.log("[AUTO_MIGRATE] Colonne victoryPoints existe déjà");
+    }
+
+    // Migration 3: draft_sessions table
+    console.log("[AUTO_MIGRATE] Vérification de la table draft_sessions...");
+    const checkDraftSessionsTable = await prisma.$queryRaw`
+      SELECT table_name
+      FROM information_schema.tables
+      WHERE table_schema = 'public' AND table_name = 'draft_sessions'
+    `;
+
+    if (!checkDraftSessionsTable || (Array.isArray(checkDraftSessionsTable) && checkDraftSessionsTable.length === 0)) {
+      console.log("[AUTO_MIGRATE] Création de la table draft_sessions...");
+
+      // Créer la table draft_sessions
+      await prisma.$executeRaw`
+        CREATE TABLE IF NOT EXISTS "draft_sessions" (
+          "id" TEXT NOT NULL,
+          "userId" TEXT NOT NULL,
+          "firstPlayer" TEXT NOT NULL,
+          "winner" TEXT,
+          "playerAPicks" JSONB NOT NULL,
+          "playerBPicks" JSONB NOT NULL,
+          "playerABans" JSONB NOT NULL,
+          "playerBBans" JSONB NOT NULL,
+          "recommendations" JSONB NOT NULL,
+          "banRecommendations" JSONB,
+          "metadata" JSONB,
+          "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          "updatedAt" TIMESTAMP(3) NOT NULL,
+          CONSTRAINT "draft_sessions_pkey" PRIMARY KEY ("id")
+        )
+      `;
+
+      // Créer les index
+      await prisma.$executeRaw`
+        CREATE INDEX IF NOT EXISTS "draft_sessions_userId_idx" ON "draft_sessions"("userId")
+      `;
+      await prisma.$executeRaw`
+        CREATE INDEX IF NOT EXISTS "draft_sessions_createdAt_idx" ON "draft_sessions"("createdAt")
+      `;
+
+      // Ajouter la contrainte de clé étrangère
+      const checkForeignKey = await prisma.$queryRaw`
+        SELECT constraint_name
+        FROM information_schema.table_constraints
+        WHERE constraint_name = 'draft_sessions_userId_fkey'
+      `;
+
+      if (!checkForeignKey || (Array.isArray(checkForeignKey) && checkForeignKey.length === 0)) {
+        await prisma.$executeRaw`
+          ALTER TABLE "draft_sessions"
+          ADD CONSTRAINT "draft_sessions_userId_fkey"
+          FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE
+        `;
+      }
+
+      console.log("[AUTO_MIGRATE] Table draft_sessions créée avec succès");
+    } else {
+      console.log("[AUTO_MIGRATE] Table draft_sessions existe déjà");
+    }
+
+    // Migration 4: recommendation_ratings table (si nécessaire)
+    console.log("[AUTO_MIGRATE] Vérification de la table recommendation_ratings...");
+    const checkRatingsTable = await prisma.$queryRaw`
+      SELECT table_name
+      FROM information_schema.tables
+      WHERE table_schema = 'public' AND table_name = 'recommendation_ratings'
+    `;
+
+    if (!checkRatingsTable || (Array.isArray(checkRatingsTable) && checkRatingsTable.length === 0)) {
+      console.log("[AUTO_MIGRATE] Création de la table recommendation_ratings...");
+
+      await prisma.$executeRaw`
+        CREATE TABLE IF NOT EXISTS "recommendation_ratings" (
+          "id" TEXT NOT NULL,
+          "userId" TEXT NOT NULL,
+          "messageId" TEXT NOT NULL,
+          "rating" INTEGER NOT NULL,
+          "recommendationText" TEXT,
+          "phase" TEXT,
+          "turn" INTEGER,
+          "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          "updatedAt" TIMESTAMP(3) NOT NULL,
+          CONSTRAINT "recommendation_ratings_pkey" PRIMARY KEY ("id"),
+          CONSTRAINT "recommendation_ratings_userId_messageId_key" UNIQUE ("userId", "messageId")
+        )
+      `;
+
+      const checkRatingsForeignKey = await prisma.$queryRaw`
+        SELECT constraint_name
+        FROM information_schema.table_constraints
+        WHERE constraint_name = 'recommendation_ratings_userId_fkey'
+      `;
+
+      if (!checkRatingsForeignKey || (Array.isArray(checkRatingsForeignKey) && checkRatingsForeignKey.length === 0)) {
+        await prisma.$executeRaw`
+          ALTER TABLE "recommendation_ratings"
+          ADD CONSTRAINT "recommendation_ratings_userId_fkey"
+          FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE
+        `;
+      }
+
+      console.log("[AUTO_MIGRATE] Table recommendation_ratings créée avec succès");
+    } else {
+      console.log("[AUTO_MIGRATE] Table recommendation_ratings existe déjà");
+    }
 
     console.log("[AUTO_MIGRATE] Toutes les migrations appliquées avec succès");
   } catch (error) {
