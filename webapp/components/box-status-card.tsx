@@ -39,15 +39,15 @@ export function BoxStatusCard({ initialHasBox }: BoxStatusCardProps) {
   useEffect(() => {
     if (status !== "authenticated") return;
 
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === "visible") {
-        loadStats(true);
-      }
-    };
+      const handleVisibilityChange = () => {
+        if (document.visibilityState === "visible") {
+          loadStats(true);
+        }
+      };
 
-    const handleFocus = () => {
-      loadStats(true);
-    };
+      const handleFocus = () => {
+        loadStats(true);
+      };
 
     // Écouter l'événement personnalisé quand le box est sauvegardé
     const handleBoxSaved = () => {
@@ -55,15 +55,15 @@ export function BoxStatusCard({ initialHasBox }: BoxStatusCardProps) {
       loadStats(true);
     };
 
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    window.addEventListener("focus", handleFocus);
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+      window.addEventListener("focus", handleFocus);
     window.addEventListener("boxSaved", handleBoxSaved);
 
-    return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-      window.removeEventListener("focus", handleFocus);
+      return () => {
+        document.removeEventListener("visibilitychange", handleVisibilityChange);
+        window.removeEventListener("focus", handleFocus);
       window.removeEventListener("boxSaved", handleBoxSaved);
-    };
+      };
   }, [status, loadStats]);
 
   return (

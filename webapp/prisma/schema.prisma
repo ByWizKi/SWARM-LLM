@@ -2,12 +2,12 @@
 
 generator client {
     provider      = "prisma-client-js"
-    binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 // Modèle utilisateur
@@ -15,45 +15,45 @@ model User {
     id            String   @id @default(cuid())
     name          String   @unique // Pseudo unique (requis, identifiant principal)
     password      String // Mot de passe hashé (requis)
-    image         String?
+  image         String?
     geminiApiKey  String? // Clé API Gemini (requis pour utiliser l'application)
     victoryPoints Int? // Victory Points du joueur (utilisé pour calculer le rank)
     createdAt     DateTime @default(now())
     updatedAt     DateTime @updatedAt
 
-    // Relations
+  // Relations
     box          MonsterBox?
     rooms        RoomPlayer[]
     createdRooms Room[]                 @relation("RoomCreator")
     ratings      RecommendationRating[]
     drafts       DraftSession[]
 
-    @@map("users")
+  @@map("users")
 }
 
 // Modèle pour les monstres du jeu (données de référence)
 model Monster {
     id        String  @id @default(cuid())
-    nom       String
+  nom       String
     element   String // Vent, Feu, Eau, Lumière, Ténèbres
-    etoiles   Int
+  etoiles   Int
     categorie String // Nat3, Nat4, Nat5, etc.
     imageUrl  String? // URL de l'image (SWARFARM ou placeholder)
 
-    @@unique([nom, element])
-    @@map("monsters")
+  @@unique([nom, element])
+  @@map("monsters")
 }
 
 // Box de monstres d'un utilisateur (liste des monstres qu'il possède)
 model MonsterBox {
-    id        String   @id @default(cuid())
-    userId    String   @unique
-    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     monsters  Json // Array de IDs de monstres ou objets complets
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-    @@map("monster_boxes")
+  @@map("monster_boxes")
 }
 
 // Session de draft pour l'assistant IA
@@ -72,7 +72,7 @@ model Room {
     players    RoomPlayer[]
     draftState DraftState?
 
-    @@map("rooms")
+  @@map("rooms")
 }
 
 // Relation entre Room et User (joueurs dans une room)
@@ -86,27 +86,27 @@ model RoomPlayer {
     isReady  Boolean  @default(false)
     joinedAt DateTime @default(now())
 
-    @@unique([roomId, userId])
-    @@map("room_players")
+  @@unique([roomId, userId])
+  @@map("room_players")
 }
 
 // État de la draft en cours pour analyse et recommandations IA
 model DraftState {
-    id              String   @id @default(cuid())
-    roomId          String   @unique
-    room            Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
-    currentPhase    String   @default("picking") // picking, banning, leader_selection, completed
-    currentTurn     Int      @default(0) // Numéro du tour actuel
+  id              String   @id @default(cuid())
+  roomId          String   @unique
+  room            Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  currentPhase    String   @default("picking") // picking, banning, leader_selection, completed
+  currentTurn     Int      @default(0) // Numéro du tour actuel
     currentPlayer   String? // userId du joueur dont c'est le tour
     picks           Json // Structure: { playerA: [monsterIds], playerB: [monsterIds] }
     bans            Json? // Structure: { playerA: [monsterId], playerB: [monsterId] }
     leaders         Json? // Structure: { playerA: monsterId, playerB: monsterId }
     recommendations Json? // Recommandations de l'IA: { recommendedPicks: [], reasoning: "", metaAnalysis: {} }
     timers          Json? // Timers pour chaque action
-    createdAt       DateTime @default(now())
-    updatedAt       DateTime @updatedAt
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
-    @@map("draft_states")
+  @@map("draft_states")
 }
 
 // Notes de qualité pour les recommandations LLM

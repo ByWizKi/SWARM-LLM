@@ -37,6 +37,7 @@ Le set Violent donne une chance de rejouer après un tour, le set désespoir don
 Beaucoup de joueurs ont une stratégie avec pour but de prendre le premier tour, c'est pour cela que le vitesse est très importante dans le jeu, soit il vaut essayer d'être plus rapide qu'eux, soit s'il n'y a pas assez de dégâts prendre des monstres tank pour punir le choix
 
 Règles draft : 5 picks/joueur, 1 ban/joueur, 4 monstres finaux.
+Recommandations : noms complets des monstres, synergies, contre-picks, win conditions.
 `;
 
 // ============================================================================
@@ -189,7 +190,7 @@ Draft terminé - Analyse finale :
  */
 export function buildUserPrompt(
   draftContext: string,
-  currentPhase: "picking" | "banning" | "completed" |"advice",
+  currentPhase: "picking" | "banning" | "completed",
   rag : string,
   nn_contex : string,
   monsterNames?: {
@@ -215,7 +216,7 @@ ${monsterNames?.playerAAvailable.map(monster => `- ${monster}`).join("\n")}
 Tu es en phase de PICKING. Le joueur A doit faire son prochain pick.
 - Analyse les synergies entre les monstres déjà sélectionnés par le Joueur A
 - Identifie les faiblesses et les forces de l'équipe actuelle
-- Recommande 2-3 monstres spécifiques qui compléteraient bien l'équipe du Joueur A
+- Recommande 2-5 monstres spécifiques qui compléteraient bien l'équipe du Joueur A
 - IMPORTANT : Mentionne explicitement les noms complets des monstres que tu recommandes (ex: "Je recommande [Nom du Monstre (Élément, Catégorie)]")
 - Explique pourquoi ces monstres sont de bons choix (synergies, contre-picks, win conditions)
 - N'invente aucun sort si tu ne les as pas eux explicitement en contexte
@@ -236,20 +237,9 @@ Le draft est terminé. Fais une analyse complète pour le Joueur A :
 - Prédit vos chances de gagner et pourquoi
 - Donne des conseils stratégiques concis pour le combat à venir (maximum 150 mots)
 `,
-      advice:`
-Le réseau de neurones a identifié les deux meilleurs choix de monstres pour le joueur A.
-Ton objectif n'est PAS d'obtenir des informations sur les nouveaux monstres disponibles,
-mais d'analyser uniquement les monstres déjà sélectionnés par le joueur A.
-Explique pourquoi ces choix sont judicieux, en te concentrant sur :
-- les synergies avec les monstres déjà choisis
-- les contre-picks possibles face à l’adversaire
-- les conditions de victoire que ces choix favorisent
-
- `,
   };
 
   const prompt = `${SYSTEM_INSTRUCTIONS}
-Recommandations : noms complets des monstres, synergies, contre-picks, win conditions.
 
 ${draftContext}
 
@@ -268,23 +258,7 @@ Format réponse :
 - Français, direct, focus Joueur A uniquement
 
 Réponds maintenant :`;
-  const promptadvice = 
-  `${SYSTEM_INSTRUCTIONS}
 
-  ${draftContext}
-
-  ${rag}
-  
-  ${phaseInstructions[currentPhase]}
-
-  Format de réponse :
-- Français
-- Direct et concis
-- Focus uniquement sur le joueur A 
-`;
-  if (currentPhase == "advice") {
-    return promptadvice;
-  }
   return prompt;
 }
 
@@ -300,8 +274,7 @@ export const LLM_CONFIG = {
   // Models to try in order (fallback if first fails)
   // Utiliser uniquement gemini-2.5-flash (le plus rapide)
   models: [
-    "gemini-3-flash-preview", // Le plus rapide - disponible avec v1beta index0
-    "gemini-2.5-flash-lite"
+    "gemini-3-flash-preview", // Le plus rapide - disponible avec v1beta
   ],
 
   // Temperature: 0.0 (deterministic) to 1.0 (creative)
@@ -331,65 +304,66 @@ export const LLM_CONFIG = {
  * @param apiKey Optional API key (if not provided, uses environment variable)
  * @returns The LLM response text
  */
-export async function callLLM(prompt: string, modelnum : number, apiKey?: string): Promise<string> {
+export async function callLLM(prompt: string, apiKey?: string): Promise<string> {
   let lastError: Error | null = null;
 
   // Timeout retiré - laisser l'API répondre naturellement
   // Les timeouts étaient trop sévères et interrompaient des requêtes valides
-  const modelName  = LLM_CONFIG.models[modelnum]
-  
-  try {
-    const modelStart = performance.now();
-    console.log(`[LLM] Trying model: ${modelName}`);
 
-    const clientStart = performance.now();
-    const client = new GeminiClient({
-      apiKey: apiKey, // Utiliser la clé API fournie ou celle de l'environnement
-      temperature: LLM_CONFIG.temperature,
-      maxOutputTokens: LLM_CONFIG.maxOutputTokens,
-      model: modelName,
-      topP: LLM_CONFIG.topP,
-      topK: LLM_CONFIG.topK,
-    });
-    const clientTime = performance.now() - clientStart;
-    console.log(
-      `[PERF] Initialisation du client Gemini: ${clientTime.toFixed(2)}ms`
-    );
+  for (const modelName of LLM_CONFIG.models) {
+    try {
+      const modelStart = performance.now();
+      console.log(`[LLM] Trying model: ${modelName}`);
 
-    // Generate response with system instructions - sans timeout
-    const apiStart = performance.now();
-    const response = await client.generateWithSystem(
-      SYSTEM_INSTRUCTIONS,
-      prompt,
-      {
+      const clientStart = performance.now();
+      const client = new GeminiClient({
+        apiKey: apiKey, // Utiliser la clé API fournie ou celle de l'environnement
+        temperature: LLM_CONFIG.temperature,
+        maxOutputTokens: LLM_CONFIG.maxOutputTokens,
         model: modelName,
-      }
-    );
-    const apiTime = performance.now() - apiStart;
-    const modelTime = performance.now() - modelStart;
+        topP: LLM_CONFIG.topP,
+        topK: LLM_CONFIG.topK,
+      });
+      const clientTime = performance.now() - clientStart;
+      console.log(
+        `[PERF] Initialisation du client Gemini: ${clientTime.toFixed(2)}ms`
+      );
 
-    console.log(`[LLM] Model ${modelName} succeeded!`);
-    console.log(
-      `[PERF] Temps d'appel API Gemini: ${apiTime.toFixed(
-        2
-      )}ms (total modèle: ${modelTime.toFixed(2)}ms)`
-    );
-    console.log(
-      `[PERF] Taille du prompt: ${prompt.length} caractères, réponse: ${response.text.length} caractères`
-    );
+      // Generate response with system instructions - sans timeout
+      const apiStart = performance.now();
+      const response = await client.generateWithSystem(
+        SYSTEM_INSTRUCTIONS,
+        prompt,
+        {
+          model: modelName,
+        }
+      );
+      const apiTime = performance.now() - apiStart;
+      const modelTime = performance.now() - modelStart;
 
-    return response.text;
-  } catch (error) {
-    const errorTime = performance.now();
-    const errorMsg = error instanceof Error ? error.message : String(error);
-    console.log(
-      `[LLM] Model ${modelName} failed:`,
-      errorMsg.substring(0, 200)
-    );
-    console.log(`[PERF] Échec après ${errorTime.toFixed(2)}ms`);
-    lastError = error instanceof Error ? error : new Error(String(error));
+      console.log(`[LLM] Model ${modelName} succeeded!`);
+      console.log(
+        `[PERF] Temps d'appel API Gemini: ${apiTime.toFixed(
+          2
+        )}ms (total modèle: ${modelTime.toFixed(2)}ms)`
+      );
+      console.log(
+        `[PERF] Taille du prompt: ${prompt.length} caractères, réponse: ${response.text.length} caractères`
+      );
+
+      return response.text;
+    } catch (error) {
+      const errorTime = performance.now();
+      const errorMsg = error instanceof Error ? error.message : String(error);
+      console.log(
+        `[LLM] Model ${modelName} failed:`,
+        errorMsg.substring(0, 200)
+      );
+      console.log(`[PERF] Échec après ${errorTime.toFixed(2)}ms`);
+      lastError = error instanceof Error ? error : new Error(String(error));
+      continue;
+    }
   }
-  
 
   // If all models failed, throw the last error
   throw lastError || new Error("Aucun modèle Gemini disponible");
@@ -765,7 +739,7 @@ export async function generateRecommendation(draftData: {
   playerBPicks: number[];
   playerABans?: number[];
   playerBBans?: number[];
-  currentPhase: "picking" | "banning" | "completed"|"advice";
+  currentPhase: "picking" | "banning" | "completed";
   currentTurn: number;
   firstPlayer: "A" | "B";
   playerAAvailableIds:number[];
@@ -846,19 +820,11 @@ export async function generateRecommendation(draftData: {
       monsterNames
 
     );
-    const userPromptadvice = buildUserPrompt(
-      draftContext,
-      "advice",
-      ragContext,
-      nnContext,
-      monsterNames
-
-    );
     const promptTime = performance.now() - promptStart;
 
     // DEBUG : afficher le Prompt dans la console
     console.log("========== Prompt ==========");
-    console.log(userPromptadvice || "(Prompt vide)");
+    console.log(userPrompt || "(Prompt vide)");
     console.log("=================================");
     // Call the LLM
     console.log(userPrompt.length)
@@ -867,7 +833,7 @@ export async function generateRecommendation(draftData: {
     const llmStart = performance.now()
     console.log(`[LLM] Mode recommendation: ${draftData.mode}`)
     let recommendation :string;
-    if (draftData.mode==2){//mode LLM fine tuné, n'est plus utilisé
+    if (draftData.mode==2){//mode LLM fine tuné
       try {
         const llm_reco = await getLLM_recommendation(draftData,[0]);
         const response_string = ` Le LLM fine tune en réponse rapide recommande ${llm_reco.names.join(" et ")}`;
@@ -876,26 +842,22 @@ export async function generateRecommendation(draftData: {
         console.warn("[LLM] Backend Python non disponible pour fastResponse, basculement vers Gemini");
         console.warn("[LLM] Erreur:", error instanceof Error ? error.message : error);
         // Fallback vers Gemini si le backend Python n'est pas disponible
-        recommendation = await callLLM(userPrompt,0,draftData.geminiApiKey);//on appel le model lent
+        recommendation = await callLLM(userPrompt, draftData.geminiApiKey);
       }
     }
-    else if (draftData.mode==1){//mode Neural Network
+    else if (draftData.mode==1)//mode Neural Network
       try {
         const neural_net_infos = await getNeuralNet_infos(draftData,[1]);
         console.log("[LLM] Recommandation neural net reçu :", neural_net_infos)
-        recommendation=neural_net_infos+ "\n\n Chargement des explications... ";
+        recommendation=neural_net_infos;
       } catch (error) {
         console.warn("[LLM] Backend Python non disponible pour fastResponse, basculement vers Gemini");
         console.warn("[LLM] Erreur:", error instanceof Error ? error.message : error);
         // Fallback vers Gemini si le backend Python n'est pas disponible
-        recommendation = await callLLM(userPrompt,1, draftData.geminiApiKey);//on appel le model rapide car on a pas beaucoup de temps
+        recommendation = await callLLM(userPrompt, draftData.geminiApiKey);
       }
-    }
-    else if (draftData.mode==3){//mode explication de draft sans l'explication
-      recommendation = await callLLM(userPromptadvice,0, draftData.geminiApiKey);
-    }
     else{//Mode LLM online
-      recommendation = await callLLM(userPrompt,1, draftData.geminiApiKey);//on appel le model rapide
+      recommendation = await callLLM(userPrompt, draftData.geminiApiKey);
     }
     const llmTime = performance.now() - llmStart;
     console.log(

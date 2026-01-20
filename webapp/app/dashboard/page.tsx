@@ -110,7 +110,7 @@ export default async function DashboardPage() {
                 <span className="hidden sm:inline">Profil</span>
               </Link>
             </Button>
-            <SignOutButtonWrapper />
+          <SignOutButtonWrapper />
           </div>
         </div>
 

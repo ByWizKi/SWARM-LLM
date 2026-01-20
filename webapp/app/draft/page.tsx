@@ -703,53 +703,6 @@ export default function DraftPage() {
     }
   };
 
-
-  const fetchLongRecommendation = async (messageId: string,monster_recommended:any) => {
-    try {
-      console.log("DraftState:", draftState);
-      console.log("recommended_monster:", monster_recommended);
-      const fetchexplicationoStart = performance.now();
-      const longResponse = await fetch("/api/draft/recommend", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          playerAPicks: [...draftState.playerAPicks,...monster_recommended],//On ajoute les choix du neural net pour que l'explication soit juste
-          playerBPicks: draftState.playerBPicks,
-          playerABans: draftState.playerABans,
-          playerBBans: draftState.playerBBans,
-          currentPhase: "advice",
-          currentTurn: currentTurnInfo?.turn || 0,
-          firstPlayer: draftState.firstPlayer,
-          playerAAvailableIds: getAvailableMonstersForPlayerA().map(m => m.id).filter(
-  (id) => !monster_recommended.includes(id)),
-          mode:3,//On met 3 pour le mode pour dire que c'est juste une explication par le llm
-        }),
-      });//Ici on récupère la réponse du llm 
-
-      const longData = await longResponse.json();
-      const fetchTime = performance.now() - fetchexplicationoStart;
-      console.log(`[PERF] Temps de fetch API pour l'explication : ${fetchTime.toFixed(2)}ms`);
-      // Mettre à jour le message existant avec le texte long
-      setChatHistory((prev) =>
-        prev.map((msg) =>
-          msg.id === messageId
-            ? {
-                ...msg,
-                recommendationText: msg.recommendationText.slice(0,-32) + "\n\n" + longData.recommendation
-              }
-            : msg
-        )
-      );
-      
-
-    } catch (error) {
-      console.error("[DRAFT] Erreur fetch long recommendation:", error);
-    }
-  };
-
-
-
-
   const fetchRecommendation = useCallback(async () => {
     // Ne pas faire de recommandation si on n'est pas en phase de picking ou banning
     if (draftState.currentPhase === "completed") return;
@@ -836,9 +789,6 @@ export default function DraftPage() {
             monsterRecommendationRating: undefined,
           },
         ]);
-        if (mode==1){
-          fetchLongRecommendation(messageId,extractedIds)
-        }
 
         // Charger les notes existantes si elles existent (peu probable pour un nouveau message, mais pour la cohérence)
         try {
@@ -1803,7 +1753,7 @@ export default function DraftPage() {
                           <div className="flex items-start gap-3">
                             <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
                               <HelpCircle className="w-4 h-4 text-primary" />
-                            </div>
+                        </div>
                             <div className="flex-1 space-y-2">
                               <h4 className="text-sm font-bold text-primary">Bienvenue dans l&apos;Assistant IA !</h4>
                               <div className="text-xs text-muted-foreground space-y-1.5">
@@ -1888,8 +1838,8 @@ export default function DraftPage() {
                                   </div>
                                   <div className="grid grid-cols-3 gap-1.5">
                                     {message.proposedMonsterIds.map((monsterId) => {
-                                      const monster = allMonsters[monsterId];
-                                      if (!monster) return null;
+                            const monster = allMonsters[monsterId];
+                            if (!monster) return null;
 
                                       // Vérifier si le monstre peut encore être sélectionné
                                       const isAlreadyPicked = draftState.playerAPicks.includes(monsterId) ||
@@ -1919,29 +1869,29 @@ export default function DraftPage() {
                                         tooltipText = `Cliquez pour ${message.phase === "picking" ? "sélectionner" : "bannir"} ${monster.nom}`;
                                       }
 
-                                      return (
-                                        <div
-                                          key={monsterId}
-                                          onClick={() => {
+                            return (
+                              <div
+                                key={monsterId}
+                                onClick={() => {
                                             if (canSelect) {
                                               if (message.phase === "picking") {
-                                                handleAddPick("A", monsterId);
+                                  handleAddPick("A", monsterId);
                                               } else if (message.phase === "banning") {
                                                 handleAddBan("A", monsterId);
                                               }
                                             }
-                                          }}
+                                }}
                                           className={`cursor-pointer group animate-in fade-in slide-in-from-bottom-2 ${
                                             canSelect ? "" : "opacity-50 cursor-not-allowed"
                                           }`}
                                           title={tooltipText}
-                                        >
+                              >
                                           <div className="relative scale-90 origin-center">
-                                            <MonsterCard
-                                              monster={monster}
-                                              monsterId={monsterId}
-                                              size="sm"
-                                              showDetails={false}
+                                  <MonsterCard
+                                    monster={monster}
+                                    monsterId={monsterId}
+                                    size="sm"
+                                    showDetails={false}
                                               className={`border-2 transition-all duration-200 ${
                                                 message.phase === "picking"
                                                   ? canSelect
@@ -1960,21 +1910,21 @@ export default function DraftPage() {
                                                   message.phase === "picking" ? "text-primary-foreground" : "text-white"
                                                 }`}>
                                                   {message.phase === "picking" ? "+" : "×"}
-                                                </span>
-                                              </div>
+                                    </span>
+                                  </div>
                                             )}
                                             {isAlreadyPicked && (
                                               <div className="absolute -top-0.5 -left-0.5 w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
                                                 <Check className="w-2.5 h-2.5 text-white" />
                                               </div>
                                             )}
-                                          </div>
-                                        </div>
-                                      );
-                                    })}
-                                  </div>
                                 </div>
-                              )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
                               <div className="flex items-center gap-1 mt-1">
                                 <Clock className="w-2.5 h-2.5 text-muted-foreground/70 flex-shrink-0" />
                                 <span className="text-[9px] text-muted-foreground/70">
@@ -1984,12 +1934,12 @@ export default function DraftPage() {
                               {/* Système de notation par étoiles */}
                               <div className="mt-2 pt-2 border-t border-border/50 space-y-2">
                                 {/* Notation du texte */}
-                                <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2">
                                   <div className="flex items-center gap-1.5 min-w-0 flex-shrink-0">
                                     <span className="text-[10px] font-semibold text-muted-foreground whitespace-nowrap">
                                       Texte:
                                     </span>
-                                  </div>
+                            </div>
                                   <StarRating
                                     value={message.textRating ?? 0}
                                     onValueChange={async (newRating) => {
@@ -2022,7 +1972,7 @@ export default function DraftPage() {
                                         console.error("Erreur lors de l'enregistrement de la note:", error);
                                       }
                                     }}
-                                    size="sm"
+                                        size="sm"
                                   />
                                 </div>
                                 {/* Notation des recommandations de monstres */}
@@ -2031,8 +1981,8 @@ export default function DraftPage() {
                                     <div className="flex items-center gap-1.5 min-w-0 flex-shrink-0">
                                       <span className="text-[10px] font-semibold text-muted-foreground whitespace-nowrap">
                                         Monstres:
-                                      </span>
-                                    </div>
+                                        </span>
+                                      </div>
                                     <StarRating
                                       value={message.monsterRecommendationRating ?? 0}
                                       onValueChange={async (newRating) => {
@@ -2067,9 +2017,9 @@ export default function DraftPage() {
                                       }}
                                       size="sm"
                                     />
-                                  </div>
+                                    </div>
                                 )}
-                              </div>
+                                  </div>
                             </div>
                           </div>
                         )}
@@ -2087,7 +2037,7 @@ export default function DraftPage() {
                               }`}>
                                 {message.player === "A" ? "✓" : "B"}
                               </span>
-                            </div>
+                          </div>
                             <div className="flex-1 min-w-0">
                               <div className={`text-xs p-2 rounded-lg border ${
                                 message.player === "A"
@@ -2113,9 +2063,9 @@ export default function DraftPage() {
                                     <>
                                       <Ban className="w-3 h-3" />
                                       (ban)
-                                    </>
-                                  )}
-                                </span>
+                      </>
+                    )}
+                        </span>
                                 <div className="flex flex-wrap gap-2 mt-1">
                                   {message.selectedMonsterIds.map((monsterId) => {
                                     const monster = allMonsters[monsterId];
@@ -2130,15 +2080,15 @@ export default function DraftPage() {
                                       </span>
                                     );
                                   })}
-                                </div>
+                      </div>
                                 {message.turn && (
                                   <div className="flex items-center gap-1 text-[9px] text-muted-foreground/70 mt-1">
                                     <Clock className="w-2.5 h-2.5 flex-shrink-0" />
                                     <span>Tour {message.turn} - {message.phase === "picking" ? "Picking" : "Banning"}</span>
-                                  </div>
+                          </div>
                                 )}
-                              </div>
                             </div>
+                          </div>
                           </div>
                         )}
                       </div>
@@ -2149,7 +2099,7 @@ export default function DraftPage() {
                       <div className="flex items-start gap-3 animate-in fade-in">
                         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center flex-shrink-0 shadow-sm border border-primary/20">
                           <span className="text-xs font-bold text-primary">IA</span>
-                        </div>
+                    </div>
                         <div className="flex-1 space-y-2">
                           <div className="space-y-2">
                             <div className="h-2 bg-gradient-to-r from-muted via-muted/50 to-muted rounded-full animate-pulse"></div>
@@ -2197,9 +2147,9 @@ export default function DraftPage() {
                 {/* Toggle 3 positions pour choisir le mode LLM */}
                 <div className="flex flex-col mt-3 px-2 w-full">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-xs text-muted-foreground">
+                  <span className="text-xs text-muted-foreground">
                       Mode de réponse
-                    </span>
+                  </span>
                     <div title="Choisissez le type de recommandation : Gemini (explicatif), Réseau neuronal (rapide), ou LLM fine-tuned (optimisé)">
                       <HelpCircle className="w-3 h-3 text-muted-foreground/60 cursor-help" />
                     </div>
@@ -2208,15 +2158,15 @@ export default function DraftPage() {
                   <div className="relative w-full h-full bg-muted rounded-full flex items-center px-1">
                     {/* Curseur qui glisse selon la position */}
                     <span
-                      className="absolute inset-y-1 w-10 bg-green-200 rounded-full transition-transform"
-                      style={{ transform: `translateX(${(mode) * 100}%)`, width: "49%" }}
+                      className="absolute inset-y-1 w-10 bg-white rounded-full transition-transform"
+                      style={{ transform: `translateX(${(mode) * 100}%)`, width: "32.5%" }}
                     />
 
                     {/* Labels cliquables */}
                     <div
                       className="flex flex-1 justify-between items-center z-10 text-xs font-medium cursor-pointer select-none"
                     >
-                      {["Gemini seulement", "Neural Network et Gemini"].map((label, index) => (
+                      {["Gemini online", "Fast Neural Network", "Fast LLM fine tuned"].map((label, index) => (
                         <div
                           key={index}
                           className="flex-1 text-center"
