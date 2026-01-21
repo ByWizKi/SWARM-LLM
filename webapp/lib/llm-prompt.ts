@@ -681,7 +681,7 @@ export async function getNeuralNet_infos(draftState: any,playerBPossibleCounter:
     console.log(`[NEURAL_NET] Tentative de connexion au backend Python: ${pythonApiUrl}`);
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 5000); // Timeout de 5 secondes
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // Timeout de 10 secondes
 
     const res = await fetch(`${pythonApiUrl}/neural-net`, {
       method: "POST",
