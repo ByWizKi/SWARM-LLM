@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from pydantic import Field
 from typing import List
 from torch import load, nn, sigmoid, no_grad, tensor, zeros, cat
-from my_model import predict
+from my_model import *
 from lll_fine_tuned import predict_nexts_monsters
 from itertools import combinations
 import json
@@ -23,8 +23,9 @@ class DraftState(BaseModel):
     playerAAvailableIds: List[int]
     playerBPossibleCounter : List[int]
 
+
 class SimpleDraftModel_one_hot(nn.Module):
-    def __init__(self, input_dim, hidden_dims=[64, 32]):
+    def __init__(self, input_dim, hidden_dims=[64, 32],dropout_p = 0.2):
         #input dim c'est la dimension du one-hot
         super().__init__()
         input_dim = 2*input_dim  # 2 joueurs
@@ -33,6 +34,7 @@ class SimpleDraftModel_one_hot(nn.Module):
         for h in hidden_dims:
             layers.append(nn.Linear(last_dim, h))
             layers.append(nn.ReLU())
+            layers.append(nn.Dropout(p=dropout_p))
             last_dim = h
         layers.append(nn.Linear(last_dim, 1))
         self.mlp = nn.Sequential(*layers)
@@ -44,7 +46,6 @@ class SimpleDraftModel_one_hot(nn.Module):
         return y.squeeze(1)
 
 
-
 @app.on_event("startup")
 def load_model():
     global model
@@ -53,7 +54,7 @@ def load_model():
     global model_llm
     global tokenizer_lmm
     print("Chargement du modèle PyTorch...")
-    model_infos = load("modele_predic.pt", map_location="cpu")
+    model_infos = load("modele_predic_2.pt", map_location="cpu")
     input_dim,layers = model_infos["modele_name_and_param"]
     model = SimpleDraftModel_one_hot(input_dim,layers)
     model.load_state_dict(model_infos["modele_nn"])
@@ -84,13 +85,34 @@ async def get_neural_net_context(draft_state: DraftState):
     print(draft_state.playerBPossibleCounter)
     if (1 in draft_state.playerBPossibleCounter): 
         #on utilse le nn pour avoir les prochains picks
-        scores = []
-        for a, b in all_pairs:
-            sortie = predict(model,model_infos,draft_state.playerAPicks+[a,b],draft_state.playerBPicks)
-            scores.append((a, b, sortie))
-        best_score_a,best_score_b,best_score = max(scores, key=lambda x: x[2])
-        string_response = f"Le réseau de Neurone recommande le monstre {monsters[best_score_a]['name']} et {monsters[best_score_b]['name']} pour une propabilité de victoire de {best_score:.4f}%"
-        return Response(content=string_response, media_type="text/plain")
+        if len(draft_state.playerAPicks)==0 and len(draft_state.playerBPicks)==0:
+            id,proba = predict_one(model,model_infos,draft_state.playerAPicks,draft_state.playerBPicks,draft_state.playerAAvailableIds)
+            print(proba)
+            string_response = f"Le réseau de Neurone recommande le monstre {monsters[id]['name']} pour une propabilité de victoire de {proba:.4f}%"
+            return Response(content=string_response, media_type="text/plain")
+        elif (len(draft_state.playerBPicks)==2 and len(draft_state.playerAPicks)==1) or(len(draft_state.playerBPicks)==1 and len(draft_state.playerAPicks)==0) or (len(draft_state.playerBPicks)==3 and len(draft_state.playerAPicks)==2):
+            id1,id2,proba = predict_two_complete(model,model_infos,draft_state.playerAPicks,draft_state.playerBPicks,draft_state.playerAAvailableIds)
+            string_response = f"Le réseau de Neurone recommande le monstre {monsters[id1]['name']} et {monsters[id2]['name']} pour une propabilité de victoire de {proba:.4f}%"
+            return Response(content=string_response, media_type="text/plain")
+
+        elif len(draft_state.playerAPicks)==5 and len(draft_state.playerBPicks)==5: 
+            #phase de ban 
+            id,proba = predict_ban(model,model_infos,draft_state.playerAPicks,draft_state.playerBPicks)
+            string_response = f"Le réseau de Neurone recommande de bannir  {monsters[id]['name']}  pour une propabilité de victoire dans le pire cas {proba:.4f}%"
+            return Response(content=string_response, media_type="text/plain")
+
+        elif len(draft_state.playerAPicks)==4 and len(draft_state.playerBPicks)==5:
+            id,proba = predict_one_contrainte(model,model_infos,draft_state.playerAPicks,draft_state.playerBPicks,draft_state.playerAAvailableIds)
+            string_response = f"Le réseau de Neurone recommande le monstre {monsters[id]['name']} pour une propabilité de victoire de {proba:.4f}%"
+            return Response(content=string_response, media_type="text/plain")
+
+        elif len(draft_state.playerAPicks)==3 and len(draft_state.playerBPicks)==4:
+            id1,id2,proba = predict_two_contrainte(model,model_infos,draft_state.playerAPicks,draft_state.playerBPicks,draft_state.playerAAvailableIds)
+            string_response = f"Le réseau de Neurone recommande le monstre {monsters[id1]['name']} et {monsters[id2]['name']} pour une propabilité de victoire de {proba:.4f}%"
+            return Response(content=string_response, media_type="text/plain")
+        else :
+            print("Le mode n'est pas supporté draftstate : ")
+            print(draft_state)
     else : 
         #mode conseil pour le llm online
         num_to_take = len(draft_state.playerAAvailableIds)*3
