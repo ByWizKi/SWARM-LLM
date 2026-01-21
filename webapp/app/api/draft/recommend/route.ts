@@ -18,7 +18,7 @@ interface DraftRecommendationRequest {
   playerBPicks: number[];
   playerABans?: number[];
   playerBBans?: number[];
-  currentPhase: "picking" | "banning" | "completed";
+  currentPhase: "picking" | "banning" | "completed" | "advice" ;
   currentTurn: number;
   firstPlayer: "A" | "B";
   playerAAvailableIds:number[];//Liste des monstres possibles pour le joueur A
@@ -94,6 +94,12 @@ export async function POST(request: NextRequest) {
         { error: "Le draft est terminé" },
         { status: 400 }
       );
+    }
+    if (currentPhase=="advice"){// On contourne les vérifs 
+      return NextResponse.json({
+      recommendation,
+      timestamp: new Date().toISOString(),
+    });
     }
 
     // Déterminer si c'est le tour du joueur A (celui qui utilise l'app)
