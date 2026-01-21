@@ -14,6 +14,9 @@ export type Rank =
   | "Conqueror ★"
   | "Conqueror ★★"
   | "Conqueror ★★★"
+  | "Punisher ★"
+  | "Punisher ★★"
+  | "Punisher ★★★"
   | "Guardian ★"
   | "Guardian ★★"
   | "Guardian ★★★"
@@ -31,19 +34,22 @@ export function victoryPointsToRank(victoryPoints: number | null | undefined): R
 
   const vp = victoryPoints;
 
-  if (vp < 1000) return "Beginner";
-  if (vp < 1200) return "Challenger ★";
-  if (vp < 1400) return "Challenger ★★";
-  if (vp < 1600) return "Challenger ★★★";
-  if (vp < 1800) return "Fighter ★";
-  if (vp < 2000) return "Fighter ★★";
-  if (vp < 2200) return "Fighter ★★★";
-  if (vp < 2400) return "Conqueror ★";
-  if (vp < 2600) return "Conqueror ★★";
-  if (vp < 2800) return "Conqueror ★★★";
-  if (vp < 3000) return "Guardian ★";
-  if (vp < 3200) return "Guardian ★★";
-  if (vp < 3400) return "Guardian ★★★";
+  if (vp < 450) return "Beginner";
+  if (vp < 500) return "Challenger ★";
+  if (vp < 550) return "Challenger ★★";
+  if (vp < 600) return "Challenger ★★★";
+  if (vp < 650) return "Fighter ★";
+  if (vp < 700) return "Fighter ★★";
+  if (vp < 750) return "Fighter ★★★";
+  if (vp < 800) return "Conqueror ★";
+  if (vp < 850) return "Conqueror ★★";
+  if (vp < 900) return "Conqueror ★★★";
+  if (vp < 1100) return "Punisher ★";
+  if (vp < 1200) return "Punisher ★★";
+  if (vp < 1300) return "Punisher ★★★";
+  if (vp < 1400) return "Guardian ★";
+  if (vp < 1500) return "Guardian ★★";
+  if (vp < 1750) return "Guardian ★★★";
   return "Legend";
 }
 
@@ -66,6 +72,9 @@ export function getNextRank(rank: Rank | null): Rank | null {
     "Conqueror ★",
     "Conqueror ★★",
     "Conqueror ★★★",
+    "Punisher ★",
+    "Punisher ★★",
+    "Punisher ★★★",
     "Guardian ★",
     "Guardian ★★",
     "Guardian ★★★",
@@ -90,31 +99,37 @@ export function getRankMinVP(rank: Rank): number {
     case "Beginner":
       return 0;
     case "Challenger ★":
-      return 1000;
+      return 450;
     case "Challenger ★★":
-      return 1200;
+      return 500;
     case "Challenger ★★★":
-      return 1400;
+      return 550;
     case "Fighter ★":
-      return 1600;
+      return 600;
     case "Fighter ★★":
-      return 1800;
+      return 650;
     case "Fighter ★★★":
-      return 2000;
+      return 700;
     case "Conqueror ★":
-      return 2200;
+      return 750;
     case "Conqueror ★★":
-      return 2400;
+      return 800;
     case "Conqueror ★★★":
-      return 2600;
+      return 850;
+    case "Punisher ★":
+      return 900;
+    case "Punisher ★★":
+      return 1100;
+    case "Punisher ★★★":
+      return 1200;
     case "Guardian ★":
-      return 2800;
+      return 1300;
     case "Guardian ★★":
-      return 3000;
+      return 1400;
     case "Guardian ★★★":
-      return 3200;
+      return 1500;
     case "Legend":
-      return 3400;
+      return 1750;
   }
 }
 
@@ -137,6 +152,9 @@ export function formatRankDisplay(rank: Rank | null): string {
     "Conqueror ★": "🔹",
     "Conqueror ★★": "🔹",
     "Conqueror ★★★": "🔹",
+    "Punisher ★": "🔹",
+    "Punisher ★★": "🔹",
+    "Punisher ★★★": "🔹",
     "Guardian ★": "🔹",
     "Guardian ★★": "🔹",
     "Guardian ★★★": "🔹",
