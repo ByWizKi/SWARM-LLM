@@ -82,6 +82,8 @@ export default function DraftPage() {
   const [filterElement, setFilterElement] = useState<string>("all");
   const [filterCategorie, setFilterCategorie] = useState<string>("all");
   const [allMonsters, setAllMonsters] = useState<Record<number, any>>({});
+  /** Liste des monstres dans l'ordre API (même ordre que "Gérer ma box") pour la sélection adversaire */
+  const [monstersList, setMonstersList] = useState<any[]>([]);
   const [fastResponse, setFastResponse] = useState<boolean>(true);
   const [mode, setMode] = useState(0);
   const [winner, setWinner] = useState<"A" | "B" | null>(null);
@@ -157,11 +159,13 @@ export default function DraftPage() {
     try {
       const response = await fetch("/api/monsters");
       const data = await response.json();
+      const arr = data.monstres || [];
       const monstersMap: Record<number, any> = {};
-      (data.monstres || []).forEach((monster: any) => {
+      arr.forEach((monster: any) => {
         monstersMap[monster.id] = monster;
       });
       setAllMonsters(monstersMap);
+      setMonstersList(arr);
     } catch (error) {
       console.error("Erreur lors du chargement des monstres:", error);
     }
@@ -398,12 +402,13 @@ export default function DraftPage() {
   };
 
   // Obtenir tous les monstres disponibles pour le joueur B (pas déjà pickés, avec recherche)
+  // Ordre identique à "Gérer ma box" : ordre API / monsters_rta.json (pas par ID)
   const getAvailableMonstersForPlayerB = () => {
     const allPickedIds = [
       ...draftState.playerAPicks,
       ...draftState.playerBPicks,
     ];
-    let available = Object.values(allMonsters).filter(
+    let available = monstersList.filter(
       (monster) => !allPickedIds.includes(monster.id)
     );
 
